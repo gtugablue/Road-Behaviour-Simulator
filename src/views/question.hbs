@@ -8,6 +8,18 @@
     <script src="javascripts/streetview.js"></script>
   </head>
   <body>
+    <div id="coordsBox">
+        Latitude: <input type="text" id="latitude" value="41.2109862"><br>
+        Longitude: <input type="text" id="longitude" value="-8.5570239"><br>
+        <input type="submit" value="Change Location">
+    </div>
+    <div name="signs">
+        <button onClick="addSign('stop')">Stop</button>
+        <button onClick="addSign('priority')">Priority</button>
+        <button onClick="deleteObject()">Delete</button>
+    </div>
     <canvas id="c">
+
+    </canvas>
   </body>
 </html>

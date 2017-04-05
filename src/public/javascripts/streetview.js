@@ -1,25 +1,52 @@
+var canvas;
+
 $( document ).ready(function() {
-	// create a wrapper around native canvas element (with id="c")
-	var canvas = new fabric.Canvas('c');
+	var latitude = 41.177209, longitude = -8.596665;
+
+	canvas = new fabric.Canvas('c');
 	canvas.setWidth(800);
 	canvas.setHeight(600);
-		
-	// Background
-	fabric.Image.fromURL('https://maps.googleapis.com/maps/api/streetview?size=800x600&location=41.2109862,-8.5570239&fov=90&heading=290&pitch=-5&key=AIzaSyB_DzzYoHNMdyJYe53zW5j81EqRwv7r3RY', function(image) {
-        image.set({
-            // I need this because the image size and the canvas size could be different
-            // in this way the image always covers the canvas
-            width:800,
-            height:600,
-        });
 
-       	canvas.setBackgroundImage(image);
-        canvas.renderAll();
-    });
-	
-	// Stop sign
-	fabric.Image.fromURL('images/signs/stop.png', function(image) {
-			image.scaleToWidth(50);
-			canvas.add(image);
+	// Background
+	changeStreetViewCoords(latitude, longitude);
+
+	// Change coordinates
+	$('#coordsBox').click(function (e) {
+
+		latitude = $('#latitude').val();
+		longitude = $('#longitude').val();
+
+		changeStreetViewCoords(latitude,longitude);
 	});
 });
+
+window.changeStreetViewCoords = function (latitude, longitude) {
+	// Background
+	fabric.Image.fromURL('https://maps.googleapis.com/maps/api/streetview?size=800x600&location=' + latitude + ',' + longitude + '&fov=90&heading=290&pitch=-5&key=AIzaSyB_DzzYoHNMdyJYe53zW5j81EqRwv7r3RY', function(image) {
+		image.set({
+			width:800,
+			height:600,
+		});
+
+		canvas.setBackgroundImage(image);
+		canvas.renderAll();
+	});
+}
+window.addSign = function(type) {
+
+	fabric.Image.fromURL('images/signs/' + type + '.png', function(image) {
+		image.scaleToWidth(50);
+		canvas.add(image);
+	});
+}
+
+window.deleteObject = function() {
+	if(canvas.getActiveGroup()){
+		canvas.getActiveGroup().forEachObject(function(o){
+			canvas.remove(o)
+		});
+		canvas.discardActiveGroup().renderAll();
+	} else {
+		canvas.remove(canvas.getActiveObject());
+	}
+}

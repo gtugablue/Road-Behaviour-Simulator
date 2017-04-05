@@ -18,7 +18,7 @@ $( document ).ready(function() {
     });
 	
 	// Stop sign
-	fabric.Image.fromURL('assets/img/signs/stop.png', function(image) {
+	fabric.Image.fromURL('images/signs/stop.png', function(image) {
 			image.scaleToWidth(50);
 			canvas.add(image);
 	});

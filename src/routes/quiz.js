@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET question page. */
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express', layout: 'question' });
+  res.render('index', { title: 'Express', layout: 'quiz' });
 });
 
 module.exports = router;

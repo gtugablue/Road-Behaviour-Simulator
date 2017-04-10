@@ -1,6 +1,7 @@
 var canvas;
 
 $( document ).ready(function() {
+  var nQuestions = $('#questions > div').length;
 	var latitude = 41.177209, longitude = -8.596665;
 
 	canvas = new fabric.Canvas('c');

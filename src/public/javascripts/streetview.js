@@ -1,4 +1,4 @@
-var canvas;
+var canvas, panorama;
 
 $( document ).ready(function() {
   var nQuestions = $('#questions > div').length;
@@ -9,7 +9,7 @@ $( document ).ready(function() {
 	canvas.setHeight(600);
 
 	// Background
-	changeScenery(latitude, longitude, 90, 200, -5);
+	changeScenery(latitude, longitude, 200, -5, 1);
 
 	// Change coordinates
 	$('#changeLocation').click(function (e) {
@@ -32,13 +32,17 @@ $( document ).ready(function() {
 
 	})
 
+	$('#saveScenery').click(function () {
+		changeScenery(panorama.getPosition().lat(), panorama.getPosition().lng(), panorama.getPov().heading, panorama.getPov().pitch, panorama.getZoom());
+		$('#sceneryPickerModal').modal('hide');
+	});
+
 	initialize();
 });
 
 window.changeSceneryPickerLocation = function (latitude, longitude) {
   var location = {lat: latitude, lng: longitude};
-  console.log(location);
-  var panorama = new google.maps.StreetViewPanorama(
+  panorama = new google.maps.StreetViewPanorama(
     document.getElementById('sceneryPickerCanvas'), {
       position: location,
       pov: {
@@ -48,7 +52,9 @@ window.changeSceneryPickerLocation = function (latitude, longitude) {
     });
 };
 
-window.changeScenery = function (latitude, longitude, fov, heading, pitch) {
+window.changeScenery = function (latitude, longitude, heading, pitch, zoom) {
+  var fov = 180 / Math.pow(2,zoom || 1);
+  console.log(zoom, fov);
 	// Background
 	fabric.Image.fromURL('https://maps.googleapis.com/maps/api/streetview?size=800x600&location=' +
 		latitude +
@@ -91,32 +97,22 @@ function initialize() {
     center: fenway,
     zoom: 14
   });
+  panorama = createDefaultPanorama();
+
+  $("#sceneryPickerModal").on("shown.bs.modal", function () {
+    google.maps.event.trigger(map, "resize");
+    panorama = createDefaultPanorama();
+  });
+}
+
+function createDefaultPanorama() {
   var panorama = new google.maps.StreetViewPanorama(
     document.getElementById('sceneryPickerCanvas'), {
-      position: fenway,
+      position: {lat: 42.345573, lng: -71.098326},
       pov: {
         heading: 34,
         pitch: 10
       }
     });
-  //map.setStreetView(panorama);
-
-  $("#sceneryPickerModal").on("shown.bs.modal", function () {
-    google.maps.event.trigger(map, "resize");
-    var panorama = new google.maps.StreetViewPanorama(
-      document.getElementById('sceneryPickerCanvas'), {
-        position: fenway,
-        pov: {
-          heading: 34,
-          pitch: 10
-        }
-      });
-    map.setStreetView(panorama);
-  });
-
-  /*panorama.addListener('pov_changed', function() {
-  	var pos = panorama.getPosition();
-  	var pov = panorama.getPov();
-    changeScenery(pos.lat(), pos.lng(), 90, pov.heading, pov.pitch);
-  });*/
+  return panorama;
 }

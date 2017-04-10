@@ -12,11 +12,6 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_DzzYoHNMdyJYe53zW5j81EqRwv7r3RY"></script>
   </head>
   <body>
-    <div id="coordsBox">
-        Latitude: <input type="text" id="latitude" value="41.2109862"><br>
-        Longitude: <input type="text" id="longitude" value="-8.5570239"><br>
-        <input type="submit" class="btn btn-default" value="Change Location">
-    </div>
     <div name="signs">
         <button type="button" class="btn btn-default" click="addSign('stop')">Stop</button>
         <button type="button" class="btn btn-default" onClick="addSign('priority')">Priority</button>
@@ -35,13 +30,13 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h2 class="modal-title" id="exampleModalLabel">Choose scenery</h2>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    {{> sceneryPicker }}
+                    {{> sceneryPicker}}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

@@ -26,6 +26,6 @@ a {
 }
 
 #sceneryPickerCanvas {
-	width: 568px;
-	height: 568px;
+	width: 100%;
+	height: 500px;
 }

@@ -9,6 +9,7 @@ var hbs = require('hbs');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var quiz = require('./routes/quiz');
+var create = require('./routes/create');
 
 var app = express();
 
@@ -30,6 +31,7 @@ hbs.registerPartials(path.join(__dirname, 'views', 'partials'));
 app.use('/', index);
 app.use('/users', users);
 app.use('/quiz', quiz);
+app.use('/create', create);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

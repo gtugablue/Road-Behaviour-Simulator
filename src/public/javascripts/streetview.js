@@ -11,13 +11,25 @@ $( document ).ready(function() {
 	changeScenery(latitude, longitude, 90, 200, -5);
 
 	// Change coordinates
-	$('#coordsBox input[type="submit"]').click(function (e) {
+	$('#changeLocation').click(function (e) {
 
 		latitude = parseFloat($('#latitude').val());
 		longitude = parseFloat($('#longitude').val());
 
     changeSceneryPickerLocation(latitude, longitude);
 	});
+
+	$('#addQuest').click(function () {
+
+		$('#questions').append(
+			'<div >' +
+				'<label>Question ' + (nQuestions + 1 )+'</label> ' +
+				'<input name="question" type="text">' +
+			'</div>'
+		)
+		nQuestions++;
+
+	})
 
 	initialize();
 });

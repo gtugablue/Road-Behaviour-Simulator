@@ -17,12 +17,32 @@
         <button type="button" class="btn btn-default" onClick="addSign('priority')">Priority</button>
         <button type="button" class="btn btn-default" onClick="deleteObject()">Delete</button>
     </div>
-    <form action="/create" method="POST">
-        <label>Questions</label>
+    <form action="/api/create" method="POST">
+        <div id="coordsBox">
+            <div>Latitude: <input type="text" id="latitude" name="latitude" value="41.2109862"></div>
+            <div>Longitude: <input type="text" id="longitude" name="longitude" value="-8.5570239"></div>
+            <input id="changeLocation" class="btn btn-default" value="Change Location">
+        </div>
+        <div >
+            <div>
+                <label>Decision Time</label>
+                <input name="decisionTime" type="number" min="1" max="5" value="1">
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Correct Decision</label>
+                <select name="decision" required>
+                    <option value="stop">Stop</option>
+                    <option value="move">Move</option>
+                </select>
+            </div>
+        </div>
+        <h3>Questions</h3>
         <div id="questions">
             <div>
                 <label>Question 1</label>
-                <input name="question" type="text">
+                <input name="questions" type="text">
             </div>
         </div>
         <label>Add new question</label>

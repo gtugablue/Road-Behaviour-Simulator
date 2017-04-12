@@ -25,7 +25,7 @@ $( document ).ready(function() {
 		$('#questions').append(
 			'<div >' +
 				'<label>Question ' + (nQuestions + 1 )+'</label> ' +
-				'<input name="question" type="text">' +
+				'<input name="questions" type="text">' +
 			'</div>'
 		)
 		nQuestions++;

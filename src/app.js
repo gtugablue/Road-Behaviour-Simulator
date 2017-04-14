@@ -9,6 +9,7 @@ var hbs = require('hbs');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var quiz = require('./routes/quiz');
+var personalPage = require('./routes/personal');
 var api = require('./api/api');
 
 var app = express();
@@ -31,6 +32,7 @@ hbs.registerPartials(path.join(__dirname, 'views', 'partials'));
 app.use('/', index);
 app.use('/users', users);
 app.use('/quiz', quiz);
+app.use('/personalPage', personalPage);
 app.use('/api', api);
 
 // catch 404 and forward to error handler

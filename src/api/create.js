@@ -2,7 +2,8 @@ const express = require('express');
 const connection = require('../database/db');
 const router = express.Router();
 
-router.use('/create', require('./create'));
+router.use('/question', require('./create/question'));
+router.use('/quiz', require('./create/quiz'));
 
 
 module.exports = router;

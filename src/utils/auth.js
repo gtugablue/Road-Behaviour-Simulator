@@ -9,6 +9,6 @@ function ensureAuthenticated(req, res, next) {
   return false;
 }
 
-module.exports={
+module.exports = {
     "ensureAuthenticated" : ensureAuthenticated
 }

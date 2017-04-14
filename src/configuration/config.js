@@ -6,5 +6,6 @@ module.exports={
 	"host"					:			"localhost",
 	"username"				:			"root",
 	"password"				:			"",
-	"database"				:			""
+	"database"				:			"",
+	"no_login_fallback"		:			"/"
 }

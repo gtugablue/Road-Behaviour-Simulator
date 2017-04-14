@@ -17,6 +17,9 @@
   {{#if includeCustomStyle}}
   <link href="stylesheets/style.css" rel="stylesheet">
   {{/if}}
+  {{#customStyles}}
+  <link href="stylesheets/{{href}}.css" rel="stylesheet">
+  {{/customStyles}}
 
   <!-- Custom Fonts -->
   <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">

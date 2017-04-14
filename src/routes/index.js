@@ -6,7 +6,8 @@ var config = require('./../configuration/config');
 router.get('/', function(req, res, next) {
   res.render('index', {
     title: config.app_title,
-    subtitle: 'A simulation tool for driver decision analysis'
+    subtitle: 'A simulation tool for driver decision analysis',
+    isAuthenticated: req.isAuthenticated()
   });
 });
 

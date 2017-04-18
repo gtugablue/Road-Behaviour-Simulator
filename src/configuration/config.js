@@ -7,5 +7,7 @@ module.exports={
 	"username"				:			"root",
 	"password"				:			"",
 	"database"				:			"",
-	"no_login_fallback"		:			"/"
+	"bad_login_redirect"	:			"/",
+	"good_login_redirect"	:			"/dashboard",
+	"app_title"				:			"Traffic Priority Simulator"
 }

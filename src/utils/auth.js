@@ -5,10 +5,10 @@ function ensureAuthenticated(req, res, next) {
     return true;
   }
 
-  res.redirect(config.no_login_fallback);
+  res.redirect(config.bad_login_redirect);
   return false;
 }
 
-module.exports={
+module.exports = {
     "ensureAuthenticated" : ensureAuthenticated
 }

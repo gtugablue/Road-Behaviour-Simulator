@@ -1,0 +1,9 @@
+{{#if breadcrumb}}
+<ol class="breadcrumb">
+    {{#breadcrumb}} {{#if href}}
+    <li class="breadcrumb-item"><a href="{{href}}">{{desc}}</a></li>
+    {{else}}
+    <li class="breadcrumb-item active">{{desc}}</li>
+    {{/if}} {{/breadcrumb}}
+</ol>
+{{/if}}

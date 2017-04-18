@@ -9,6 +9,10 @@ a {
 
 /* STREETVIEW CANVAS */
 
+.first-after-navbar {
+	padding-top: 50px;
+}
+
 .photo {
 	position: absolute;
 	top: 0;

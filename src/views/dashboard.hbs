@@ -1,1 +1,29 @@
-<h1>Welcome {{ username }}</h1>
+{{> navbar }} {{> breadcrumb }}
+<div class="first-after-navbar">
+    <div class="container">
+        <h2>Welcome {{ user_firstname }}</h2>
+        <br/>
+        <br/>
+        <a href="/create"><button type="button" class="btn btn-primary">Create a quiz</button></a>
+        <br/>
+        <h3>Your quizes:</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>replies</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#quizes}}
+                <tr>
+                    <td>{{number}}</td>
+                    <td><a href="{{href}}">{{title}}</a></td>
+                    <td>{{replies}}</td>
+                </tr>
+                {{/quizes}}
+            </tbody>
+        </table>
+    </div>
+</div>

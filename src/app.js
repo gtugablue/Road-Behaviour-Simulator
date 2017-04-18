@@ -68,14 +68,14 @@ app.use('/create', create);
 app.get('/auth/facebook',
   passport.authenticate('facebook'));
 app.get('/auth/facebook/callback',
-  passport.authenticate('facebook', { failureRedirect: config.no_login_fallback }),
+  passport.authenticate('facebook', { failureRedirect: config.bad_login_redirect }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect('/dashboard');
+    res.redirect(config.good_login_redirect);
   });
 app.get('/logout', function(req, res){
   req.logout();
-  res.redirect(config.no_login_fallback);
+  res.redirect(config.bad_login_redirect);
 });
 ////////////////////////////////////
 

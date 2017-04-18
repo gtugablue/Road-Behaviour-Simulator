@@ -1,1 +1,9 @@
 <h1>Welcome {{ username }}</h1>
+
+<form action="/api/quiz/create" method="post">
+    <h4>Create new quiz</h4>
+
+    <label>Quiz name: </label>
+    <input type="text" name="name">
+    <div><input type="submit" class="btn btn-primary"></div>
+</form>

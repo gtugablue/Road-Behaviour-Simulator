@@ -13,9 +13,17 @@
   <link rel="shortcut icon" type="image/png" href="images/icons/favicon.png" />
 
   <!-- Custom CSS -->
-  <link href="stylesheets/landing-page.css" rel="stylesheet"> {{#if includeCustomStyle}}
-  <link href="stylesheets/style.css" rel="stylesheet"> {{/if}} {{#customStyles}}
-  <link href="stylesheets/{{href}}.css" rel="stylesheet"> {{/customStyles}}
+  <link href="stylesheets/landing-page.css" rel="stylesheet">		+  <link href="stylesheets/landing-page.css" rel="stylesheet"> {{#if includeCustomStyle}}
+  {{#if includeCustomStyle}}
+  <link href="stylesheets/style.css" rel="stylesheet">
+  {{/if}}
+  {{#customStyles}}
+  <link href="stylesheets/style.css" rel="stylesheet">		+  <link href="stylesheets/{{href}}.css" rel="stylesheet">
+  {{/customStyles}}
+  {{/if}}		
+  {{#customStyles}}		
+  <link href="stylesheets/{{href}}.css" rel="stylesheet">		
+  {{/customStyles}}
 
   <!-- Custom Fonts -->
   <link href="lib/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">

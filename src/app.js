@@ -10,11 +10,13 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var hbs = require('hbs');
 
+var errors = require('./utils/errors');
+
 var index = require('./routes/index');
 var users = require('./routes/users');
 var quiz = require('./routes/quiz');
 var create = require('./routes/create');
-var dashboard = require('./routes/dashboard')
+var dashboard = require('./routes/dashboard');
 
 var app = express();
 
@@ -96,5 +98,7 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
+
+errors.clearErrors();
 
 module.exports = app;

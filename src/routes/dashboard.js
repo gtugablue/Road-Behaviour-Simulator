@@ -9,7 +9,6 @@ router.get('/', function (req, res, next) {
   var authenticated = auth.ensureAuthenticated(req, res, next);
   if (!authenticated)
     return;
-  // TODO: usar id do user
 
   users.getUserByID(req.user.id, function (error, results) {
     if(error)
@@ -20,13 +19,12 @@ router.get('/', function (req, res, next) {
       users.createUser(req.user.id, req.user.displayName, function (error, results) {
         if(error)
           return;
-
-        res.render('dashboard', {
-          layout: 'layout',
-          username: req.user.displayName
-        });
       })
     }
+    res.render('dashboard', {
+      layout: 'layout',
+      username: req.user.displayName
+    });
   });
 });
 

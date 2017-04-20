@@ -4,15 +4,13 @@ const quiz = require('./../../database/quiz');
 router.route('/create')
   .post((req, res) => {
 
-    //TODO: Verificar login
-    
     if(req.body.name === '')
     {
       res.status(400);
       res.redirect('/dashboard');
       return;
     }
-    //TODO: Usar id que está no req
+
     quiz.createQuiz(req.user.id, req.body.name, function (error, results) {
       if(error){
         console.log(error);

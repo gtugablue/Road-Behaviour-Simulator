@@ -18,7 +18,7 @@
         <button type="button" class="btn btn-default" onClick="deleteObject()">Delete</button>
     </div>
     <form id="form" action="/api/question/create" method="POST">
-        <input type="hidden" name="id" id="id" value="">
+        <input type="hidden" name="id" id="id" value={{id}}>
         <input type="hidden" name="lat" id="lat" value="">
         <input type="hidden" name="lon" id="lon" value="">
         <input type="hidden" name="heading" id="heading" value="">

@@ -1,5 +1,4 @@
-var ErrorMessage = function(title, message, warning) {
-    this.title = title;
+var ErrorMessage = function(message, warning) {
     this.message = message;
     this.warning = warning;
 };

@@ -21,6 +21,9 @@ CREATE TABLE Scene (
   quiz INTEGER REFERENCES Quiz(idQuizz),
 	lat DOUBLE NOT NULL,
 	lon DOUBLE NOT NULL,
+  heading DOUBLE,
+  pitch DOUBLE,
+  zoom DOUBLE,
   decisionTime LONG,
   correctDecision BOOLEAN
 );

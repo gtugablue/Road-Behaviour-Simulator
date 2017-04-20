@@ -9,7 +9,9 @@ router.route('/create')
     const id = parseInt(req.body.id);
     const latitude = req.body.lat;
     const longitude = req.body.lon;
-
+    const heading = req.body.heading;
+    const pitch = req.body.pitch;
+    const zoom = (req.body.zoom == ''?0:req.body.zoom);
     const questions = [].concat(req.body.question);
     const decisionTime = parseInt(req.body.decisionTime);
     const decision = (req.body.decision === 'stop');
@@ -22,6 +24,9 @@ router.route('/create')
 
     if (latitude == ''
       || longitude == ''
+      || heading == ''
+      || pitch == ''
+      || zoom < 0
       || req.body.question == ''
       || decision == ''
       || decisionTime < 1
@@ -31,7 +36,9 @@ router.route('/create')
       return;
     }
 
-    question.createQuestion(id, latitude, longitude, decisionTime, decision, questions, function (error, results) {
+    console.log(pitch, heading, zoom);
+
+    question.createQuestion(id, latitude, longitude,heading, pitch, zoom, decisionTime, decision, questions, function (error, results) {
       if(error)
       {
         res.status(400);

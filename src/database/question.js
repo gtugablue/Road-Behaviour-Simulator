@@ -1,7 +1,7 @@
 var express = require('express');
 var db = require('./db');
 
-var createQuestion = function (idQuiz, lat, lon, decisionTime, correctDecision, questions, callback) {
+var createQuestion = function (idQuiz, lat, lon, heading, pitch, zoom, decisionTime, correctDecision, questions, callback) {
   db.beginTransaction(function (err) {
     if (err) {
       throw err;
@@ -13,6 +13,9 @@ var createQuestion = function (idQuiz, lat, lon, decisionTime, correctDecision, 
       quiz: idQuiz,
       lat: lat,
       lon: lon,
+      heading: heading,
+      pitch: pitch,
+      zoom: zoom,
       decisionTime: decisionTime,
       correctDecision: correctDecision
     }, function (error, sceneResults, fields) {

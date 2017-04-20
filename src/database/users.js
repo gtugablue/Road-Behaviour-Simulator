@@ -3,7 +3,7 @@ var db = require('./db');
 
 var createUser = function (id, name, callback) {
 
-  db.query("INSERT INTO users SET ?", {
+  db.query("INSERT INTO Users SET ?", {
     idUser: id,
     name: name
   }, function (error, results, fields) {
@@ -17,7 +17,7 @@ var createUser = function (id, name, callback) {
 };
 
 var getUserByID = function (id, callback) {
-  db.query("Select * from users where idUser = ?", [id], function (error, results, fields) {
+  db.query("Select * from Users where idUser = ?", [id], function (error, results, fields) {
     if (error) {
       console.log('e' + error);
       callback(error, null);

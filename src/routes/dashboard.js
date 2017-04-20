@@ -10,8 +10,7 @@ router.get('/', function (req, res, next) {
   if (!authenticated)
     return;
   // TODO: usar id do user
-  console.log(req.user);
-  var userName = '';
+
   users.getUserByID(req.user.id, function (error, results) {
     if(error)
       return;
@@ -19,14 +18,15 @@ router.get('/', function (req, res, next) {
     if(results.length == 0) // Inserir novo utilizador
     {
       users.createUser(req.user.id, req.user.displayName, function (error, results) {
-        console.log(results);
+        if(error)
+          return;
+
+        res.render('dashboard', {
+          layout: 'layout',
+          username: req.user.displayName
+        });
       })
     }
-
-    res.render('dashboard', {
-      layout: 'layout',
-      username: req.user.displayName
-    });
   });
 });
 

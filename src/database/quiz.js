@@ -3,7 +3,7 @@ var db = require('./db');
 
 var createQuiz = function (idUser, name, callback) {
 
-  db.query("INSERT INTO quiz SET ?", {
+  db.query("INSERT INTO Quiz SET ?", {
     idUser: idUser,
     name: name
   }, function (error, results, fields) {

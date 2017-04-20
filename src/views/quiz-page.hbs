@@ -1,0 +1,27 @@
+{{> navbar }} {{> breadcrumb }}
+<div class="first-after-navbar">
+    <div class="container">
+        <h2>{{ quiz.title }}</h2>
+        <br/>
+        <br/>
+    </div>
+</div>
+
+<div class="container">
+    <div class="input-group">
+        <span class="input-group-addon">Quiz Link</span>
+        <input readonly id="quiz-url-txt" type="text" class="form-control" placeholder="Quiz url" value=" {{ quiz.url }}" />
+        <span class="input-group-btn">
+        <button id="quiz-url-copy-btn" class="btn btn-primary" type="button">Copy</button>
+      </span>
+    </div>
+</div>
+
+<script>
+    var copyTextareaBtn = document.querySelector('#quiz-url-copy-btn');
+    copyTextareaBtn.addEventListener('click', function (event) {
+        var copyTextarea = document.querySelector('#quiz-url-txt');
+        copyTextarea.select();
+        document.execCommand('copy');
+    });
+</script>

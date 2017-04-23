@@ -3,6 +3,8 @@ var router = express.Router();
 var auth = require('./../utils/auth');
 var config = require('./../configuration/config');
 var BreadcrumbItem = require('./../utils/breadcrumb').BreadcrumbItem;
+var db = require('./../database/db');
+var users = require('./../database/users');
 
 /* GET dashboard page. */
 router.get('/', function (req, res, next) {
@@ -25,16 +27,29 @@ router.get('/', function (req, res, next) {
         new QuizItem(5, "Best course: MSSI for sure!", "", 99999)
     ];
 
+  users.getUserByID(req.user.id, function (error, results) {
+    if(error)
+      return;
+
+    if(results.length == 0) // Inserir novo utilizador
+    {
+      users.createUser(req.user.id, req.user.displayName, function (error, results) {
+        if(error)
+          return;
+      })
+    }
     res.render('dashboard', {
         layout: 'layout',
         title: config.app_title,
         includeCustomStyle: true,
         breadcrumb: page_breadcrumb,
+        username: req.user.displayName,
         user_name: req.user.displayName,
         user_firstname: req.user.displayName.split(" ")[0],
         customStyles: ["dashboard"],
         quizes: quizes
     });
+  });
 });
 
 var QuizItem = function (number, title, href, replies) {

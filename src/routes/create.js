@@ -3,8 +3,11 @@ var router = express.Router();
 
 /* GET question page. */
 router.post('/', function(req, res, next) {
+  /*
   console.log(req.body['question']);
-  res.render('basic', { questions: req.body['question'], layout: 'create' });
+  res.render('basic', { questions: req.body['question'], layout: 'create' });*/
+
+  console.log(req.user);
 
 });
 

@@ -14,9 +14,11 @@ var errors = require('./utils/errors');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var question = require('./routes/question');
 var quiz = require('./routes/quiz');
 var create = require('./routes/create');
 var dashboard = require('./routes/dashboard');
+var api = require('./api/api');
 
 var app = express();
 
@@ -64,7 +66,9 @@ app.use('/', index);
 app.use('/dashboard', dashboard);
 app.use('/users', users);
 app.use('/quiz', quiz);
+app.use('/question', question);
 app.use('/create', create);
+app.use('/api', api);
 
 /////// Authentication routes ///////
 app.get('/auth/facebook',

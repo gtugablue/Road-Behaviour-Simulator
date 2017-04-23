@@ -3,9 +3,9 @@
   <head>
     <title>{{title}}</title>
     <link rel='stylesheet' href='/stylesheets/style.css' />
-    <script src="lib/fabric/fabric.js"></script>
+    <script src="/lib/fabric/fabric.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="javascripts/streetview.js"></script>
+    <script src="/javascripts/streetview.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -13,11 +13,32 @@
   </head>
   <body>
     <div name="signs">
-        <button type="button" class="btn btn-default" click="addSign('stop')">Stop</button>
+        <button type="button" class="btn btn-default" onClick="addSign('stop')">Stop</button>
         <button type="button" class="btn btn-default" onClick="addSign('priority')">Priority</button>
         <button type="button" class="btn btn-default" onClick="deleteObject()">Delete</button>
     </div>
-    <form action="/create" method="POST">
+    <form id="form" action="/api/question/create" method="POST">
+        <input type="hidden" name="id" id="id" value={{id}}>
+        <input type="hidden" name="lat" id="lat" value="">
+        <input type="hidden" name="lon" id="lon" value="">
+        <input type="hidden" name="heading" id="heading" value="">
+        <input type="hidden" name="pitch" id="pitch" value="">
+        <input type="hidden" name="zoom" id="zoom" value="0">
+        <div >
+            <div>
+                <label>Decision Time</label>
+                <input name="decisionTime" type="number" min="1" max="5" value="1">
+            </div>
+        </div>
+        <div>
+            <div>
+                <label>Correct Decision</label>
+                <select name="decision" required>
+                    <option value="stop">Stop</option>
+                    <option value="move">Move</option>
+                </select>
+            </div>
+        </div>
         <label>Questions</label>
         <div id="questions">
             <div>

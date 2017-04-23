@@ -34,6 +34,15 @@ $( document ).ready(function() {
 
 	$('#saveScenery').click(function () {
 		changeScenery(panorama.getPosition().lat(), panorama.getPosition().lng(), panorama.getPov().heading, panorama.getPov().pitch, panorama.getZoom());
+
+		$('#lon').val(panorama.getPosition().lng());
+		$('#lat').val(panorama.getPosition().lat());
+		$('#heading').val(panorama.getPov().heading);
+		$('#pitch').val(panorama.getPov().pitch);
+		$('#zoom').val(panorama.getZoom());
+
+		console.log($('#lon').val());
+		console.log($('#lat').val());
 		$('#sceneryPickerModal').modal('hide');
 	});
 
@@ -74,7 +83,7 @@ window.changeScenery = function (latitude, longitude, heading, pitch, zoom) {
 }
 window.addSign = function(type) {
 
-	fabric.Image.fromURL('images/signs/' + type + '.png', function(image) {
+	fabric.Image.fromURL('../images/signs/' + type + '.png', function(image) {
 		image.scaleToWidth(50);
 		canvas.add(image);
 	});

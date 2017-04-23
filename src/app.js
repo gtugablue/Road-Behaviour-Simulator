@@ -65,7 +65,7 @@ hbs.registerPartials(path.join(__dirname, 'views', 'partials'));
 app.use('/', index);
 app.use('/dashboard', dashboard);
 app.use('/users', users);
-app.use('/quiz', quiz);
+app.use('/quizzes', quiz);
 app.use('/question', question);
 app.use('/create', create);
 app.use('/api', api);

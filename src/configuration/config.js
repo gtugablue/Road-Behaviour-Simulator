@@ -4,7 +4,7 @@ module.exports={
 	"callback_url"			:			"http://localhost:3000/auth/facebook/callback",
 	"bad_login_redirect"	:			"/",
 	"good_login_redirect"	:			"/dashboard",
-	"app_title"				:			"Traffic Priority Simulator",
+	"app_title"				:			"Road Behaviour Simulator",
 	"use_database"			:			"true",
 	"host"					:			"alpha.hostmydreams.net",
 	"port"					: "3306",

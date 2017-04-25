@@ -12,7 +12,7 @@ $( document ).ready(function() {
 	changeScenery(latitude, longitude, 200, -5, 1);
 
 	// Change coordinates
-	$('#changeLocation').click(function (e) {
+	$('#updateLocation').click(function (e) {
 
 		latitude = parseFloat($('#latitude').val());
 		longitude = parseFloat($('#longitude').val());

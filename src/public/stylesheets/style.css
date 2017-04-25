@@ -37,3 +37,7 @@ a {
 #sceneryPickerCanvas, #sceneryPickerCanvas * {
 	box-sizing: content-box;
 }
+
+#signs img {
+	cursor: pointer;
+}

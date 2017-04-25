@@ -83,7 +83,7 @@ window.changeScenery = function (latitude, longitude, heading, pitch, zoom) {
 }
 window.addSign = function(type) {
 
-	fabric.Image.fromURL('../images/signs/' + type + '.png', function(image) {
+	fabric.Image.fromURL('../images/signs/large/' + type + '.png', function(image) {
 		image.scaleToWidth(50);
 		canvas.add(image);
 	});

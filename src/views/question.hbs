@@ -12,12 +12,6 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB_DzzYoHNMdyJYe53zW5j81EqRwv7r3RY"></script>
   </head>
   <body>
-    <div name="signs">
-        <button type="button" class="btn btn-default" onClick="addSign('stop')">Stop</button>
-        <button type="button" class="btn btn-default" onClick="addSign('priority')">Priority</button>
-        <button type="button" class="btn btn-default" onClick="deleteObject()">Delete</button>
-    </div>
-    <hr>
     <form id="form" action="/api/question/create" method="POST">
         <input type="hidden" name="id" id="id" value={{id}}>
         <input type="hidden" name="lat" id="lat" value="">
@@ -54,6 +48,13 @@
                 Choose scenery
             </button>
         </p>
+        <br />
+        <div id="signs">
+            <img src="/images/signs/small/stop.png" onClick="addSign('stop')"></img>
+            <img src="/images/signs/small/stop.png" onClick="addSign('stop')"></img>
+        </div>
+        <br />
+        <p><button type="button" class="btn btn-default" onClick="deleteObject()">Delete selected</button></p>
         <canvas id="c">
 
         </canvas>

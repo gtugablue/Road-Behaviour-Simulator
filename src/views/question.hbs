@@ -50,8 +50,9 @@
         </p>
         <br />
         <div id="signs">
-            <img src="/images/signs/small/stop.png" onClick="addSign('stop')"></img>
-            <img src="/images/signs/small/stop.png" onClick="addSign('stop')"></img>
+            {{#each signs}}
+                <img src="/images/signs/small/{{this}}" onClick="addSign('{{this}}')"></img>
+            {{/each}}
         </div>
         <br />
         <p><button type="button" class="btn btn-default" onClick="deleteObject()">Delete selected</button></p>

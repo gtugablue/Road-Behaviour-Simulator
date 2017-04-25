@@ -23,9 +23,9 @@ $( document ).ready(function() {
 	$('#addQuest').click(function () {
 
 		$('#questions').append(
-			'<div >' +
+			'<div class="form-group">' +
 				'<label>Question ' + (nQuestions + 1 )+'</label> ' +
-				'<input name="question" type="text">' +
+				'<input name="question[' + (nQuestions + 1) + ']" type="text" class="form-control">' +
 			'</div>'
 		)
 		nQuestions++;

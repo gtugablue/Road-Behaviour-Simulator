@@ -16,4 +16,39 @@ var createQuiz = function (idUser, name, callback) {
   })
 };
 
+var existQuiz = function (idQuiz, idUser, callback) {
+
+  db.query("SELECT * FROM Quiz WHERE idQuiz = ? AND idUser = ?", [idQuiz, idUser], function (error, results) {
+    if(error)
+    {
+      console.log(error);
+      callback(error, null);
+      return;
+    }
+    callback(null, results);
+
+  })
+};
+
+var getQuestionsFromQuiz = function (idQuiz, callback) {
+
+  db.query("SELECT * FROM Quiz " +
+    "LEFT JOIN Scene ON quiz = idQuiz " +
+    "LEFT JOIN Question ON idScene = scene " +
+    "WHERE idQuiz = ?", [idQuiz], function (error, results) {
+    if(error)
+    {
+      callback(error, null);
+      return;
+    }
+
+    callback(null, results);
+  } )
+
+};
+
+
 module.exports.createQuiz = createQuiz;
+module.exports.existQuiz = existQuiz;
+module.exports.getQuestionsFromQuiz = getQuestionsFromQuiz;
+

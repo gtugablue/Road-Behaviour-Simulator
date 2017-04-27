@@ -32,7 +32,7 @@ router.route('/create')
       || decisionTime < 1
       || decisionTime > 5) {
       res.status(400);
-      res.redirect('/quiz/' + id);
+      res.redirect('/quizzes/' + id);
       return;
     }
 
@@ -42,11 +42,11 @@ router.route('/create')
       if(error)
       {
         res.status(400);
-        res.redirect('/quiz/' + id);
+        res.redirect('/quizzes/' + id);
         return;
       }
       if(results)
-        res.redirect('/quiz/' + id);
+        res.redirect('/quizzes/' + id);
     });
     console.log('oi');
   });

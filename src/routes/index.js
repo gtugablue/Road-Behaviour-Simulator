@@ -11,7 +11,8 @@ router.get('/', function(req, res, next) {
     errors: errors.getErrors(),
     subtitle: 'A simulation tool for driver decision analysis',
     isAuthenticated: req.isAuthenticated(),
-    noGlobalStyle: true
+    noGlobalStyle: true,
+    hideCustomFooter: true
   });
 });
 

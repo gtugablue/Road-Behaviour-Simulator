@@ -15,10 +15,22 @@ var createQuiz = function (idUser, name, callback) {
     callback(null, results);
   })
 };
+var getQuizzesListFromUser = function (idUser, callback) {
+  db.query("SELECT idQuiz, name FROM Quiz WHERE idUser = ?", [idUser], function (error, results) {
+    if(error)
+    {
+      console.log(error);
+      callback(error, null);
+      return;
+    }
+    callback(null, results);
 
+  })
+
+}
 var existQuiz = function (idQuiz, idUser, callback) {
 
-  db.query("SELECT * FROM Quiz WHERE idQuiz = ? AND idUser = ?", [idQuiz, idUser], function (error, results) {
+  db.query("SELECT idQuiz, name FROM Quiz WHERE idQuiz = ? AND idUser = ?", [idQuiz, idUser], function (error, results) {
     if(error)
     {
       console.log(error);
@@ -44,11 +56,11 @@ var getQuestionsFromQuiz = function (idQuiz, callback) {
 
     callback(null, results);
   } )
-
 };
 
 
 module.exports.createQuiz = createQuiz;
 module.exports.existQuiz = existQuiz;
 module.exports.getQuestionsFromQuiz = getQuestionsFromQuiz;
+module.exports.getQuizzesListFromUser = getQuizzesListFromUser;
 

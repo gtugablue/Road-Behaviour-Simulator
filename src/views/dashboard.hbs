@@ -4,7 +4,14 @@
         <h2>Welcome {{ user_firstname }}</h2>
         <br/>
         <br/>
-        <a href="/api/quiz/create"><button type="button" class="btn btn-primary">Create a quiz</button></a>
+        <form action="/api/quiz/create" method="post">
+            <div class="form-group">
+                <label>Nome</label>
+                <input name="name" type="text" class="form-control">
+            </div>
+            <input type="submit" class="btn btn-primary" value="Criar">
+        </form>
+        <a href="/api/quiz/create"></a>
         <br/>
         <h3>Your quizes:</h3>
         <table class="table">

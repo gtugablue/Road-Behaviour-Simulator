@@ -14,10 +14,10 @@
   <body>
     <form id="form" action="/api/question/create" method="POST" class="col-sm-4 col-sm-offset-4">
         <input type="hidden" name="id" id="id" value={{id}}>
-        <input type="hidden" name="lat" id="lat" value="">
-        <input type="hidden" name="lon" id="lon" value="">
-        <input type="hidden" name="heading" id="heading" value="">
-        <input type="hidden" name="pitch" id="pitch" value="">
+        <input type="hidden" name="lat" id="lat" value="41.177209">
+        <input type="hidden" name="lon" id="lon" value="-8.596665">
+        <input type="hidden" name="heading" id="heading" value="0">
+        <input type="hidden" name="pitch" id="pitch" value="0">
         <input type="hidden" name="zoom" id="zoom" value="0">
         <div class="form-group">
             <label>Decision Time</label>
@@ -62,7 +62,7 @@
             </canvas>
         </div>
         <hr>
-        <input type="submit" value="Submit">
+        <input type="submit" class="btn btn-default" value="Submit">
     </form>
 
     <!-- Modal -->

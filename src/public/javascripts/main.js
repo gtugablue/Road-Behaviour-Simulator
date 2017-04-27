@@ -2,7 +2,7 @@ var canvas, panorama, signs;
 
 $( document ).ready(function() {
   var nQuestions = $('#questions > div').length;
-	var latitude = 41.177209, longitude = -8.596665;
+	var latitude = $('#lat').val(), longitude = $('#lon').val();
 
 	canvas = new fabric.Canvas('c');
 	canvas.setWidth(800);

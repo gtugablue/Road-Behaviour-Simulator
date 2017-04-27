@@ -10,7 +10,8 @@ router.get('/', function(req, res, next) {
     title: config.app_title,
     errors: errors.getErrors(),
     subtitle: 'A simulation tool for driver decision analysis',
-    isAuthenticated: req.isAuthenticated()
+    isAuthenticated: req.isAuthenticated(),
+    noGlobalStyle: true
   });
 });
 

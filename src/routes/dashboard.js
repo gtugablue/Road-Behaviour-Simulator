@@ -41,7 +41,6 @@ router.get('/', function (req, res, next) {
     res.render('dashboard', {
         layout: 'layout',
         title: config.app_title,
-        includeCustomStyle: true,
         breadcrumb: page_breadcrumb,
         username: req.user.displayName,
         user_name: req.user.displayName,

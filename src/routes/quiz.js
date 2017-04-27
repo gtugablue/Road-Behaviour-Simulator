@@ -13,6 +13,16 @@ router.get('/', function(req, res, next) {
 router.get('/:id', function (req, res, next) {
 
   // TODO: Verificar se o user pode aceder a este quiz
-  res.render('index', { title: 'Express', layout: 'question', id: req.params.id});
+  var questions = [
+    {
+      id: 1,
+      statement: 'Question #1?'
+    },
+    {
+      id: 2,
+      statement: 'Question #2?'
+    }
+  ]
+  res.render('quiz', { title: 'Express', layout: 'layout', id: req.params.id, questions: questions});
 })
 module.exports = router;

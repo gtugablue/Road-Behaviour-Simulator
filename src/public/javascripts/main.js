@@ -1,4 +1,4 @@
-var canvas, panorama;
+var canvas, panorama, signs;
 
 $( document ).ready(function() {
   var nQuestions = $('#questions > div').length;
@@ -47,6 +47,19 @@ $( document ).ready(function() {
 	});
 
 	initialize();
+
+  // Bind the event listeners for the image elements
+  signs = document.querySelectorAll('#signs img');
+  [].forEach.call(signs, function (img) {
+    img.addEventListener('dragstart', handleDragStart, false);
+    img.addEventListener('dragend', handleDragEnd, false);
+  });
+  // Bind the event listeners for the canvas
+  var canvasContainer = document.getElementById('canvas-container');
+  canvasContainer.addEventListener('dragenter', handleDragEnter, false);
+  canvasContainer.addEventListener('dragover', handleDragOver, false);
+  canvasContainer.addEventListener('dragleave', handleDragLeave, false);
+  canvasContainer.addEventListener('drop', handleDrop, false);
 });
 
 window.changeSceneryPickerLocation = function (latitude, longitude) {
@@ -63,7 +76,6 @@ window.changeSceneryPickerLocation = function (latitude, longitude) {
 
 window.changeScenery = function (latitude, longitude, heading, pitch, zoom) {
   var fov = 180 / Math.pow(2,zoom || 1);
-  console.log(zoom, fov);
 	// Background
 	fabric.Image.fromURL('https://maps.googleapis.com/maps/api/streetview?size=800x600&location=' +
 		latitude +
@@ -81,6 +93,7 @@ window.changeScenery = function (latitude, longitude, heading, pitch, zoom) {
 		canvas.renderAll();
 	});
 }
+
 window.addSign = function(fileName) {
 
 	fabric.Image.fromURL('../images/signs/large/' + fileName, function(image) {
@@ -124,4 +137,71 @@ function createDefaultPanorama() {
       }
     });
   return panorama;
+}
+
+// -----------------------------------
+// Drag and Drop into fabric.js canvas
+// -----------------------------------
+
+function handleDragStart(e) {
+  [].forEach.call(signs, function (img) {
+    img.classList.remove('img_dragging');
+  });
+  this.classList.add('img_dragging');
+}
+
+function handleDragOver(e) {
+  if (e.preventDefault) {
+    e.preventDefault(); // Necessary. Allows us to drop.
+  }
+
+  e.dataTransfer.dropEffect = 'copy'; // See the section on the DataTransfer object.
+  // NOTE: comment above refers to the article (see top) -natchiketa
+
+  return false;
+}
+
+function handleDragEnter(e) {
+  // this / e.target is the current hover target.
+  this.classList.add('over');
+}
+
+function handleDragLeave(e) {
+  this.classList.remove('over'); // this / e.target is previous target element.
+}
+
+function handleDrop(e) {
+  // this / e.target is current target element.
+
+  if (e.stopPropagation) {
+    e.stopPropagation(); // stops the browser from redirecting.
+  }
+
+  var img = document.querySelector('#signs img.img_dragging');
+
+  /*var newImage = new fabric.Image(img, {
+    width: img.width,
+    height: img.height,
+    // Set the center of the new object based on the event coordinates relative
+    // to the canvas container.
+    left: e.layerX,
+    top: e.layerY
+  });*/
+  var imageURL = '../images/signs/large/' + $('#signs img.img_dragging').attr('src').split('/').pop();
+  fabric.Image.fromURL(imageURL, function(image) {
+    image.scaleToHeight(100);
+    image.setLeft(e.layerX);
+    image.setTop(e.layerY);
+    canvas.add(image);
+    canvas.setActiveObject(image);
+  });
+
+  return false;
+}
+
+function handleDragEnd(e) {
+  // this/e.target is the source node.
+  [].forEach.call(signs, function (img) {
+    img.classList.remove('img_dragging');
+  });
 }

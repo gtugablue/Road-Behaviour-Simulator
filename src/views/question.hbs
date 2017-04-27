@@ -5,7 +5,7 @@
     <link rel='stylesheet' href='/stylesheets/style.css' />
     <script src="/lib/fabric/fabric.js"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-    <script src="/javascripts/streetview.js"></script>
+    <script src="/javascripts/main.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -51,14 +51,16 @@
         <br />
         <div id="signs">
             {{#each signs}}
-                <img src="/images/signs/small/{{this}}" onClick="addSign('{{this}}')"></img>
+                <img draggable="true" src="/images/signs/small/{{this}}"></img>
             {{/each}}
         </div>
         <br />
         <p><button type="button" class="btn btn-default" onClick="deleteObject()">Delete selected</button></p>
-        <canvas id="c">
+        <div id="canvas-container">
+            <canvas id="c">
 
-        </canvas>
+            </canvas>
+        </div>
         <hr>
         <input type="submit" value="Submit">
     </form>

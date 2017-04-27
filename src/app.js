@@ -13,7 +13,6 @@ var hbs = require('hbs');
 var errors = require('./utils/errors');
 
 var index = require('./routes/index');
-var users = require('./routes/users');
 var scenes = require('./routes/scene');
 var quiz = require('./routes/quiz');
 var create = require('./routes/create');
@@ -65,7 +64,6 @@ hbs.registerPartials(path.join(__dirname, 'views', 'partials'));
 /////// Routes ///////
 app.use('/', index);
 app.use('/dashboard', dashboard);
-app.use('/users', users);
 app.use('/quizzes', quiz);
 app.use('/scenes', scenes);
 app.use('/create', create);

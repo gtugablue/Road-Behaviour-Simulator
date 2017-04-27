@@ -18,7 +18,7 @@
   <link href="stylesheets/style.css" rel="stylesheet">
   {{/unless}}
   {{#customStyles}}		
-  <link href="stylesheets/{{href}}.css" rel="stylesheet">		
+  <link href="stylesheets/{{href}}.css" rel="stylesheet">
   {{/customStyles}}
 
   <!-- Custom Fonts -->
@@ -38,7 +38,13 @@
 </head>
 
 <body>
-  {{{ body }}}
+  <div class="body-container">
+    {{{ body }}}
+  </div>
+
+  {{#unless hideCustomFooter}}
+  {{> footer}}
+  {{/unless}}
 </body>
 
 </html>

@@ -1,10 +1,14 @@
 {{> navbar }} {{> breadcrumb }}
 <div class="first-after-navbar">
     <div class="container">
-        <div class="list-group">
-        {{#each scenes as |scene key|}}
-            <a href="scenes/{{scene.id}}" class="list-group-item">{{scene.statement}}</a>
-        {{/each}}
-        </div>
+        {{#if scenes}}
+            <div class="list-group">
+            {{#each scenes as |scene key|}}
+                <a href="scenes/{{scene.id}}" class="list-group-item">{{scene.statement}}</a>
+            {{/each}}
+            </div>
+        {{else}}
+            <p>No scenes in this quiz.</p>
+        {{/if}}
     </div>
 </div>

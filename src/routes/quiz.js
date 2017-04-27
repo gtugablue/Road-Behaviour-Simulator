@@ -39,7 +39,7 @@ router.get('/:id', function (req, res, next) {
         {
           scenes.push({id: scene.idScene, name: scene.name});
         }
-        res.render('quiz', { title: 'Express', layout: 'layout', id: req.params.id, scenes: scenes});
+        res.render('quiz', { title: 'Express', layout: 'layout', id: req.params.id, scenes: (scenes.length > 0 ? scenes : false)});
       })
     }
     else

@@ -45,8 +45,8 @@ var isQuestionOwner = function (idQuiz, idUser, callback) {
 
 var getScenesFromQuiz = function (idQuiz, idUser, callback) {
 
-  db.query("SELECT idScene, name FROM Quiz " +
-    "LEFT JOIN Scene ON quiz = idQuiz " +
+  db.query("SELECT Scene.idScene, Scene.name FROM Quiz " +
+    "INNER JOIN Scene ON quiz = idQuiz " +
     "WHERE idQuiz = ? AND idUser = ?", [idQuiz, idUser], function (error, results) {
     if(error)
     {

@@ -4,77 +4,80 @@
 }*/
 
 a {
-  color: #00B7FF;
+    color: #00B7FF;
 }
 
 /* STICKY FOOTER */
 
 html {
-  position: relative;
-  min-height: 100%;
+    position: relative;
+    min-height: 100%;
 }
 
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    margin-top: 50px;
+
+    /* Margin bottom by footer height */
+    margin-bottom: 60px;
 }
 
 .footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  height: 50px;
-  background-color: #f5f5f5;
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    /* Set the fixed height of the footer here */
+    height: 50px;
+    background-color: #f5f5f5;
 }
 
 .footer p {
-	margin-top: 17px;
+    margin-top: 17px;
 }
 
 body > .container {
-  padding: 60px 15px 0;
+    padding: 60px 15px 0;
 }
+
 .container .text-muted {
-  margin: 20px 0;
+    margin: 20px 0;
 }
 
 .footer > .container {
-  padding-right: 15px;
-  padding-left: 15px;
+    padding-right: 15px;
+    padding-left: 15px;
 }
 
 /* STREETVIEW CANVAS */
 
 .first-after-navbar {
-	padding-top: 50px;
+    padding-top: 50px;
 }
 
 .photo {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 .canvas-container {
-	position: absolute;
-	top: 0;
-	left: 0;
-	width: 100%;
-	height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
 }
 
 #sceneryPickerCanvas {
-	width: 100%;
-	height: 500px;
+    width: 100%;
+    height: 500px;
 }
 
 #sceneryPickerCanvas, #sceneryPickerCanvas * {
-	box-sizing: content-box;
+    box-sizing: content-box;
 }
 
 #signs img {
-	cursor: pointer;
+    cursor: pointer;
 }

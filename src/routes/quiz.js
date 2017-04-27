@@ -1,42 +1,38 @@
 var express = require('express');
 var router = express.Router();
 var config = require('./../configuration/config');
-var db  = require('../database/quiz');
+var db = require('../database/quiz');
 
 /*  /quiz/[ID]         */
 router.get('/:id', function (req, res, next) {
-
-  if(req.user === undefined || req.params.id === undefined)
-  {
+  if (req.user === undefined || req.params.id === undefined) {
     res.redirect('/dashboard');
     return;
   }
+
   db.isQuestionOwner(req.params.id, req.user.id, function (error, isOwner) {
-    if(error)
-    {
+    if (error) {
       console.log(error);
       res.status(400);
       return;
     }
-    if(isOwner)
-    {
+    if (isOwner) {
       db.getQuestionsFromQuiz(req.params.id, req.user.id, function (error, questionsResults) {
-        if(error)
-        {
+        if (error) {
           console.log(error);
           res.status(400);
           return;
         }
         var questions = [];
-        for(let question of questionsResults)
-        {
-          questions.push({id: question.idQuestion, statement: question.statement});
+        for (let question of questionsResults) {
+          questions.push({ id: question.idQuestion, statement: question.statement });
         }
-        res.render('quiz', { title: 'Express', layout: 'layout', id: req.params.id, questions: questions});
+        res.render('quiz', { title: 'Express', layout: 'layout', id: req.params.id, questions: questions });
       })
     }
     else
       res.redirect('/dashboard');
+  });
 });
 
 /*  /quiz/[ID]/edit    */

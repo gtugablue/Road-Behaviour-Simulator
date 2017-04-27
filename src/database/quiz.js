@@ -43,11 +43,10 @@ var isQuestionOwner = function (idQuiz, idUser, callback) {
   })
 };
 
-var getQuestionsFromQuiz = function (idQuiz, idUser, callback) {
+var getScenesFromQuiz = function (idQuiz, idUser, callback) {
 
-  db.query("SELECT statement, idQuestion FROM Quiz " +
+  db.query("SELECT idScene, name FROM Quiz " +
     "LEFT JOIN Scene ON quiz = idQuiz " +
-    "LEFT JOIN Question ON idScene = scene " +
     "WHERE idQuiz = ? AND idUser = ?", [idQuiz, idUser], function (error, results) {
     if(error)
     {
@@ -62,6 +61,6 @@ var getQuestionsFromQuiz = function (idQuiz, idUser, callback) {
 
 module.exports.createQuiz = createQuiz;
 module.exports.isQuestionOwner = isQuestionOwner;
-module.exports.getQuestionsFromQuiz = getQuestionsFromQuiz;
+module.exports.getScenesFromQuiz = getScenesFromQuiz;
 module.exports.getQuizzesListFromUser = getQuizzesListFromUser;
 

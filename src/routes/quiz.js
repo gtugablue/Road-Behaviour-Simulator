@@ -27,19 +27,19 @@ router.get('/:id', function (req, res, next) {
     }
     if(isOwner)
     {
-      db.getQuestionsFromQuiz(req.params.id, req.user.id, function (error, questionsResults) {
+      db.getScenesFromQuiz(req.params.id, req.user.id, function (error, questionsResults) {
         if(error)
         {
           console.log(error);
           res.status(400);
           return;
         }
-        var questions = [];
-        for(let question of questionsResults)
+        var scenes = [];
+        for(let scene of questionsResults)
         {
-          questions.push({id: question.idQuestion, statement: question.statement});
+          scenes.push({id: scene.idScene, name: scene.name});
         }
-        res.render('quiz', { title: 'Express', layout: 'layout', id: req.params.id, questions: questions});
+        res.render('quiz', { title: 'Express', layout: 'layout', id: req.params.id, scenes: scenes});
       })
     }
     else

@@ -14,7 +14,7 @@ var errors = require('./utils/errors');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
-var questions = require('./routes/questions');
+var scenes = require('./routes/scene');
 var quiz = require('./routes/quiz');
 var create = require('./routes/create');
 var dashboard = require('./routes/dashboard');
@@ -66,7 +66,7 @@ app.use('/', index);
 app.use('/dashboard', dashboard);
 app.use('/users', users);
 app.use('/quizzes', quiz);
-app.use('/questions', questions);
+app.use('/scenes', scenes);
 app.use('/create', create);
 app.use('/api', api);
 

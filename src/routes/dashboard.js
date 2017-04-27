@@ -5,6 +5,7 @@ var config = require('./../configuration/config');
 var BreadcrumbItem = require('./../utils/breadcrumb').BreadcrumbItem;
 var db = require('./../database/db');
 var users = require('./../database/users');
+var quiz = require('./../database/quiz');
 
 /* GET dashboard page. */
 router.get('/', function (req, res, next) {
@@ -17,15 +18,11 @@ router.get('/', function (req, res, next) {
         new BreadcrumbItem("Home", "/"),
         new BreadcrumbItem("Dashboard")
     ];
-
-    var quizes = [
-        new QuizItem(0, "Lorem ipsum FTW", 10),
-        new QuizItem(1, "Watch out for that sign!", 55),
-        new QuizItem(2, "Erasmus TOP10 destinations", 100),
-        new QuizItem(3, "Node.js is awesome!", 6),
-        new QuizItem(4, "All hail LIACC", 78),
-        new QuizItem(5, "Best course: MSSI for sure!", 99999)
-    ];
+    var quizes = [];
+    quiz.getQuizzesListFromUser(req.user.id, function (error, results) {
+      for(let quizItem of results)
+        quizes.push(new QuizItem(quizItem.idQuiz, quizItem.name, 0));
+    });
 
   users.getUserByID(req.user.id, function (error, results) {
     if(error)

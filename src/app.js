@@ -62,6 +62,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 // Partials
 hbs.registerPartials(path.join(__dirname, 'views', 'partials'));
 
+/////// Routes ///////
 app.use('/', index);
 app.use('/dashboard', dashboard);
 app.use('/users', users);

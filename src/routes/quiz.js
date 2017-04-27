@@ -1,26 +1,17 @@
 var express = require('express');
 var router = express.Router();
-var db  = require('../database/quiz');
+var config = require('./../configuration/config');
+var db = require('../database/quiz');
 
-/* GET question page. */
-router.get('/', function(req, res, next) {
-  res.render('quiz', {
-    layout: 'layout',
-    username: 'quiz'
-    //req.user.displayName
-  });
-});
-
+/*  /quiz/[ID]         */
 router.get('/:id', function (req, res, next) {
-
-  if(req.user === undefined || req.params.id === undefined)
-  {
+  if (req.user === undefined || req.params.id === undefined) {
     res.redirect('/dashboard');
     return;
   }
+
   db.isQuestionOwner(req.params.id, req.user.id, function (error, isOwner) {
-    if(error)
-    {
+    if (error) {
       console.log(error);
       res.status(400);
       return;
@@ -44,6 +35,23 @@ router.get('/:id', function (req, res, next) {
     }
     else
       res.redirect('/dashboard');
-  })
-})
+  });
+});
+
+/*  /quiz/[ID]/edit    */
+router.get('/:id/edit', function (req, res, next) {
+  res.render('quiz-edit', {
+    title: config.app_title,
+    layout: 'layout'
+  });
+});
+
+/*  /quiz/[ID]/answer  */
+router.get('/:id/answer', function (req, res, next) {
+  res.render('quiz-answer', {
+    title: config.app_title,
+    layout: 'layout'
+  });
+});
+
 module.exports = router;

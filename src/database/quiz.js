@@ -32,7 +32,7 @@ var existQuiz = function (idQuiz, idUser, callback) {
 
 var getQuestionsFromQuiz = function (idQuiz, callback) {
 
-  db.query("SELECT * FROM Quiz " +
+  db.query("SELECT statement, idQuestion FROM Quiz " +
     "LEFT JOIN Scene ON quiz = idQuiz " +
     "LEFT JOIN Question ON idScene = scene " +
     "WHERE idQuiz = ?", [idQuiz], function (error, results) {

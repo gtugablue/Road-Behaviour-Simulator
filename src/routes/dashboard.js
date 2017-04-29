@@ -39,7 +39,7 @@ router.get('/', function (req, res, next) {
         layout: 'layout',
         title: config.app_title,
         breadcrumb: page_breadcrumb,
-        username: req.user.displayName,
+        user_id: req.user.id,
         user_name: req.user.displayName,
         user_firstname: req.user.displayName.split(" ")[0],
         customStyles: ["dashboard"],

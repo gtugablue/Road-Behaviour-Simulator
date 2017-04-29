@@ -7,6 +7,18 @@ a {
     color: #00B7FF;
 }
 
+/* ERROR PAGES */
+
+.notfound-page {
+    padding: 40px 15px;
+    text-align: center;
+}
+    
+.notfound-actions {
+    margin-top: 15px;
+    margin-bottom: 15px;
+}
+
 /* STICKY FOOTER */
 
 html {

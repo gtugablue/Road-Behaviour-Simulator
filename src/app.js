@@ -88,7 +88,10 @@ app.get('/logout', function(req, res){
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
-  next(err);
+  res.render('not-found', {
+    title: config.app_title,
+    layout: 'layout'
+  });
 });
 
 // error handler

@@ -88,6 +88,7 @@ app.get('/logout', function(req, res){
 app.use(function(req, res, next) {
   res.render('not-found', {
     title: config.app_title,
+    user_id: typeof req.user == 'undefined' ? null : req.user.id,
     layout: 'layout'
   });
 });
@@ -100,7 +101,10 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', {
+    title: config.app_title,
+    user_id: typeof req.user == 'undefined' ? null : req.user.id,
+  });
 });
 
 errors.clearErrors();

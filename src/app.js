@@ -64,7 +64,7 @@ hbs.registerPartials(path.join(__dirname, 'views', 'partials'));
 /////// Routes ///////
 app.use('/', index);
 app.use('/dashboard', dashboard);
-app.use('/quizzes', quiz);
+app.use('/quiz', quiz);
 app.use('/scenes', scenes);
 app.use('/create', create);
 app.use('/api', api);

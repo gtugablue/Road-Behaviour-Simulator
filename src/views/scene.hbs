@@ -42,19 +42,21 @@
                 <button id="addQuest" type="button" class="btn btn-default">+</button>
             </p>
             <hr>
-            <p>
-                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sceneryPickerModal">
-                    Choose scenery
-                </button>
-            </p>
-            <br />
-            <div id="signs">
-                {{#each signs}}
-                    <img draggable="true" src="/images/signs/small/{{this}}"/>
-                {{/each}}
-            </div>
-            <br />
-            <p><button type="button" class="btn btn-default" onClick="deleteObject()">Delete selected</button></p>
+            {{#if isOwner}}
+                <p>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sceneryPickerModal">
+                        Choose scenery
+                    </button>
+                </p>
+                <br />
+                <div id="signs">
+                    {{#each signs}}
+                        <img draggable="true" src="/images/signs/small/{{this}}"/>
+                    {{/each}}
+                </div>
+                <br />
+                <p><button type="button" class="btn btn-default" onClick="deleteObject()">Delete selected</button></p>
+            {{/if}}
             <div id="canvas-container">
                 <canvas id="c">
 

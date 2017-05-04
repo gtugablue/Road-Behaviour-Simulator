@@ -97,14 +97,6 @@ window.changeScenery = function (latitude, longitude, heading, pitch, zoom) {
 	});
 }
 
-window.addSign = function(fileName) {
-
-	fabric.Image.fromURL('../images/signs/large/' + fileName, function(image) {
-		image.scaleToWidth(50);
-		canvas.add(image);
-	});
-}
-
 window.deleteObject = function() {
 	if(canvas.getActiveGroup()){
 		canvas.getActiveGroup().forEachObject(function(o){
@@ -114,6 +106,7 @@ window.deleteObject = function() {
 	} else {
 		canvas.remove(canvas.getActiveObject());
 	}
+	serializeCanvas();
 }
 
 function initialize() {
@@ -198,7 +191,7 @@ function handleDrop(e) {
     canvas.add(image);
     canvas.setActiveObject(image);
   });
-
+  serializeCanvas();
   return false;
 }
 
@@ -207,4 +200,10 @@ function handleDragEnd(e) {
   [].forEach.call(signs, function (img) {
     img.classList.remove('img_dragging');
   });
+}
+
+function serializeCanvas() {
+  var json = JSON.stringify(canvas);
+  $('#form input[name="signs"]').val(json);
+  return json;
 }

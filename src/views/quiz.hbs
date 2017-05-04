@@ -35,7 +35,7 @@
         {{#if scenes}}
             <div class="list-group">
             {{#each scenes as |scene key|}}
-                <a href="scenes/{{scene.id}}" class="list-group-item">{{scene.statement}}</a>
+                <a href="quiz/{{id}}/scenes/{{scene.id}}" class="list-group-item">{{scene.statement}}</a>
             {{/each}}
             </div>
         {{else}}
@@ -43,5 +43,6 @@
             <br/>
             <p>No scenes in this quiz.</p>
         {{/if}}
+        <a href="quiz/{{id}}/scenes" class="btn btn-primary">Create new scene</a>
     </div>
 </div>

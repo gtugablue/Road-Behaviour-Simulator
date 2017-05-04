@@ -92,6 +92,9 @@ body > .container {
 
 #signs {
     background-color: #f5f5f5;
+    overflow-x: scroll;
+    overflow-y: hidden;
+    white-space: nowrap;
 }
 
 #signs img {

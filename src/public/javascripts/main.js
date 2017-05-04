@@ -1,12 +1,15 @@
 var canvas, panorama, signs;
 
+var canvasWidth = 800;
+var canvasHeight = 600;
+
 $( document ).ready(function() {
   var nQuestions = $('#questions > div').length;
 	var latitude = $('#lat').val(), longitude = $('#lon').val();
 
 	canvas = new fabric.Canvas('c');
-	canvas.setWidth(800);
-	canvas.setHeight(600);
+	canvas.setWidth(canvasWidth);
+	canvas.setHeight(canvasHeight);
 
 	// Background
 	changeScenery(latitude, longitude, 200, -5, 1);
@@ -77,7 +80,7 @@ window.changeSceneryPickerLocation = function (latitude, longitude) {
 window.changeScenery = function (latitude, longitude, heading, pitch, zoom) {
   var fov = 180 / Math.pow(2,zoom || 1);
 	// Background
-	fabric.Image.fromURL('https://maps.googleapis.com/maps/api/streetview?size=800x600&location=' +
+	fabric.Image.fromURL('https://maps.googleapis.com/maps/api/streetview?size=' + canvasWidth + 'x' + canvasHeight + '&location=' +
 		latitude +
 		',' + longitude +
 		'&fov=' + fov +
@@ -85,8 +88,8 @@ window.changeScenery = function (latitude, longitude, heading, pitch, zoom) {
 		'&pitch=' + pitch +
 		'&key=AIzaSyB_DzzYoHNMdyJYe53zW5j81EqRwv7r3RY', function(image) {
 		image.set({
-			width:800,
-			height:600,
+			width:canvasWidth,
+			height:canvasHeight,
 		});
 
 		canvas.setBackgroundImage(image);

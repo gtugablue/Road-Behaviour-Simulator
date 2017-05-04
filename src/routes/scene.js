@@ -1,6 +1,7 @@
 var express = require('express');
 const fs = require('fs');
 var router = express.Router();
+var config = require('./../configuration/config');
 
 /* GET scene page. */
 router.get('/:id', function(req, res, next) {
@@ -9,7 +10,7 @@ router.get('/:id', function(req, res, next) {
     if (err) {
       console.error(err);
     }
-    res.render('scene', { title: 'Road Behaviour Simulator', layout: 'layout', signs: files });
+    res.render('scene', { title: config.app_title, layout: 'layout', signs: files });
   })
 });
 

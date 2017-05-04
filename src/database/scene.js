@@ -1,7 +1,7 @@
 var express = require('express');
 var db = require('./db');
 
-var createQuestion = function (idQuiz, name, lat, lon, heading, pitch, zoom, decisionTime, correctDecision, questions, callback) {
+var createScene = function (idQuiz, name, lat, lon, heading, pitch, zoom, decisionTime, correctDecision, questions, callback) {
   db.beginTransaction(function (err) {
     if (err) {
       throw err;
@@ -10,8 +10,8 @@ var createQuestion = function (idQuiz, name, lat, lon, heading, pitch, zoom, dec
     let questionParams = [];
 
     db.query("INSERT INTO Scene SET ?", {
-      name: name,
       quiz: idQuiz,
+      name: name,
       lat: lat,
       lon: lon,
       heading: heading,
@@ -55,4 +55,4 @@ var createQuestion = function (idQuiz, name, lat, lon, heading, pitch, zoom, dec
   })
 };
 
-module.exports.createQuestion = createQuestion;
+module.exports.createScene = createScene;

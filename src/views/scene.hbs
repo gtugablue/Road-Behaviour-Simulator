@@ -5,13 +5,19 @@
 <div class="first-after-navbar">
     <div class="container">
         {{> breadcrumb }}
-        <form id="form" action="/api/question/create" method="POST" class="col-sm-8 col-sm-offset-2">
+        <form id="form" action="/api/scene/create" method="POST" class="col-sm-8 col-sm-offset-2">
             <input type="hidden" name="id" id="id" value={{id}}>
             <input type="hidden" name="lat" id="lat" value="41.177209">
             <input type="hidden" name="lon" id="lon" value="-8.596665">
             <input type="hidden" name="heading" id="heading" value="0">
             <input type="hidden" name="pitch" id="pitch" value="0">
             <input type="hidden" name="zoom" id="zoom" value="0">
+
+            <div class="form-group">
+                <label>Nome</label>
+                <input name="name" type="text" class="form-control">
+            </div>
+
             <div class="form-group">
                 <label>Decision Time</label>
                 <input name="decisionTime" type="number" class="form-control" min="1" max="5" value="1">
@@ -44,7 +50,7 @@
             <br />
             <div id="signs">
                 {{#each signs}}
-                    <img draggable="true" src="/images/signs/small/{{this}}"></img>
+                    <img draggable="true" src="/images/signs/small/{{this}}"/>
                 {{/each}}
             </div>
             <br />

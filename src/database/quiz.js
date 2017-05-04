@@ -71,16 +71,17 @@ var getQuizState = function (idQuiz, callback) {
   } )
 };
 
-var setQuizState = function (idQuiz, state, callback) {
-  db.query("UPDATE Quiz SET state = ? WHERE idQuiz = ?", [state, idQuiz], function (error, results) {
-    if(error)
-    {
-      callback(error, null);
-      return;
-    }
+var incQuizState = function (idQuiz, callback) {
+  getQuizState(idQuiz, function(error, results) {
+    db.query("UPDATE Quiz SET state = ? WHERE idQuiz = ?", [results[0].state + 1, idQuiz], function (error, results) {
+      if(error) {
+        callback(error);
+        return;
+      }
 
-    callback(null, results);
-  } )
+      callback(null);
+    });
+  });
 };
 
 

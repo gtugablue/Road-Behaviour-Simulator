@@ -76,7 +76,8 @@ app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: config.bad_login_redirect }),
   function(req, res) {
     // Successful authentication, redirect home.
-    res.redirect(config.good_login_redirect);
+    res.redirect(req.session.returnTo || config.good_login_redirect);
+    delete req.session.returnTo;
   });
 app.get('/logout', function(req, res){
   req.logout();

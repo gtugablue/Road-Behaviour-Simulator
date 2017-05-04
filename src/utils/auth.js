@@ -1,6 +1,7 @@
 var config = require('./../configuration/config');
 
 function ensureAuthenticated(req, res, next) {
+  req.session.returnTo = req.originalUrl;
   if (req.isAuthenticated()) {
     return true;
   }

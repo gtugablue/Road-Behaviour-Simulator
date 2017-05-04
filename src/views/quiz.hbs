@@ -7,7 +7,7 @@
         <p>This quiz was not started yet.</p>
         <div class="row">
             <div class="quiz-btns-row col-md-6">
-                <button type="button" class="btn btn-primary">Add Scene</button>
+                <a href="quiz/{{id}}/scenes"><button type="button" class="btn btn-primary">Add Scene</button></a>
             </div>
             <div class="quiz-btns-row col-md-6">
                 <button type="button" class="btn btn-success pull-right">Start Quiz</button>
@@ -43,6 +43,5 @@
             <br/>
             <p>No scenes in this quiz.</p>
         {{/if}}
-        <a href="quiz/{{id}}/scenes" class="btn btn-primary">Create new scene</a>
     </div>
 </div>

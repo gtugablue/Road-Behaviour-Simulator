@@ -14,6 +14,7 @@ router.get('/', function(req, res, next) {
     noGlobalStyle: true,
     hideCustomFooter: true,
     customStyles: ['landing-page'],
+    layout: 'layout'
   });
 });
 

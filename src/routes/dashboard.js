@@ -6,6 +6,8 @@ var BreadcrumbItem = require('./../utils/breadcrumb').BreadcrumbItem;
 var db = require('./../database/db');
 var users = require('./../database/users');
 var quiz = require('./../database/quiz');
+var errors = require('./../utils/errors');
+var ErrorMessage = errors.ErrorMessage;
 
 /* GET dashboard page. */
 router.get('/', function (req, res, next) {
@@ -38,8 +40,9 @@ router.get('/', function (req, res, next) {
     res.render('dashboard', {
         layout: 'layout',
         title: config.app_title,
+        errors: errors.getErrors(),
         breadcrumb: page_breadcrumb,
-        username: req.user.displayName,
+        user_id: req.user.id,
         user_name: req.user.displayName,
         user_firstname: req.user.displayName.split(" ")[0],
         customStyles: ["dashboard"],

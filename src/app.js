@@ -64,7 +64,7 @@ hbs.registerPartials(path.join(__dirname, 'views', 'partials'));
 /////// Routes ///////
 app.use('/', index);
 app.use('/dashboard', dashboard);
-app.use('/quizzes', quiz);
+app.use('/quiz', quiz);
 app.use('/scenes', scenes);
 app.use('/create', create);
 app.use('/api', api);
@@ -86,9 +86,11 @@ app.get('/logout', function(req, res){
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
+  res.render('not-found', {
+    title: config.app_title,
+    user_id: typeof req.user == 'undefined' ? null : req.user.id,
+    layout: 'layout'
+  });
 });
 
 // error handler
@@ -99,7 +101,10 @@ app.use(function(err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  res.render('error', {
+    title: config.app_title,
+    user_id: typeof req.user == 'undefined' ? null : req.user.id,
+  });
 });
 
 errors.clearErrors();

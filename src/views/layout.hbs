@@ -21,6 +21,10 @@
     crossorigin="anonymous"></script>
   <script src="javascripts/script.js"></script>
 
+  <!-- Editable bootstrap -->
+  <link href="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/css/bootstrap-editable.css" rel="stylesheet"/>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/x-editable/1.5.0/bootstrap3-editable/js/bootstrap-editable.min.js"></script>
+
   <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
   <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
   <!--[if lt IE 9]>
@@ -30,10 +34,10 @@
 
   <!-- Custom CSS -->
   {{#unless noGlobalStyle}}
-      <link href="stylesheets/style.css" rel="stylesheet">
+    <link href="stylesheets/style.css" rel="stylesheet">
   {{/unless}}
   {{#customStyles}}
-      <link href="stylesheets/{{this}}.css" rel="stylesheet">
+    <link href="stylesheets/{{this}}.css" rel="stylesheet">
   {{/customStyles}}
 </head>
 
@@ -41,9 +45,10 @@
   <div class="body-container">
     {{{ body }}}
   </div>
-
+  {{> errors }}
   {{#unless hideCustomFooter}}
   {{> footer}}
   {{/unless}}
 </body>
+
 </html>

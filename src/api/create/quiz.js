@@ -27,7 +27,7 @@ router.route('/create')
         return;
       }
       res.status(200);
-      res.redirect('/quizzes/' + results.insertId);
+      res.redirect('/quiz/' + results.insertId);
     })
   });
 

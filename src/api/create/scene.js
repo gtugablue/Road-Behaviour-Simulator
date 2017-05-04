@@ -41,7 +41,7 @@ router.route('/create')
       || decisionTime < 1
       || decisionTime > 5) {
       res.status(400);
-      res.redirect('/quizzes/' + id + '/scenes');
+      res.redirect('/quiz/' + id + '/scenes');
       return;
     }
 
@@ -49,11 +49,12 @@ router.route('/create')
       if(error)
       {
         res.status(400);
-        res.redirect('/quizzes/' + id + '/scenes');
+        res.redirect('/quiz/' + id + '/scenes');
         return;
       }
       if(results)
-        res.redirect('/quizzes/' + id);
+        res.redirect('/quiz/' + id);
     });
+
   });
 module.exports = router;

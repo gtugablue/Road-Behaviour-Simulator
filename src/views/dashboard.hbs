@@ -1,6 +1,7 @@
-{{> navbar }} {{> breadcrumb }}
+{{> navbar }} 
 <div class="first-after-navbar">
     <div class="container">
+        {{> breadcrumb }}
         <h2>Welcome {{ user_firstname }}</h2>
         <br/>
         <br/>
@@ -25,7 +26,7 @@
                 {{#quizes}}
                 <tr>
                     <td>{{number}}</td>
-                    <td><a href="quizzes/{{number}}">{{title}}</a></td>
+                    <td><a href="quiz/{{number}}">{{title}}</a></td>
                     <td>{{replies}}</td>
                 </tr>
                 {{/quizes}}

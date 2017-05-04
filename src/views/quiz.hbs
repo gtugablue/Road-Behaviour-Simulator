@@ -1,6 +1,7 @@
-{{> navbar }} {{> breadcrumb }}
+{{> navbar }}
 <div class="first-after-navbar">
     <div class="container">
+        {{> breadcrumb }}
         {{#if scenes}}
             <div class="list-group">
             {{#each scenes as |scene key|}}
@@ -9,7 +10,7 @@
             </div>
         {{else}}
             <p>No scenes in this quiz.</p>
-            <a href="quizzes/{{id}}/scenes" class="btn btn-primary">Criar</a>
+            <a href="quiz/{{id}}/scenes" class="btn btn-primary">Criar</a>
         {{/if}}
     </div>
 </div>

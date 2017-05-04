@@ -9,7 +9,7 @@ router.get('/:id', function(req, res, next) {
     if (err) {
       console.error(err);
     }
-    res.render('index', { title: 'Express', layout: 'scene', signs: files });
+    res.render('scene', { title: 'Road Behaviour Simulator', layout: 'layout', signs: files });
   })
 });
 

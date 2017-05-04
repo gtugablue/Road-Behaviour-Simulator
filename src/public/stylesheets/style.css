@@ -90,6 +90,11 @@ body > .container {
     box-sizing: content-box;
 }
 
+#signs {
+    background-color: #f5f5f5;
+}
+
 #signs img {
-    cursor: pointer;
+    cursor: move;
+    margin: 15px;
 }

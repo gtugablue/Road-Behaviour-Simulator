@@ -71,6 +71,18 @@ var getQuizState = function (idQuiz, callback) {
   } )
 };
 
+var setQuizState = function (idQuiz, state, callback) {
+  db.query("UPDATE Quiz SET state = ? WHERE idQuiz = ?", [state, idQuiz], function (error, results) {
+    if(error)
+    {
+      callback(error, null);
+      return;
+    }
+
+    callback(null, results);
+  } )
+};
+
 
 module.exports.createQuiz = createQuiz;
 module.exports.isQuestionOwner = isQuestionOwner;

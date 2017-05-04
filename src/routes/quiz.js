@@ -44,7 +44,8 @@ router.get('/:id', function (req, res, next) {
           user_id: typeof req.user == 'undefined' ? null : req.user.id,
           layout: 'layout',
           id: req.params.id,
-          scenes: (scenes.length > 0 ? scenes : false)
+          scenes: (scenes.length > 0 ? scenes : false),
+          quiz: {state:1}
         });
       })
     }

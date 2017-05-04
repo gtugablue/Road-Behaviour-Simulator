@@ -98,3 +98,9 @@ body > .container {
     cursor: move;
     margin: 15px;
 }
+
+/* QUIZ PAGE BUTTONS */
+
+.quiz-btns-row {
+    margin-top: 5px;
+}

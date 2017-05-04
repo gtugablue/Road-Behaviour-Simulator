@@ -1,8 +1,16 @@
 const express = require('express');
 const router = express.Router();
 const quiz = require('./../../database/quiz');
+var auth = require('./../../utils/auth');
+
 router.route('/create')
   .post((req, res) => {
+
+    var authenticated = auth.ensureAuthenticated(req, res);
+    if (!authenticated) {
+      res.redirect('/');
+      return;
+    }
 
     if(req.body.name === '')
     {
@@ -19,7 +27,7 @@ router.route('/create')
         return;
       }
       res.status(200);
-      res.redirect('/quizzes/' + results.insertId);
+      res.redirect('/quiz/' + results.insertId);
     })
   });
 

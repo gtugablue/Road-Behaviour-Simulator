@@ -1,11 +1,18 @@
 const express = require('express');
 const router = express.Router();
-const question = require('./../../database/question');
+const scene = require('./../../database/scene');
+var auth = require('./../../utils/auth');
 
 router.route('/create')
   .post((req, res) => {
-    console.log(req.body);
 
+    var authenticated = auth.ensureAuthenticated(req, res);
+    if (!authenticated) {
+      res.redirect('/');
+      return;
+    }
+
+    const name = req.body.name;
     const id = parseInt(req.body.id);
     const latitude = req.body.lat;
     const longitude = req.body.lon;
@@ -22,7 +29,9 @@ router.route('/create')
       return;
     }
 
-    if (latitude == ''
+    if (
+      name == ''
+      || latitude == ''
       || longitude == ''
       || heading == ''
       || pitch == ''
@@ -32,22 +41,19 @@ router.route('/create')
       || decisionTime < 1
       || decisionTime > 5) {
       res.status(400);
-      res.redirect('/quizzes/' + id);
+      res.redirect('/quizzes/' + id + '/scenes');
       return;
     }
 
-    console.log(pitch, heading, zoom);
-
-    question.createQuestion(id, latitude, longitude,heading, pitch, zoom, decisionTime, decision, questions, function (error, results) {
+    scene.createScene(id, name, latitude, longitude,heading, pitch, zoom, decisionTime, decision, questions, function (error, results) {
       if(error)
       {
         res.status(400);
-        res.redirect('/quizzes/' + id);
+        res.redirect('/quizzes/' + id + '/scenes');
         return;
       }
       if(results)
         res.redirect('/quizzes/' + id);
     });
-    console.log('oi');
   });
 module.exports = router;

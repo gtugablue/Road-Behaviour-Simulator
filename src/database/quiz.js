@@ -58,9 +58,23 @@ var getScenesFromQuiz = function (idQuiz, idUser, callback) {
   } )
 };
 
+var getQuizState = function (idQuiz, callback) {
+
+  db.query("SELECT state FROM Quiz WHERE idQuiz = ?", [idQuiz], function (error, results) {
+    if(error)
+    {
+      callback(error, null);
+      return;
+    }
+
+    callback(null, results);
+  } )
+};
+
 
 module.exports.createQuiz = createQuiz;
 module.exports.isQuestionOwner = isQuestionOwner;
 module.exports.getScenesFromQuiz = getScenesFromQuiz;
 module.exports.getQuizzesListFromUser = getQuizzesListFromUser;
+module.exports.getQuizState = getQuizState;
 

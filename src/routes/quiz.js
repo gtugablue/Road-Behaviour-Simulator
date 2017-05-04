@@ -36,27 +36,38 @@ router.get('/:id', function (req, res, next) {
           res.status(400);
           return;
         }
-        var scenes = [];
-        for(let scene of questionsResults)
-        {
-          scenes.push({id: scene.idScene, statement: scene.name});
-        }
 
-        var page_breadcrumb = [
-          new BreadcrumbItem("Home", "/"),
-          new BreadcrumbItem("Dashboard", "/dashboard"),
-          new BreadcrumbItem("Quiz")
-        ];
+        db.getQuizState(req.params.id, function (error, stateResults) {
+          if (error) {
+            console.log(error);
+            res.status(400);
+            return;
+          }
 
-        res.render('quiz', {
-          title: config.app_title,
-          errors: errors.getErrors(),
-          breadcrumb: page_breadcrumb,
-          user_id: typeof req.user == 'undefined' ? null : req.user.id,
-          layout: 'layout',
-          id: req.params.id,
-          scenes: (scenes.length > 0 ? scenes : false),
-          quiz: {state:1}
+          var quizState = stateResults[0].state;
+
+          var scenes = [];
+          for (let scene of questionsResults) {
+            scenes.push({ id: scene.idScene, statement: scene.name });
+          }
+
+          var page_breadcrumb = [
+            new BreadcrumbItem("Home", "/"),
+            new BreadcrumbItem("Dashboard", "/dashboard"),
+            new BreadcrumbItem("Quiz")
+          ];
+
+          console.log(stateResults);
+          res.render('quiz', {
+            title: config.app_title,
+            errors: errors.getErrors(),
+            breadcrumb: page_breadcrumb,
+            user_id: typeof req.user == 'undefined' ? null : req.user.id,
+            layout: 'layout',
+            id: req.params.id,
+            scenes: (scenes.length > 0 ? scenes : false),
+            quiz: { state: quizState }
+          });
         });
       })
     }
@@ -109,28 +120,26 @@ router.get('/:id/scenes', function (req, res, next) {
   if (!authenticated) {
     return;
   }
-  if(req.params.id == undefined)
-  {
+  if (req.params.id == undefined) {
     res.redirect('/');
     return;
   }
   db.isQuestionOwner(req.params.id, req.user.id, function (error, isOwner) {
-    if (error)
-    {
+    if (error) {
       //TODO: Imprimir os erros
       console.log(error);
       res.redirect('/');
     }
-    else if(isOwner)
-    {
+    else if (isOwner) {
       const signsFolder = 'public/images/signs/small/';
       fs.readdir(signsFolder, function (err, files) {
         if (err) {
           console.error(err);
         }
-        res.render('scene', { title: 'Road Behaviour Simulator', layout: 'layout', signs: files, id: req.params.id});
+        res.render('scene', { title: 'Road Behaviour Simulator', layout: 'layout', signs: files, id: req.params.id });
       }
-    )}
+      )
+    }
     else
       res.redirect('/');
   })

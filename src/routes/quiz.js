@@ -127,21 +127,23 @@ router.get('/:id/scenes', function (req, res, next) {
   db.isQuestionOwner(req.params.id, req.user.id, function (error, isOwner) {
     if (error) {
       //TODO: Imprimir os erros
-      console.log(error);
+      console.error(error);
       res.redirect('/');
     }
     else if (isOwner) {
+      // Owner
       const signsFolder = 'public/images/signs/small/';
       fs.readdir(signsFolder, function (err, files) {
         if (err) {
           console.error(err);
         }
-        res.render('scene', { title: 'Road Behaviour Simulator', layout: 'layout', signs: files, id: req.params.id });
+        res.render('scene', { title: 'Road Behaviour Simulator', layout: 'layout', signs: files, id: req.params.id, isOwner: true });
       }
       )
+    } else {
+      // Participant
+      res.render('scene', { title: 'Road Behaviour Simulator', layout: 'layout', id: req.params.id, isOwner: false })
     }
-    else
-      res.redirect('/');
   })
 
 });

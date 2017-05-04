@@ -102,6 +102,13 @@ body > .container {
     margin: 15px;
 }
 
+#signs img:hover {
+    position: relative;
+    top: -2px;
+    left: -2px;
+    filter: drop-shadow(2px 2px 1px #888);
+}
+
 /* QUIZ PAGE BUTTONS */
 
 .quiz-btns-row {

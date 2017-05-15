@@ -186,7 +186,7 @@ function handleDrop(e) {
   var imageURL = '../images/signs/large/' + $('#signs img.img_dragging').attr('src').split('/').pop();
   fabric.Image.fromURL(imageURL, function(image) {
     image.scaleToHeight(100);
-    image.setLeft(e.layerX);
+    image.setLeft(e.layerX + (canvasWidth / 2));
     image.setTop(e.layerY);
     canvas.add(image);
     canvas.setActiveObject(image);

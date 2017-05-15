@@ -81,7 +81,7 @@ body > .container {
     height: 100%;
 }
 
-#canvas-container {
+#canvas-container-wrapper {
     margin-left: 50%;
     transform: translateX(-50%);
     width: 800px;

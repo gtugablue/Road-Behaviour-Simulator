@@ -63,7 +63,29 @@ $( document ).ready(function() {
   canvasContainer.addEventListener('dragover', handleDragOver, false);
   canvasContainer.addEventListener('dragleave', handleDragLeave, false);
   canvasContainer.addEventListener('drop', handleDrop, false);
+
+  countdown($('.btn-break'));
 });
+
+function countdown(button) {
+  setTimeout(function() {
+    button.removeClass('btn-info');
+    button.addClass('btn-default');
+    button.html(3);
+    setTimeout(function() {
+      button.html(2);
+      setTimeout(function() {
+        button.html(1);
+        setTimeout(function() {
+          button.html('BRAKE');
+          button.removeClass('btn-info');
+          button.addClass('btn-danger');
+          $('#canvas-container').removeClass('zero-brightness');
+        }, 1000);
+      }, 1000);
+    }, 1000);
+  }, 3000);
+}
 
 window.changeSceneryPickerLocation = function (latitude, longitude) {
   var location = {lat: latitude, lng: longitude};

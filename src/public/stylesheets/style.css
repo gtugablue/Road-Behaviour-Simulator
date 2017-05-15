@@ -126,3 +126,7 @@ body > .container {
     height: 15rem;
     font-size: 50px;
 }
+
+.zero-brightness {
+    filter: brightness(0);
+}

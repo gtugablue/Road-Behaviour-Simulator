@@ -57,10 +57,10 @@
                 <p><button type="button" class="btn btn-default" onClick="deleteObject()">Delete selected</button></p>
             {{/if}}
             {{#unless isOwner}}
-            <button type="submit" class="btn btn-default btn-danger btn-block btn-break">BREAK</button>
+            <button type="submit" class="btn btn-info btn-block btn-break">GET READY...</button>
             {{/unless}}
             <div id="canvas-container-wrapper">
-                <div id="canvas-container">
+                <div id="canvas-container" class="zero-brightness">
                     <canvas id="c">
 
                     </canvas>

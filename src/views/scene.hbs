@@ -12,37 +12,36 @@
             <input type="hidden" name="heading" id="heading" value="0">
             <input type="hidden" name="pitch" id="pitch" value="0">
             <input type="hidden" name="zoom" id="zoom" value="0">
-
-            <div class="form-group">
-                <label>Nome</label>
-                <input name="name" type="text" class="form-control">
-            </div>
-
-            <div class="form-group">
-                <label>Decision Time</label>
-                <input name="decisionTime" type="number" class="form-control" min="1" max="5" value="1">
-            </div>
-            <div class="form-group">
-                <label>Correct Decision</label>
-                <select name="decision" class="form-control" required>
-                    <option value="stop">Stop</option>
-                    <option value="move">Move</option>
-                </select>
-            </div>
-            <hr>
-            <h2>Questions</h2>
-            <div id="questions">
-                <div class="form-group">
-                    <label>Question 1</label>
-                    <input name="question" type="text" class="form-control">
-                </div>
-            </div>
-            <p>
-                <label>Add new question</label>
-                <button id="addQuest" type="button" class="btn btn-default">+</button>
-            </p>
-            <hr>
             {{#if isOwner}}
+                <div class="form-group">
+                    <label>Nome</label>
+                    <input name="name" type="text" class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label>Decision Time</label>
+                    <input name="decisionTime" type="number" class="form-control" min="1" max="5" value="1">
+                </div>
+                <div class="form-group">
+                    <label>Correct Decision</label>
+                    <select name="decision" class="form-control" required>
+                        <option value="stop">Stop</option>
+                        <option value="move">Move</option>
+                    </select>
+                </div>
+                <hr>
+                <h2>Questions</h2>
+                <div id="questions">
+                    <div class="form-group">
+                        <label>Question 1</label>
+                        <input name="question" type="text" class="form-control">
+                    </div>
+                </div>
+                <p>
+                    <label>Add new question</label>
+                    <button id="addQuest" type="button" class="btn btn-default">+</button>
+                </p>
+                <hr>
                 <p>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#sceneryPickerModal">
                         Choose scenery
@@ -57,14 +56,19 @@
                 <br />
                 <p><button type="button" class="btn btn-default" onClick="deleteObject()">Delete selected</button></p>
             {{/if}}
+            {{#unless isOwner}}
+            <button type="submit" class="btn btn-default btn-danger btn-block btn-break">BREAK</button>
+            {{/unless}}
             <div id="canvas-container">
                 <canvas id="c">
 
                 </canvas>
             </div>
-            <input type="hidden" name="signs" value="" />
-            <hr>
-            <input type="submit" class="btn btn-default" value="Submit">
+            {{#if isOwner}}
+                <input type="hidden" name="signs" value="" />
+                <hr>
+                <input type="submit" value="Submit">
+            {{/if}}
         </form>
 
         <!-- Modal -->

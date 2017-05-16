@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var config = require('./../configuration/config');
-var db = require('../database/quiz');
+var dbQuiz = require('../database/quiz');
+var dbScene = require('../database/scene');
 
 const fs = require('fs');
 var auth = require('./../utils/auth');
@@ -23,21 +24,21 @@ router.get('/:id', function (req, res, next) {
     return;
   }
 
-  db.isQuestionOwner(req.params.id, req.user.id, function (error, isOwner) {
+  dbQuiz.isQuestionOwner(req.params.id, req.user.id, function (error, isOwner) {
     if (error) {
       console.log(error);
       res.status(400);
       return;
     }
     if (isOwner) {
-      db.getScenesFromQuiz(req.params.id, req.user.id, function (error, questionsResults) {
+      dbQuiz.getScenesFromQuiz(req.params.id, req.user.id, function (error, questionsResults) {
         if (error) {
           console.log(error);
           res.status(400);
           return;
         }
 
-        db.getQuizState(req.params.id, function (error, stateResults) {
+        dbQuiz.getQuizState(req.params.id, function (error, stateResults) {
           if (error) {
             console.log(error);
             res.status(400);
@@ -124,7 +125,7 @@ router.get('/:id/scenes', function (req, res, next) {
     res.redirect('/');
     return;
   }
-  db.isQuestionOwner(req.params.id, req.user.id, function (error, isOwner) {
+  dbQuiz.isQuestionOwner(req.params.id, req.user.id, function (error, isOwner) {
     if (error) {
       //TODO: Imprimir os erros
       console.error(error);
@@ -137,12 +138,35 @@ router.get('/:id/scenes', function (req, res, next) {
         if (err) {
           console.error(err);
         }
-        res.render('scene', { title: 'Road Behaviour Simulator', layout: 'layout', signs: files, id: req.params.id, isOwner: true });
+        var scenery = {
+          lat: 41.177209,
+          lon: -8.596665,
+          heading: 0,
+          pitch: 0,
+          zoom: 0,
+        }
+        res.render('scene', { title: 'Road Behaviour Simulator', layout: 'layout', signs: files, id: req.params.id, isOwner: true, scenery: scenery });
       }
       )
     } else {
       // Participant
-      res.render('scene', { title: 'Road Behaviour Simulator', layout: 'layout', id: req.params.id, isOwner: false })
+      dbScene.getScene(1, function (error, results) {
+        if (results.length == 0) {
+          // TODO imprimir erro
+          res.redirect('/');
+          return;
+        }
+        var result = results[0];
+        var scenery = {
+          lat: result.lat,
+          lon: result.lon,
+          heading: result.heading,
+          pitch: result.pitch,
+          zoom: result.zoom,
+          signs: result.signs,
+        };
+        res.render('scene', { title: 'Road Behaviour Simulator', layout: 'layout', id: req.params.id, isOwner: false, scenery: scenery });
+      });
     }
   })
 

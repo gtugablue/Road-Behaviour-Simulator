@@ -7,11 +7,11 @@
         {{> breadcrumb }}
         <form id="form" action="/api/scene/create" method="POST" class="col-sm-8 col-sm-offset-2">
             <input type="hidden" name="id" id="id" value={{id}}>
-            <input type="hidden" name="lat" id="lat" value="41.177209">
-            <input type="hidden" name="lon" id="lon" value="-8.596665">
-            <input type="hidden" name="heading" id="heading" value="0">
-            <input type="hidden" name="pitch" id="pitch" value="0">
-            <input type="hidden" name="zoom" id="zoom" value="0">
+            <input type="hidden" name="lat" id="lat" value="{{scenery.lat}}">
+            <input type="hidden" name="lon" id="lon" value="{{scenery.lon}}">
+            <input type="hidden" name="heading" id="heading" value="{{scenery.heading}}">
+            <input type="hidden" name="pitch" id="pitch" value="{{scenery.pitch}}">
+            <input type="hidden" name="zoom" id="zoom" value="{{scenery.zoom}}">
             {{#if isOwner}}
                 <div class="form-group">
                     <label>Nome</label>
@@ -60,14 +60,14 @@
             <button type="submit" class="btn btn-info btn-block btn-break">GET READY...</button>
             {{/unless}}
             <div id="canvas-container-wrapper">
-                <div id="canvas-container" class="zero-brightness">
-                    <canvas id="c">
+                <div id="canvas-container"{{#unless isOwner}} class="zero-brightness"{{/unless}}>
+                    <canvas id="c"{{#unless isOwner}} class="static"{{/unless}}>
 
                     </canvas>
                 </div>
             </div>
+            <input type="hidden" name="signs" value="{{scenery.signs}}" />
             {{#if isOwner}}
-                <input type="hidden" name="signs" value="" />
                 <hr>
                 <input type="submit" value="Submit">
             {{/if}}

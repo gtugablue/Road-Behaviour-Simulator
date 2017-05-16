@@ -55,4 +55,13 @@ var createScene = function (idQuiz, name, lat, lon, heading, pitch, zoom, decisi
   })
 };
 
-module.exports.createScene = createScene;
+var getScene = function (idScene, callback) {
+  db.query('SELECT * FROM Scene WHERE idScene = ?', [idScene], function (error, results) {
+    callback(error, results);
+  });
+}
+
+module.exports = {
+  createScene: createScene,
+  getScene: getScene,
+};

@@ -5,14 +5,27 @@ var canvasHeight = 600;
 
 $( document ).ready(function() {
   var nQuestions = $('#questions > div').length;
-	var latitude = $('#lat').val(), longitude = $('#lon').val();
+	var latitude = $('#lat').val()
+  var longitude = $('#lon').val();
+	var heading = $('#heading').val();
+	var pitch = $('#pitch').val();
+	var zoom = $('#zoom').val();
 
-	canvas = new fabric.Canvas('c');
+	if ($('#c').hasClass('static')) {
+	  canvas = new fabric.StaticCanvas('c');
+  } else {
+    canvas = new fabric.Canvas('c');
+  }
 	canvas.setWidth(canvasWidth);
 	canvas.setHeight(canvasHeight);
 
 	// Background
-	changeScenery(latitude, longitude, 200, -5, 1);
+	changeScenery(latitude, longitude, heading, pitch, zoom);
+	deserializeCanvas($('input[name="signs"]').val());
+
+  canvas.on('object:modified', function(e) {
+    serializeCanvas();
+  });
 
 	// Change coordinates
 	$('#updateLocation').click(function (e) {
@@ -102,13 +115,14 @@ window.changeSceneryPickerLocation = function (latitude, longitude) {
 window.changeScenery = function (latitude, longitude, heading, pitch, zoom) {
   var fov = 180 / Math.pow(2,zoom || 1);
 	// Background
-	fabric.Image.fromURL('https://maps.googleapis.com/maps/api/streetview?size=' + canvasWidth + 'x' + canvasHeight + '&location=' +
-		latitude +
-		',' + longitude +
-		'&fov=' + fov +
-		'&heading=' + heading +
-		'&pitch=' + pitch +
-		'&key=AIzaSyB_DzzYoHNMdyJYe53zW5j81EqRwv7r3RY', function(image) {
+  var url = 'https://maps.googleapis.com/maps/api/streetview?size=' + canvasWidth + 'x' + canvasHeight + '&location=' +
+    latitude +
+    ',' + longitude +
+    '&fov=' + fov +
+    '&heading=' + heading +
+    '&pitch=' + pitch +
+    '&key=AIzaSyB_DzzYoHNMdyJYe53zW5j81EqRwv7r3RY';
+	fabric.Image.fromURL(url, function(image) {
 		image.set({
 			width:canvasWidth,
 			height:canvasHeight,
@@ -212,8 +226,8 @@ function handleDrop(e) {
     image.setTop(e.layerY);
     canvas.add(image);
     canvas.setActiveObject(image);
+    serializeCanvas();
   });
-  serializeCanvas();
   return false;
 }
 
@@ -228,4 +242,10 @@ function serializeCanvas() {
   var json = JSON.stringify(canvas);
   $('#form input[name="signs"]').val(json);
   return json;
+}
+
+function deserializeCanvas(json) {
+  canvas.loadFromJSON(json, canvas.renderAll.bind(canvas), function(o, object) {
+  });
+  return canvas;
 }

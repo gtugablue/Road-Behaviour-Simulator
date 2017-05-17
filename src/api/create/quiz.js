@@ -3,6 +3,8 @@ const express = require('express');
 const router = express.Router();
 const quiz = require('./../../database/quiz');
 const json2csv = require('json2csv');
+var Archiver = require('archiver');
+
 var auth = require('./../../utils/auth');
 
 router.route('/create')
@@ -52,19 +54,38 @@ router.route('/export')
     quiz.isQuestionOwner(req.body.quizID, req.user.id, function (error, owner) {
       if(owner)
       {
-        quiz.getQuizDecision(req.body.quizID, function (error, results) {
-          if(error){
-            console.log(error);
-            res.status(400);
-            res.redirect('/dashboard');
-            return;
-          }
+        res.writeHead(200, {
+          'Content-Type': 'application/zip',
+          'Content-disposition': 'attachment; filename=results.zip'
+        });
+        var zip = Archiver('zip');
+        zip.pipe(res);
 
-          const csv = json2csv({ data: results,
+        Promise.all([
+            quiz.getQuizDecision.bind(quiz, req.body.quizID),
+            quiz.getQuizAnswers.bind(quiz, req.body.quizID)
+          ].map(func => new Promise((resolve, reject) => {
+            func((err, result) => {
+              if(err) reject(err);
+              else resolve(result);
+            })
+          }))
+        ).then(results => {
+          let decisions = results[0];
+          let answers = results[1];
+
+          const decisionsCSV = json2csv({ data: decisions,
             fields:
               ['idQuiz', 'quizName', 'idScene', 'sceneName', 'idUser', 'name', 'decisionTime', 'decision'], del: ';'});
-          res.attachment('results-' + req.body.quizID + '.csv');
-          res.status(200).send(csv);
+
+          zip.append(decisionsCSV, {name: 'decisions.csv'});
+
+          const answersCSV = json2csv({ data: answers,
+            fields:
+              ['idQuiz', 'quizName', 'idScene', 'sceneName', 'idUser', 'name', 'idQuestion', 'statement', 'answer'], del: ';'});
+
+          zip.append(answersCSV, {name: 'answers.csv'});
+          zip.finalize();
         })
       }
       else{

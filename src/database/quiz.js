@@ -90,13 +90,19 @@ var getQuizDecision = function (quizID, callback) {
     "FROM Decision INNER JOIN Scene ON Decision.idScene = Scene.idScene INNER JOIN Quiz ON idQuiz = quiz " +
     "INNER JOIN Users ON Decision.idUser = Users.idUser " +
     "WHERE State = 1 AND Quiz.idQuiz = ?",
-    [quizID], function (error, results) {
-      if(error)
-        callback(error, null);
-      else
-        callback(null, results);
-  });
+    [quizID], callback);
 };
+
+var getQuizAnswers = function (quizID, callback) {
+  db.query("SELECT idQuiz, Quiz.name quizName, Scene.idScene, Scene.name sceneName,Answer.idUser, Users.name," +
+    "Answer.idQuestion, statement, answer " +
+    "FROM Question INNER JOIN Scene ON Question.scene = Scene.idScene " +
+    "INNER JOIN Quiz ON idQuiz = quiz " +
+    "INNER JOIN Answer ON Answer.idQuestion = Question.idQuestion " +
+    "INNER JOIN Users ON Answer.idUser = Users.idUser " +
+    "WHERE state = 1 and idQuiz = ?",
+    [quizID], callback);
+}
 
 
 module.exports.createQuiz = createQuiz;
@@ -105,3 +111,4 @@ module.exports.getScenesFromQuiz = getScenesFromQuiz;
 module.exports.getQuizzesListFromUser = getQuizzesListFromUser;
 module.exports.getQuizState = getQuizState;
 module.exports.getQuizDecision = getQuizDecision;
+module.exports.getQuizAnswers = getQuizAnswers;

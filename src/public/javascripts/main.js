@@ -96,8 +96,7 @@ function countdown(button) {
           $('#canvas-container').removeClass('zero-brightness');
           var answerForm = $('#answerForm');
           answerForm.show(); // TODO show only after a decision is made
-          answerForm.effect("highlight", {}, 3000);
-          $('html, body').animate({ scrollTop: $(document).height()-$(window).height() }, 100);
+          $('html, body').animate({ scrollTop: $(document).height()-$(window).height() }, 100); // TODO scroll only if not owner
         }, 1000);
       }, 1000);
     }, 1000);

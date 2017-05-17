@@ -18,7 +18,8 @@ var createScene = function (idQuiz, name, lat, lon, heading, pitch, zoom, decisi
       pitch: pitch,
       zoom: zoom,
       decisionTime: decisionTime,
-      correctDecision: correctDecision
+      correctDecision: correctDecision,
+      signs: ''
     }, function (error, sceneResults, fields) {
       if (error) {
         console.log(error);

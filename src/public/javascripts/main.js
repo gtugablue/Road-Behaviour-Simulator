@@ -41,7 +41,7 @@ $( document ).ready(function() {
 		$('#questions').append(
 			'<div class="form-group">' +
 				'<label>Question ' + (nQuestions + 1 )+'</label> ' +
-				'<input name="question[' + (nQuestions + 1) + ']" type="text" class="form-control">' +
+				'<input name="question" type="text" class="form-control">' +
 			'</div>'
 		)
 		nQuestions++;

@@ -40,7 +40,7 @@ CREATE TABLE Quiz (
 
 CREATE TABLE Decision (
   idDecision INTEGER PRIMARY KEY AUTO_INCREMENT,
-  idUser INTEGER REFERENCES Users(idUser),
+  idUser BIGINT REFERENCES Users(idUser),
   idScene INTEGER REFERENCES Scene(idScene),
   decision BOOLEAN,
   decisionTime LONG
@@ -48,7 +48,7 @@ CREATE TABLE Decision (
 
 CREATE TABLE Answer (
   idAnswer INTEGER PRIMARY KEY AUTO_INCREMENT,
-  idUser INTEGER REFERENCES Users(idUser),
-  idScene INTEGER REFERENCES Scene(idScene),
+  idUser BIGINT REFERENCES Users(idUser),
+  idQuestion INTEGER REFERENCES Question(idQuestion),
   answer BOOLEAN
 );

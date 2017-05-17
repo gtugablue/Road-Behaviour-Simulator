@@ -1,7 +1,7 @@
 var express = require('express');
 var db = require('./db');
 
-var createScene = function (idQuiz, name, lat, lon, heading, pitch, zoom, decisionTime, correctDecision, questions, callback) {
+var createScene = function (idQuiz, name, lat, lon, heading, pitch, zoom, decisionTime, correctDecision, signs, questions, callback) {
   db.beginTransaction(function (err) {
     if (err) {
       throw err;
@@ -19,7 +19,7 @@ var createScene = function (idQuiz, name, lat, lon, heading, pitch, zoom, decisi
       zoom: zoom,
       decisionTime: decisionTime,
       correctDecision: correctDecision,
-      signs: ''
+      signs: signs,
     }, function (error, sceneResults, fields) {
       if (error) {
         console.log(error);
@@ -62,7 +62,14 @@ var getScene = function (idScene, callback) {
   });
 }
 
+var getQuestions = function (idScene, callback) {
+  db.query('SELECT * FROM Question WHERE scene = ?', [idScene], function (error, results) {
+    callback(error, results);
+  });
+}
+
 module.exports = {
   createScene: createScene,
   getScene: getScene,
+  getQuestions: getQuestions,
 };

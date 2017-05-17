@@ -130,3 +130,7 @@ body > .container {
 .zero-brightness {
     filter: brightness(0);
 }
+
+#answerForm {
+    display: none;
+}

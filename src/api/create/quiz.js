@@ -51,7 +51,7 @@ router.route('/export')
       return;
     }
 
-    quiz.isQuestionOwner(req.body.quizID, req.user.id, function (error, owner) {
+    quiz.isQuizOwner(req.body.quizID, req.user.id, function (error, owner) {
       if(owner)
       {
         res.writeHead(200, {

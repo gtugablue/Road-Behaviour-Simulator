@@ -6,7 +6,7 @@
     <div class="container">
         {{> breadcrumb }}
         <form id="form" action="/api/scene/create" method="POST" class="col-sm-8 col-sm-offset-2">
-            <input type="hidden" name="id" id="id" value={{id}}>
+            <input type="hidden" name="id" id="id" value={{quizID}}>
             <input type="hidden" name="lat" id="lat" value="{{scenery.lat}}">
             <input type="hidden" name="lon" id="lon" value="{{scenery.lon}}">
             <input type="hidden" name="heading" id="heading" value="{{scenery.heading}}">

@@ -49,7 +49,7 @@ router.route('/export')
       return;
     }
 
-    quiz.isQuestionOwner(req.body.quizID, req.user.id, function (error, owner) {
+    quiz.isQuizOwner(req.body.quizID, req.user.id, function (error, owner) {
       if(owner)
       {
         quiz.getQuizDecision(req.body.quizID, function (error, results) {

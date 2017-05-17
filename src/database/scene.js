@@ -61,7 +61,14 @@ var getScene = function (idScene, callback) {
   });
 }
 
+var getQuestions = function (idScene, callback) {
+  db.query('SELECT * FROM Question WHERE scene = ?', [idScene], function (error, results) {
+    callback(error, results);
+  });
+}
+
 module.exports = {
   createScene: createScene,
   getScene: getScene,
+  getQuestions: getQuestions,
 };

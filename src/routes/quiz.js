@@ -151,7 +151,7 @@ router.get('/:id/scenes', function (req, res, next) {
     } else {
       // Participant
       dbScene.getScene(1, function (error, results) {
-        if (results.length == 0) {
+        if (error || results.length == 0) {
           // TODO imprimir erro
           res.redirect('/');
           return;
@@ -165,7 +165,21 @@ router.get('/:id/scenes', function (req, res, next) {
           zoom: result.zoom,
           signs: result.signs,
         };
-        res.render('scene', { title: 'Road Behaviour Simulator', layout: 'layout', id: req.params.id, isOwner: false, scenery: scenery });
+        dbScene.getQuestions(1, function (error, results) {
+          if (error) {
+            // TODO imprimir erro
+            res.redirect('/');
+            return;
+          }
+          res.render('scene', {
+            title: 'Road Behaviour Simulator',
+            layout: 'layout',
+            id: req.params.id,
+            isOwner: false,
+            scenery: scenery,
+            questions: results,
+          });
+        });
       });
     }
   })

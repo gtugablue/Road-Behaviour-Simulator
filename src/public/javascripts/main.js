@@ -94,6 +94,10 @@ function countdown(button) {
           button.removeClass('btn-info');
           button.addClass('btn-danger');
           $('#canvas-container').removeClass('zero-brightness');
+          var answerForm = $('#answerForm');
+          answerForm.show(); // TODO show only after a decision is made
+          answerForm.effect("highlight", {}, 3000);
+          $('html, body').animate({ scrollTop: $(document).height()-$(window).height() }, 100);
         }, 1000);
       }, 1000);
     }, 1000);

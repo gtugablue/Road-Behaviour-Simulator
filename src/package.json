@@ -12,6 +12,7 @@
     "express": "~4.15.2",
     "express-session": "^1.15.2",
     "hbs": "~4.0.1",
+    "json2csv": "^3.7.3",
     "morgan": "~1.8.1",
     "mysql": "^2.13.0",
     "passport": "^0.3.2",

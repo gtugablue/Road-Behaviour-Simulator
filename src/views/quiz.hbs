@@ -16,19 +16,13 @@
         {{/equal}}
         {{#equal quiz.state 1}}
         <p>This quiz is ongoing.</p>
-        <div class="row">
-            <div class="col-xs-6 previous">
-                <form action="/api/quiz/export" method="post">
-                    <div class="form-group">
-                        <input name="quizID" type="hidden" class="form-control" value={{id}}>
-                    </div>
+            <div class="clearfix" style="margin-bottom: 10px">
+                <form action="/api/quiz/export" method="post" style="display: inline-block;">
+                    <input name="quizID" type="hidden" class="form-control" value={{id}}>
                     <input type="submit" class="btn btn-primary" value="Export Results">
                 </form>
-            </div>
-            <div class="col-xs-6 next">
                 <button type="button" class="btn btn-danger pull-right">End Quiz</button>
             </div>
-        </div>
         {{/equal}}
         {{#equal quiz.state 2}}
         <p>This quiz has ended.</p>

@@ -22,59 +22,97 @@ router.get('/:id', function (req, res, next) {
     res.redirect('/dashboard');
     return;
   }
-
-  dbQuiz.isQuizOwner(req.params.id, req.user.id, function (error, isOwner) {
-    if (error) {
-      console.log(error);
+  dbQuiz.quizExists(req.params.id, function (err, exists) {
+    if (err) {
+      console.log(err);
       res.status(400);
       return;
     }
-    if (isOwner) {
-      dbQuiz.getScenesFromQuiz(req.params.id, req.user.id, function (error, questionsResults) {
-        if (error) {
-          console.log(error);
-          res.status(400);
-          return;
-        }
 
-        dbQuiz.getQuizState(req.params.id, function (error, stateResults) {
+    if(!exists)
+    {
+      res.status(404);
+      res.render('not-found', {
+        title: config.app_title,
+        layout: 'layout',
+        id: req.params.id,
+      });
+      return;
+    }
+
+    dbQuiz.isQuizOwner(req.params.id, req.user.id, function (error, isOwner) {
+      if (error) {
+        console.log(error);
+        res.status(400);
+        return;
+      }
+      if (isOwner) {
+        dbQuiz.getScenesFromQuiz(req.params.id, req.user.id, function (error, questionsResults) {
           if (error) {
             console.log(error);
             res.status(400);
             return;
           }
+          dbQuiz.getQuizState(req.params.id, function (error, stateResults) {
+            if (error) {
+              console.log(error);
+              res.status(400);
+              return;
+            }
+            var quizState = stateResults[0].state;
 
-          var quizState = stateResults[0].state;
+            var scenes = [];
+            for (let scene of questionsResults) {
+              scenes.push({ id: scene.idScene, statement: scene.questionStatement });
+            }
 
-          var scenes = [];
-          for (let scene of questionsResults) {
-            scenes.push({ id: scene.idScene, statement: scene.questionStatement });
-          }
+            var page_breadcrumb = [
+              new BreadcrumbItem("Home", "/"),
+              new BreadcrumbItem("Dashboard", "/dashboard"),
+              new BreadcrumbItem("Quiz")
+            ];
 
-          var page_breadcrumb = [
-            new BreadcrumbItem("Home", "/"),
-            new BreadcrumbItem("Dashboard", "/dashboard"),
-            new BreadcrumbItem("Quiz")
-          ];
-
-          console.log(stateResults);
-          res.render('quiz', {
-            title: config.app_title,
-            errors: errors.getErrors(),
-            breadcrumb: page_breadcrumb,
-            user_id: typeof req.user == 'undefined' ? null : req.user.id,
-            layout: 'layout',
-            id: req.params.id,
-            scenes: (scenes.length > 0 ? scenes : false),
-            quiz: { state: quizState }
+            console.log(stateResults);
+            res.render('quiz', {
+              title: config.app_title,
+              errors: errors.getErrors(),
+              breadcrumb: page_breadcrumb,
+              user_id: typeof req.user == 'undefined' ? null : req.user.id,
+              layout: 'layout',
+              id: req.params.id,
+              scenes: (scenes.length > 0 ? scenes : false),
+              quiz: { state: quizState }
+            });
           });
+        })
+      }
+      else
+      {
+        dbQuiz.getUnansweredQuestion(req.params.id, req.user.id, function(err, results)
+        {
+          if (error) {
+            console.log(error);
+            res.status(400);
+          }
+          else if(results.length  == 0)
+          {
+            res.render('quiz-answered', {
+              title: 'Road Behaviour Simulator',
+              layout: 'layout',
+              quizID: req.params.quizID,
+            });
+          }
+          else
+          {
+            results = results[0];
+            res.redirect('/quiz/' + req.params.id + '/scenes/' + results.idScene);
+          }
         });
-      })
-    }
-    else
-      res.redirect('/dashboard');
-  });
-});
+      }
+    });
+
+
+})});
 
 /*  /quiz/[ID]/edit    */
 router.get('/:id/edit', function (req, res, next) {

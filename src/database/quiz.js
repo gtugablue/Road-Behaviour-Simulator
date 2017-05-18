@@ -113,6 +113,29 @@ var getQuizAnswers = function (quizID, callback) {
     [quizID], callback);
 }
 
+var getUnansweredQuestion = function(idQuiz, idUser, callback)
+{
+  db.query("SELECT Scene.idScene FROM Scene "+
+  "WHERE quiz = ? AND Scene.idScene NOT IN (SELECT s.idScene FROM Scene s INNER JOIN Decision d " +
+  "ON d.idScene = s.idScene " +
+  "WHERE idDecision IS NOT NULL AND quiz = ? AND idUSer = ?) " +
+  "ORDER BY idScene LIMIT 1", [idQuiz, idQuiz, idUser], callback);
+}
+
+var quizExists = function (quizID, callback) {
+  db.query("SELECT idQuiz FROM Quiz WHERE idQuiz = ? ", [quizID], function (error, results) {
+    if(error)
+    {
+      console.log(error);
+      callback(error, null);
+      return;
+    }
+    if(results.length > 0)
+      callback(null, true);
+    else callback(null, false);
+  })
+}
+
 
 module.exports.createQuiz = createQuiz;
 module.exports.isQuizOwner = isQuizOwner;
@@ -122,3 +145,6 @@ module.exports.getQuizState = getQuizState;
 module.exports.getQuizDecision = getQuizDecision;
 module.exports.getQuizAnswers = getQuizAnswers;
 module.exports.nextScene = nextScene;
+module.exports.getUnansweredQuestion = getUnansweredQuestion;
+module.exports.quizExists = quizExists;
+

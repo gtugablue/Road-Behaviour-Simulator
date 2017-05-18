@@ -48,7 +48,7 @@ router.get('/:id', function (req, res, next) {
 
           var scenes = [];
           for (let scene of questionsResults) {
-            scenes.push({ id: scene.idScene, statement: scene.name });
+            scenes.push({ id: scene.idScene, statement: scene.questionStatement });
           }
 
           var page_breadcrumb = [
@@ -179,7 +179,7 @@ router.get('/:quizID/scenes/:sceneID', function (req, res, next) {
             layout: 'layout',
             quizID: req.params.quizID,
             sceneID: req.params.sceneID,
-            name: result.name,
+            questionStatement: result.questionStatement,
             isOwner: false,
             scenery: scenery,
             questions: results,

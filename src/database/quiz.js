@@ -45,7 +45,7 @@ var isQuizOwner = function (idQuiz, idUser, callback) {
 
 var getScenesFromQuiz = function (idQuiz, idUser, callback) {
 
-  db.query("SELECT Scene.idScene, Scene.name FROM Quiz " +
+  db.query("SELECT Scene.idScene, Scene.questionStatement FROM Quiz " +
     "INNER JOIN Scene ON quiz = idQuiz " +
     "WHERE idQuiz = ? AND idUser = ? " +
     "ORDER BY idScene ASC", [idQuiz, idUser], function (error, results) {
@@ -94,7 +94,7 @@ var incQuizState = function (idQuiz, callback) {
 };
 
 var getQuizDecision = function (quizID, callback) {
-  db.query("SELECT idQuiz, Quiz.name quizName, Decision.idScene, Scene.name sceneName," +
+  db.query("SELECT idQuiz, Quiz.name quizName, Decision.idScene, Scene.questionStatement questionStatement," +
     " Decision.idUser, Users.name, Decision.decisionTime, decision " +
     "FROM Decision INNER JOIN Scene ON Decision.idScene = Scene.idScene INNER JOIN Quiz ON idQuiz = quiz " +
     "INNER JOIN Users ON Decision.idUser = Users.idUser " +
@@ -103,7 +103,7 @@ var getQuizDecision = function (quizID, callback) {
 };
 
 var getQuizAnswers = function (quizID, callback) {
-  db.query("SELECT idQuiz, Quiz.name quizName, Scene.idScene, Scene.name sceneName,Answer.idUser, Users.name," +
+  db.query("SELECT idQuiz, Quiz.name quizName, Scene.idScene, Scene.questionStatement questionStatement,Answer.idUser, Users.name," +
     "Answer.idQuestion, statement, answer " +
     "FROM Question INNER JOIN Scene ON Question.scene = Scene.idScene " +
     "INNER JOIN Quiz ON idQuiz = quiz " +

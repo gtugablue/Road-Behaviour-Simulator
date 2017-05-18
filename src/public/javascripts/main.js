@@ -93,15 +93,18 @@ function countdown() {
         setTimeout(function() {
           decisionCounter.hide();
           $('#canvas-container').removeClass('zero-brightness');
+          var startTime = new Date();
           $('#decisionYes,#decisionNo').click(function (e) {
+            var endTime = new Date();
+            $('#answerForm input[name="decisionTime"]').val((endTime - startTime)/1000);
             var answerForm = $('#answerForm');
-            answerForm.show(); // TODO show only after a decision is made
+            answerForm.show();
             $('html, body').animate({ scrollTop: $(document).height()-$(window).height() }, 100); // TODO scroll only if not owner
             $(this).siblings().removeClass('btn-success btn-danger');
             $(this).siblings().addClass('btn-basic');
             $(this).parent().children().attr('disabled', 'true');
             return false;
-          });
+          })
         }, 1000);
       }, 1000);
     }, 1000);

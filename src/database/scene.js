@@ -1,7 +1,7 @@
 var express = require('express');
 var db = require('./db');
 
-var createScene = function (idQuiz, name, lat, lon, heading, pitch, zoom, decisionTime, correctDecision, signs, questions, callback) {
+var createScene = function (idQuiz, questionStatement, lat, lon, heading, pitch, zoom, decisionTime, correctDecision, signs, questions, callback) {
   db.beginTransaction(function (err) {
     if (err) {
       throw err;
@@ -11,7 +11,7 @@ var createScene = function (idQuiz, name, lat, lon, heading, pitch, zoom, decisi
 
     db.query("INSERT INTO Scene SET ?", {
       quiz: idQuiz,
-      name: name,
+      questionStatement: questionStatement,
       lat: lat,
       lon: lon,
       heading: heading,

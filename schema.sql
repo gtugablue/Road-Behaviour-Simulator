@@ -19,7 +19,7 @@ CREATE TABLE Question (
 CREATE TABLE Scene (
 	idScene INTEGER PRIMARY KEY AUTO_INCREMENT,
   quiz INTEGER REFERENCES Quiz(idQuiz),
-  name TEXT NOT NULL,
+  questionStatement TEXT NOT NULL,
 	lat DOUBLE NOT NULL,
 	lon DOUBLE NOT NULL,
   heading DOUBLE,

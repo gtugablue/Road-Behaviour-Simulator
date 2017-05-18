@@ -1,0 +1,12 @@
+.form-center-wrapper {
+    text-align: center;
+}
+
+.form-country {
+    max-width: 300px;
+    margin: auto;
+}
+
+#submit-button {
+    width: 80%;
+}

@@ -17,6 +17,7 @@ var scenes = require('./routes/scene');
 var quiz = require('./routes/quiz');
 var create = require('./routes/create');
 var dashboard = require('./routes/dashboard');
+var demographics = require('./routes/demographics');
 var api = require('./api/api');
 
 var app = express();
@@ -68,6 +69,7 @@ app.use('/quiz', quiz);
 app.use('/scenes', scenes);
 app.use('/create', create);
 app.use('/api', api);
+app.use('/demographics', demographics);
 
 /////// Authentication routes ///////
 app.get('/auth/facebook',

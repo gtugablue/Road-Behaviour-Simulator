@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const scene = require('./../../database/scene');
-var auth = require('./../../utils/auth');
+const scene = require('../database/scene');
+const quiz = require('../database/quiz');
+var auth = require('../utils/auth');
 
 router.route('/create')
   .post((req, res) => {
@@ -57,6 +58,29 @@ router.route('/create')
     });
 
   });
+
+router.route('/:sceneID/answer').post(function (req, res) {
+  var authenticated = auth.ensureAuthenticated(req, res);
+  if (!authenticated) {
+    res.redirect('/');
+    return;
+  }
+  // TODO update database with new answer
+  quiz.nextScene(req.params.sceneID, function (error, results) {
+    if (error) {
+      console.error(error);
+      res.redirect('back');
+      return;
+    } else if (results.length === 0) {
+      res.redirect('/quiz/' + result.quiz); // No more scenes
+      return;
+    }
+    var result = results[0];
+
+    res.redirect('/quiz/' + result.quiz + '/scenes/' + result.idScene);
+  });
+});
+
 module.exports = router;
 
 function isJson(str) {

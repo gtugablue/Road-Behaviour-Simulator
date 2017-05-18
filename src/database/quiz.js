@@ -47,7 +47,8 @@ var getScenesFromQuiz = function (idQuiz, idUser, callback) {
 
   db.query("SELECT Scene.idScene, Scene.name FROM Quiz " +
     "INNER JOIN Scene ON quiz = idQuiz " +
-    "WHERE idQuiz = ? AND idUser = ?", [idQuiz, idUser], function (error, results) {
+    "WHERE idQuiz = ? AND idUser = ? " +
+    "ORDER BY idScene ASC", [idQuiz, idUser], function (error, results) {
     if(error)
     {
       callback(error, null);
@@ -57,6 +58,14 @@ var getScenesFromQuiz = function (idQuiz, idUser, callback) {
     callback(null, results);
   } )
 };
+
+var nextScene = function (idScene, callback) {
+  db.query('SELECT * FROM Scene WHERE idScene > ? ' +
+    'AND quiz = (SELECT quiz FROM Scene WHERE idScene = ?) ' +
+    'ORDER BY idScene ASC LIMIT 1', [idScene, idScene], function (error, results) {
+    callback(error, results);
+  });
+}
 
 var getQuizState = function (idQuiz, callback) {
 
@@ -112,3 +121,4 @@ module.exports.getQuizzesListFromUser = getQuizzesListFromUser;
 module.exports.getQuizState = getQuizState;
 module.exports.getQuizDecision = getQuizDecision;
 module.exports.getQuizAnswers = getQuizAnswers;
+module.exports.nextScene = nextScene;

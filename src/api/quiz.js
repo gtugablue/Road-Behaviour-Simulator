@@ -1,11 +1,11 @@
 "use strict";
 const express = require('express');
 const router = express.Router();
-const quiz = require('./../../database/quiz');
+const quiz = require('../database/quiz');
 const json2csv = require('json2csv');
 var Archiver = require('archiver');
 
-var auth = require('./../../utils/auth');
+var auth = require('../utils/auth');
 
 router.route('/create')
   .post((req, res) => {

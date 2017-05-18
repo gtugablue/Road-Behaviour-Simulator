@@ -13,7 +13,6 @@ var BreadcrumbItem = require('./../utils/breadcrumb').BreadcrumbItem;
 
 /*  /quiz/[ID]         */
 router.get('/:id', function (req, res, next) {
-
   var authenticated = auth.ensureAuthenticated(req, res, next);
   if (!authenticated) {
     return;
@@ -24,7 +23,7 @@ router.get('/:id', function (req, res, next) {
     return;
   }
 
-  dbQuiz.isQuestionOwner(req.params.id, req.user.id, function (error, isOwner) {
+  dbQuiz.isQuizOwner(req.params.id, req.user.id, function (error, isOwner) {
     if (error) {
       console.log(error);
       res.status(400);
@@ -115,17 +114,13 @@ router.get('/:id/answer', function (req, res, next) {
   });
 });
 
-router.get('/:id/scenes', function (req, res, next) {
+router.get('/:quizID/scenes/:sceneID', function (req, res, next) {
 
   var authenticated = auth.ensureAuthenticated(req, res, next);
   if (!authenticated) {
     return;
   }
-  if (req.params.id == undefined) {
-    res.redirect('/');
-    return;
-  }
-  dbQuiz.isQuestionOwner(req.params.id, req.user.id, function (error, isOwner) {
+  dbQuiz.isQuizOwner(req.params.quizID, req.user.id, function (error, isOwner) {
     if (error) {
       //TODO: Imprimir os erros
       console.error(error);
@@ -145,13 +140,21 @@ router.get('/:id/scenes', function (req, res, next) {
           pitch: 0,
           zoom: 0,
         }
-        res.render('scene', { title: 'Road Behaviour Simulator', layout: 'layout', signs: files, id: req.params.id, isOwner: true, scenery: scenery });
+        res.render('scene', {
+            title: 'Road Behaviour Simulator',
+            layout: 'layout',
+            signs: files,
+            quizID: req.params.quizID,
+            sceneID: req.params.sceneID,
+            isOwner: true,
+            scenery: scenery
+          });
       }
       )
     } else {
       // Participant
-      dbScene.getScene(1, function (error, results) {
-        if (results.length == 0) {
+      dbScene.getScene(req.params.sceneID, function (error, results) {
+        if (error || results.length == 0) {
           // TODO imprimir erro
           res.redirect('/');
           return;
@@ -165,7 +168,23 @@ router.get('/:id/scenes', function (req, res, next) {
           zoom: result.zoom,
           signs: result.signs,
         };
-        res.render('scene', { title: 'Road Behaviour Simulator', layout: 'layout', id: req.params.id, isOwner: false, scenery: scenery });
+        dbScene.getQuestions(req.params.sceneID, function (error, results) {
+          if (error) {
+            // TODO imprimir erro
+            res.redirect('/');
+            return;
+          }
+          res.render('scene', {
+            title: 'Road Behaviour Simulator',
+            layout: 'layout',
+            quizID: req.params.quizID,
+            sceneID: req.params.sceneID,
+            name: result.name,
+            isOwner: false,
+            scenery: scenery,
+            questions: results,
+          });
+        });
       });
     }
   })

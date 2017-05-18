@@ -1,7 +1,8 @@
 const express = require('express');
 const router = express.Router();
-const scene = require('./../../database/scene');
-var auth = require('./../../utils/auth');
+const scene = require('../database/scene');
+const quiz = require('../database/quiz');
+var auth = require('../utils/auth');
 
 router.route('/create')
   .post((req, res) => {
@@ -22,6 +23,7 @@ router.route('/create')
     const questions = [].concat(req.body.question);
     const decisionTime = parseInt(req.body.decisionTime);
     const decision = (req.body.decision === 'stop');
+    const signs = req.body.signs;
 
     if(id <= 0) {
       res.status(400);
@@ -36,16 +38,15 @@ router.route('/create')
       || heading == ''
       || pitch == ''
       || zoom < 0
-      || req.body.question == ''
       || decision == ''
-      || decisionTime < 1
-      || decisionTime > 5) {
+      || decisionTime <= 0
+      || !isJson(signs)) {
       res.status(400);
       res.redirect('/quiz/' + id + '/scenes');
       return;
     }
 
-    scene.createScene(id, name, latitude, longitude,heading, pitch, zoom, decisionTime, decision, questions, function (error, results) {
+    scene.createScene(id, name, latitude, longitude,heading, pitch, zoom, decisionTime, decision, signs, questions, function (error, results) {
       if(error)
       {
         res.status(400);
@@ -57,4 +58,36 @@ router.route('/create')
     });
 
   });
+
+router.route('/:sceneID/answer').post(function (req, res) {
+  var authenticated = auth.ensureAuthenticated(req, res);
+  if (!authenticated) {
+    res.redirect('/');
+    return;
+  }
+  // TODO update database with new answer
+  quiz.nextScene(req.params.sceneID, function (error, results) {
+    if (error) {
+      console.error(error);
+      res.redirect('back');
+      return;
+    } else if (results.length === 0) {
+      res.redirect('/quiz/' + result.quiz); // No more scenes
+      return;
+    }
+    var result = results[0];
+
+    res.redirect('/quiz/' + result.quiz + '/scenes/' + result.idScene);
+  });
+});
+
 module.exports = router;
+
+function isJson(str) {
+  try {
+    JSON.parse(str);
+  } catch (e) {
+    return false;
+  }
+  return true;
+}

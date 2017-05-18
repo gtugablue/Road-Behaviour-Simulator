@@ -121,12 +121,43 @@ body > .container {
     margin-top: 5px;
 }
 
-.btn-break {
+.zero-brightness {
+    filter: brightness(0);
+}
+
+#answerForm {
+    display: none;
+}
+
+#decisionArea {
+    text-align: center;
+    position: relative;
     margin: 20px 0;
-    height: 15rem;
+    font-size: 50px;
+    height: 3em;
+}
+
+#decisionButtons {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+}
+
+#decisionButtons button {
+    float: left;
+    width: 50%;
+    height: 100%;
+    border-radius: 0;
     font-size: 50px;
 }
 
-.zero-brightness {
-    filter: brightness(0);
+#decisionCounter {
+    position: relative;
+    padding-top: 1em;
+    background-color: rgba(255, 255, 255, 0.7);
+    height: 100%;
+    z-index: 2;
 }

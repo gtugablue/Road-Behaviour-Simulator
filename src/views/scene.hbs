@@ -4,9 +4,12 @@
 {{> navbar }}
 <div class="first-after-navbar">
     <div class="container">
+        {{#unless isOwner}}
+            <h1 class="jumbotron">{{questionStatement}}</h1>
+        {{/unless}}
         {{> breadcrumb }}
         <form id="form" action="/api/scene/create" method="POST" class="col-sm-8 col-sm-offset-2">
-            <input type="hidden" name="id" id="id" value={{id}}>
+            <input type="hidden" name="id" id="id" value={{quizID}}>
             <input type="hidden" name="lat" id="lat" value="{{scenery.lat}}">
             <input type="hidden" name="lon" id="lon" value="{{scenery.lon}}">
             <input type="hidden" name="heading" id="heading" value="{{scenery.heading}}">
@@ -57,7 +60,13 @@
                 <p><button type="button" class="btn btn-default" onClick="deleteObject()">Delete selected</button></p>
             {{/if}}
             {{#unless isOwner}}
-            <button type="submit" class="btn btn-info btn-block btn-break">GET READY...</button>
+                <div id="decisionArea">
+                    <div id="decisionButtons">
+                        <button type="submit" id="decisionYes" class="btn btn-success">Yes</button>
+                        <button type="submit" id="decisionNo" class="btn btn-danger">No</button>
+                    </div>
+                    <p id="decisionCounter">GET READY...</p>
+                </div>
             {{/unless}}
             <div id="canvas-container-wrapper">
                 <div id="canvas-container"{{#unless isOwner}} class="zero-brightness"{{/unless}}>
@@ -76,13 +85,16 @@
         {{#unless isOwner}}
             <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
             <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-            <form action="post" class="col-sm-offset-2 col-sm-8">
+            <form id="answerForm" action="/api/scene/{{sceneID}}/answer/" method="post" class="col-sm-offset-2 col-sm-8">
+                <input type="hidden" name="decisionTime" value="0">
                 <hr>
-                <h2>Questions</h2>
-                <label class="checkbox-inline">
-                    <input id="answer1" type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No">
-                    Question #1
-                </label>
+                <p>Please answer the following questions regarding your decision.</p>
+                {{#each questions}}
+                    <label class="checkbox">
+                        <input id="answer1" type="checkbox" data-toggle="toggle" data-on="Yes" data-off="No">
+                        {{statement}}
+                    </label>
+                {{/each}}
                 <br />
                 <br />
                 <input type="submit" class="row btn btn-info" value="Submit answers">

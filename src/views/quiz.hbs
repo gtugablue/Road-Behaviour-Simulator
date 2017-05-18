@@ -16,14 +16,13 @@
         {{/equal}}
         {{#equal quiz.state 1}}
         <p>This quiz is ongoing.</p>
-        <div class="row">
-            <div class="quiz-btns-row col-md-6">
-                <button type="button" class="btn btn-primary">Export Results</button>
-            </div>
-            <div class="quiz-btns-row col-md-6">
+            <div class="clearfix" style="margin-bottom: 10px">
+                <form action="/api/quiz/export" method="post" style="display: inline-block;">
+                    <input name="quizID" type="hidden" class="form-control" value={{id}}>
+                    <input type="submit" class="btn btn-primary" value="Export Results">
+                </form>
                 <button type="button" class="btn btn-danger pull-right">End Quiz</button>
             </div>
-        </div>
         {{/equal}}
         {{#equal quiz.state 2}}
         <p>This quiz has ended.</p>
@@ -35,7 +34,7 @@
         {{#if scenes}}
             <div class="list-group">
             {{#each scenes as |scene key|}}
-                <a href="quiz/{{id}}/scenes/{{scene.id}}" class="list-group-item">{{scene.statement}}</a>
+                <a href="quiz/{{../id}}/scenes/{{scene.id}}" class="list-group-item">{{scene.statement}}</a>
             {{/each}}
             </div>
         {{else}}

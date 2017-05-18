@@ -4,6 +4,7 @@
 {{> navbar }}
 <div class="first-after-navbar">
     <div class="container">
+        <h1 class="jumbotron">{{name}}</h1>
         {{> breadcrumb }}
         <form id="form" action="/api/scene/create" method="POST" class="col-sm-8 col-sm-offset-2">
             <input type="hidden" name="id" id="id" value={{quizID}}>

@@ -179,6 +179,7 @@ router.get('/:quizID/scenes/:sceneID', function (req, res, next) {
             layout: 'layout',
             quizID: req.params.quizID,
             sceneID: req.params.sceneID,
+            name: result.name,
             isOwner: false,
             scenery: scenery,
             questions: results,

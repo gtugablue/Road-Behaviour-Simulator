@@ -25,7 +25,6 @@ CREATE TABLE Scene (
   heading DOUBLE,
   pitch DOUBLE,
   zoom DOUBLE,
-  decisionTime LONG,
   correctDecision BOOLEAN,
   signs TEXT NOT NULL
 );

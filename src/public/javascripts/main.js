@@ -77,26 +77,31 @@ $( document ).ready(function() {
   canvasContainer.addEventListener('dragleave', handleDragLeave, false);
   canvasContainer.addEventListener('drop', handleDrop, false);
 
-  countdown($('.btn-break'));
+  countdown();
 });
 
-function countdown(button) {
+function countdown() {
+  var decisionArea = $('#decisionArea');
+  var decisionButtons = decisionArea.find('#decisionButtons');
+  var decisionCounter = decisionArea.find('#decisionCounter');
   setTimeout(function() {
-    button.removeClass('btn-info');
-    button.addClass('btn-default');
-    button.html(3);
+    decisionCounter.html(3);
     setTimeout(function() {
-      button.html(2);
+      decisionCounter.html(2);
       setTimeout(function() {
-        button.html(1);
+        decisionCounter.html(1);
         setTimeout(function() {
-          button.html('BRAKE');
-          button.removeClass('btn-info');
-          button.addClass('btn-danger');
+          decisionCounter.hide();
           $('#canvas-container').removeClass('zero-brightness');
-          var answerForm = $('#answerForm');
-          answerForm.show(); // TODO show only after a decision is made
-          $('html, body').animate({ scrollTop: $(document).height()-$(window).height() }, 100); // TODO scroll only if not owner
+          $('#decisionYes,#decisionNo').click(function (e) {
+            var answerForm = $('#answerForm');
+            answerForm.show(); // TODO show only after a decision is made
+            $('html, body').animate({ scrollTop: $(document).height()-$(window).height() }, 100); // TODO scroll only if not owner
+            $(this).siblings().removeClass('btn-success btn-danger');
+            $(this).siblings().addClass('btn-basic');
+            $(this).parent().children().attr('disabled', 'true');
+            return false;
+          });
         }, 1000);
       }, 1000);
     }, 1000);

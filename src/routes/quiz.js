@@ -114,44 +114,6 @@ router.get('/:id', function (req, res, next) {
 
 })});
 
-/*  /quiz/[ID]/edit    */
-router.get('/:id/edit', function (req, res, next) {
-
-  var page_breadcrumb = [
-    new BreadcrumbItem("Home", "/"),
-    new BreadcrumbItem("Dashboard", "/dashboard"),
-    new BreadcrumbItem("Quiz", "/quiz/" + req.params.id),
-    new BreadcrumbItem("Edit Quiz")
-  ];
-
-  res.render('quiz-edit', {
-    title: config.app_title,
-    errors: errors.getErrors(),
-    user_id: typeof req.user == 'undefined' ? null : req.user.id,
-    layout: 'layout',
-    breadcrumb: page_breadcrumb
-  });
-});
-
-/*  /quiz/[ID]/answer  */
-router.get('/:id/answer', function (req, res, next) {
-
-  var page_breadcrumb = [
-    new BreadcrumbItem("Home", "/"),
-    new BreadcrumbItem("Dashboard", "/dashboard"),
-    new BreadcrumbItem("Quiz", "/quiz/" + req.params.id),
-    new BreadcrumbItem("Answer Quiz")
-  ];
-
-  res.render('quiz-answer', {
-    title: config.app_title,
-    errors: errors.getErrors(),
-    user_id: typeof req.user == 'undefined' ? null : req.user.id,
-    layout: 'layout',
-    breadcrumb: page_breadcrumb
-  });
-});
-
 router.get('/:quizID/scenes/:sceneID', function (req, res, next) {
 
   var authenticated = auth.ensureAuthenticated(req, res, next);

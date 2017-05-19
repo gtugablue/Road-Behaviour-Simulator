@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const scene = require('../database/scene');
 const quiz = require('../database/quiz');
+const question = require('../database/question');
 var auth = require('../utils/auth');
 
 router.route('/create')
@@ -65,7 +66,7 @@ router.route('/:sceneID/answer').post(function (req, res) {
     res.redirect('/');
     return;
   }
-  // TODO update database with new answer
+
   quiz.nextScene(req.params.sceneID, function (error, results) {
     if (error) {
       console.error(error);

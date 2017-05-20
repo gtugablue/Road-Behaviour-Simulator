@@ -55,13 +55,4 @@ var createQuestion = function (idQuiz, name, lat, lon, heading, pitch, zoom, dec
   })
 };
 
-var answerQuestion = function (userID, questionID, answer, callback) {
-  db.query('INSERT INTO Answer (idUser, idQuestion, answer) VALUES (?, ?, ?)',
-      [userID, questionID, answer],
-    function (error, results) {
-      callback(error, results);
-    });
-};
-
 module.exports.createQuestion = createQuestion;
-module.exports.answerQuestion = answerQuestion;

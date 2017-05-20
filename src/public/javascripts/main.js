@@ -96,8 +96,9 @@ function countdown() {
           var startTime = new Date();
           $('#decisionYes,#decisionNo').click(function (e) {
             var endTime = new Date();
-            $('#answerForm input[name="decisionTime"]').val((endTime - startTime)/1000);
             var answerForm = $('#answerForm');
+            answerForm.find('input[name="decision"]').val(($(this).attr('id') === 'decisionYes') ? 1 : 0);
+            answerForm.find('input[name="decisionTime"]').val((endTime - startTime)/1000);
             answerForm.show();
             $('html, body').animate({ scrollTop: $(document).height()-$(window).height() }, 100); // TODO scroll only if not owner
             $(this).siblings().removeClass('btn-success btn-danger');

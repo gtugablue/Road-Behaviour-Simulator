@@ -67,6 +67,16 @@ router.route('/:sceneID/answer').post(function (req, res) {
     return;
   }
 
+  var questionIDs = req.body.questionIDs;
+  if (!Array.isArray(questionIDs))
+    questionIDs = [];
+  var answers = [];
+  for (var i = 0; i < questionIDs; i++) {
+    questionIDs[i] = questionIDs[i];
+    answers[i] = (req.body['answers' + questionIDs[i] + ''] === 'on');
+  }
+  scene.answer(req.params.sceneID, req.user.id, req.body.decision, req.body.decisionTime, questionIDs, answers);
+
   quiz.nextScene(req.params.sceneID, function (error, results) {
     if (error) {
       console.error(error);

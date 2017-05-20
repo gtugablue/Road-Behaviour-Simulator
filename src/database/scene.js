@@ -60,16 +60,32 @@ var getScene = function (idScene, callback) {
   db.query('SELECT * FROM Scene WHERE idScene = ?', [idScene], function (error, results) {
     callback(error, results);
   });
-}
+};
 
 var getQuestions = function (idScene, callback) {
   db.query('SELECT * FROM Question WHERE scene = ?', [idScene], function (error, results) {
     callback(error, results);
   });
+};
+
+var answer = function (idScene, idUser, decision, decisionTime, questionIDs, answers) {
+  console.log(idScene, idUser, decision, decisionTime, questionIDs, answers);
+  db.query('INSERT INTO Decision (idUser, idScene, decision, decisionTime) VALUES (?, ?, ?, ?)',
+  [idUser, idScene, decision, decisionTime],
+  function (error, results) {
+  });
+
+  for (var i = 0; i < questionIDs.length; i++) {
+    db.query('INSERT INTO Answer (idUser, idQuestion, answer) VALUES (?, ?, ?)',
+      [idUser, questionIDs[i], answers[i]],
+      function (error, results) {
+      });
+  }
 }
 
 module.exports = {
   createScene: createScene,
   getScene: getScene,
   getQuestions: getQuestions,
+  answer: answer,
 };

@@ -11,29 +11,29 @@
         <div class="row">
             <div class="col-md-4"></div>
             <div class="col-md-4">
-                <form>
+                <form method="post" action="api/demographics">
                     <label for="form-birthday">Birthday:</label>
-                    <input id="form-birthday" type="date" name="bday">
+                    <input id="form-birthday" name="birthday" type="date" name="bday" required>
                     <br/>
                     <br/>
                     <br/>
                     <label for="form-birthday">Gender:</label>
                     <div id="form-radio-group">
                         <div id="form-gender-male" class="radio-inline">
-                            <label><input type="radio" name="optradio">Male</label>
+                            <label><input name="gender_male" type="radio" name="optradio">Male</label>
                         </div>
                         <div id="form-gender-female" class="radio-inline">
-                            <label><input type="radio" name="optradio">Female</label>
+                            <label><input name="gender_female" type="radio" name="optradio">Female</label>
                         </div>
                         <div id="form-gender-other" class="radio-inline">
-                            <label><input type="radio" name="optradio" checked>Other</label>
+                            <label><input name="gender_other" type="radio" name="optradio" checked>Other</label>
                         </div>
                     </div>
                     <br/>
                     <br/>
                     <label style="width: 100%">
                         <span>Country of residence:</span>
-                        <select class="form-control-inline form-control">
+                        <select name="country" class="form-control-inline form-control">
                             {{#each countries}}
                             <option>{{this}}</option>
                             {{/each}}
@@ -41,18 +41,28 @@
                     </label>
                     <br/>
                     <br/>
+                    <label style="width: 100%">
+                        <span>Level of education:</span>
+                        <select name="education" class="form-control-inline form-control">
+                            {{#each educationLevels}}
+                            <option>{{this}}</option>
+                            {{/each}}
+                        </select>
+                    </label>
+                    <br/>
+                    <br/>
                     <div class="checkbox">
-                        <label><input id="form-drivers-license" type="checkbox" value="">Do you have a driver's license?</label>
+                        <label><input name="driver_license" id="form-drivers-license" type="checkbox" value="">Do you have a driver's license?</label>
                     </div>
                     <div class="demographics-form-optional">
                         <br/>
                         <label for="form-years">Experience in years:</label>
-                        <input type="number" id="form-years" name="quantity" min="0" max="100" value="0">
+                        <input name="driver_experience" type="number" id="form-years" name="quantity" min="0" max="100" value="0">
                     </div>
                     <br/>
                     <br/>
                     <div class="form-center-wrapper">
-                        <button type="button" id="submit-button" class="btn btn-lg btn-primary">Submit</button>
+                        <button type="submit" id="submit-button" class="btn btn-lg btn-primary">Submit</button>
                     </div>
                 </form>
             </div>

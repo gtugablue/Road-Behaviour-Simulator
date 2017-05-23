@@ -4,6 +4,9 @@ DROP TABLE IF EXISTS Scene;
 DROP TABLE IF EXISTS Quiz;
 DROP TABLE IF EXISTS Decision;
 DROP TABLE IF EXISTS Answer;
+DROP TABLE IF EXISTS Countries;
+DROP TABLE IF EXISTS EducationLevels;
+DROP TABLE IF EXISTS UsersDemographics;
 
 CREATE TABLE Users (
   idUser BIGINT PRIMARY KEY,
@@ -71,7 +74,8 @@ CREATE TABLE UsersDemographics (
   hasDriversLicense BOOLEAN NOT NULL,
   drivingExperienceYears INTEGER,
   gender INTEGER NOT NULL,
-  country INTEGER REFERENCES Countries(idCountry)
+  educationLevel INTEGER NOT NULL REFERENCES EducationLevels(idLevel),
+  country INTEGER NOT NULL REFERENCES Countries(idCountry)
 );
 
 -- 
@@ -323,11 +327,11 @@ INSERT INTO Countries VALUES (null, 'ZR', 'Zaire');
 INSERT INTO Countries VALUES (null, 'ZM', 'Zambia');
 INSERT INTO Countries VALUES (null, 'ZW', 'Zimbabwe');
 
-INSERT INTO EducationLevels VALUES (null, 'Inexistente');
-INSERT INTO EducationLevels VALUES (null, '4º ano');
-INSERT INTO EducationLevels VALUES (null, '9º ano');
-INSERT INTO EducationLevels VALUES (null, '12º ano');
-INSERT INTO EducationLevels VALUES (null, 'Licenciatura');
-INSERT INTO EducationLevels VALUES (null, 'Mestrado');
-INSERT INTO EducationLevels VALUES (null, 'Doutoramento');
-INSERT INTO EducationLevels VALUES (null, 'Outro');
+INSERT INTO EducationLevels VALUES (null, 'None');
+INSERT INTO EducationLevels VALUES (null, '4th grade');
+INSERT INTO EducationLevels VALUES (null, '9th grade');
+INSERT INTO EducationLevels VALUES (null, '12th grade');
+INSERT INTO EducationLevels VALUES (null, 'Bachelor (BSc)');
+INSERT INTO EducationLevels VALUES (null, "Master (MSc)");
+INSERT INTO EducationLevels VALUES (null, 'Doctoral (PhD)');
+INSERT INTO EducationLevels VALUES (null, 'Other');

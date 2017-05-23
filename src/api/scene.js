@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const scene = require('../database/scene');
 const quiz = require('../database/quiz');
+const question = require('../database/question');
 var auth = require('../utils/auth');
 
 router.route('/create')
@@ -65,7 +66,17 @@ router.route('/:sceneID/answer').post(function (req, res) {
     res.redirect('/');
     return;
   }
-  // TODO update database with new answer
+
+  var questionIDs = req.body.questionIDs;
+  if (!Array.isArray(questionIDs))
+    questionIDs = [];
+  var answers = [];
+  for (var i = 0; i < questionIDs; i++) {
+    questionIDs[i] = questionIDs[i];
+    answers[i] = (req.body['answers' + questionIDs[i] + ''] === 'on');
+  }
+  scene.answer(req.params.sceneID, req.user.id, req.body.decision, req.body.decisionTime, questionIDs, answers);
+
   quiz.nextScene(req.params.sceneID, function (error, results) {
     if (error) {
       console.error(error);

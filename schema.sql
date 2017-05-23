@@ -42,7 +42,7 @@ CREATE TABLE Decision (
   idUser BIGINT REFERENCES Users(idUser),
   idScene INTEGER REFERENCES Scene(idScene),
   decision BOOLEAN,
-  decisionTime LONG
+  decisionTime DOUBLE
 );
 
 CREATE TABLE Answer (

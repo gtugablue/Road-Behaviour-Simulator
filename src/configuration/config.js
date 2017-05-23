@@ -6,10 +6,10 @@ module.exports={
 	"good_login_redirect"	:			"/dashboard",
 	"app_title"				:			"Road Behaviour Simulator",
 	"use_database"			:			"true",
-	"host"					:			"alpha.hostmydreams.net",
+	"host"					:			"foxi.wuffhost.ovh",
 	"port"					: "3306",
-	"username"				:			"pedrosil_admin",
-	"password"				:			"ADMIN12345",
-	"database"				:			"pedrosil_mssi",
+	"username"				:			"mssi_mssi",
+	"password"				:			"mssi16",
+	"database"				:			"mssi_mssi",
 	"no_login_fallback"		:			"/"
 }

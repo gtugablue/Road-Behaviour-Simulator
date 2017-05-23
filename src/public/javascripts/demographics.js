@@ -8,4 +8,9 @@ $(document).ready(function () {
         }
     });
     $(".demographics-form-optional").hide();
+
+    $("#submit-button").click(function() {
+        console.log($("#form-birthday").val());
+        console.log($("#form-gender-male").is(":checked"));
+    });
 });

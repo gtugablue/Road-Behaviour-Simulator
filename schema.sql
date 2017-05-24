@@ -26,7 +26,8 @@ CREATE TABLE Scene (
   pitch DOUBLE,
   zoom DOUBLE,
   correctDecision BOOLEAN,
-  signs TEXT NOT NULL
+  signs TEXT NOT NULL,
+  decisionTime DOUBLE
 );
 
 CREATE TABLE Quiz (

@@ -2,58 +2,61 @@ var express = require('express');
 var db = require('./db');
 
 var createScene = function (idQuiz, questionStatement, lat, lon, heading, pitch, zoom, decisionTime, correctDecision, signs, questions, callback) {
-  db.beginTransaction(function (err) {
-    if (err) {
-      throw err;
-    }
+  db.getConnection(function(err, connection) {
 
-    let questionParams = [];
-
-    db.query("INSERT INTO Scene SET ?", {
-      quiz: idQuiz,
-      questionStatement: questionStatement,
-      lat: lat,
-      lon: lon,
-      heading: heading,
-      pitch: pitch,
-      zoom: zoom,
-      decisionTime: decisionTime,
-      correctDecision: correctDecision,
-      signs: signs,
-    }, function (error, sceneResults, fields) {
-      if (error) {
-        console.log(error);
-        return db.rollback(function () {
-          callback(error, null);
-        });
+    connection.beginTransaction(function (err) {
+      if (err) {
+        throw err;
       }
 
-      var sceneID = sceneResults.insertId;
+      let questionParams = [];
 
-      // TODO: Verificar se não há perguntas vazias
-      questions.forEach(function (element, index, array) {
-        questionParams.push([element, sceneID]);
-      });
-
-      db.query('INSERT INTO Question(statement, scene) VALUES ?', [questionParams], function (error, questionResults, fields) {
+      connection.query("INSERT INTO Scene SET ?", {
+        quiz: idQuiz,
+        questionStatement: questionStatement,
+        lat: lat,
+        lon: lon,
+        heading: heading,
+        pitch: pitch,
+        zoom: zoom,
+        decisionTime: decisionTime,
+        correctDecision: correctDecision,
+        signs: signs,
+      }, function (error, sceneResults, fields) {
         if (error) {
-          return db.rollback(function () {
+          console.log(error);
+          return connection.rollback(function () {
             callback(error, null);
           });
         }
 
-        db.commit(function (err) {
-          if (err) {
-            return db.rollback(function () {
+        var sceneID = sceneResults.insertId;
+
+        // TODO: Verificar se não há perguntas vazias
+        questions.forEach(function (element, index, array) {
+          questionParams.push([element, sceneID]);
+        });
+
+        connection.query('INSERT INTO Question(statement, scene) VALUES ?', [questionParams], function (error, questionResults, fields) {
+          if (error) {
+            return connection.rollback(function () {
               callback(error, null);
             });
           }
-          callback(null, questionResults);
-          console.log('success!');
+
+          connection.commit(function (err) {
+            if (err) {
+              return connection.rollback(function () {
+                callback(error, null);
+              });
+            }
+            callback(null, questionResults);
+            console.log('success!');
+          });
         });
-      });
+      })
     })
-  })
+  });
 };
 
 var getScene = function (idScene, callback) {

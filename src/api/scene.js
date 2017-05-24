@@ -42,22 +42,26 @@ router.route('/create')
       || decision == ''
       || decisionTime <= 0
       || !isJson(signs)) {
+
+      console.log('All params must be set.')
       res.status(400);
       res.redirect('/quiz/' + id + '/scenes');
       return;
     }
-
     scene.createScene(id, name, latitude, longitude,heading, pitch, zoom, decisionTime, decision, signs, questions, function (error, results) {
       if(error)
       {
+        console.log(error)
         res.status(400);
         res.redirect('/quiz/' + id + '/scenes');
         return;
       }
       if(results)
+      {
+        res.status(200);
         res.redirect('/quiz/' + id);
+      }
     });
-
   });
 
 router.route('/:sceneID/answer').post(function (req, res) {

@@ -47,6 +47,7 @@ router.get('/:id', function (req, res, next) {
         return;
       }
       if (isOwner) {
+
         dbQuiz.getScenesFromQuiz(req.params.id, req.user.id, function (error, questionsResults) {
           if (error) {
             console.log(error);
@@ -113,6 +114,48 @@ router.get('/:id', function (req, res, next) {
 
 
 })});
+
+
+router.get('/:quizID/scenes/', function (req, res, next) {
+
+  var authenticated = auth.ensureAuthenticated(req, res, next);
+  if (!authenticated) {
+    return;
+  }
+  dbQuiz.isQuizOwner(req.params.quizID, req.user.id, function (error, isOwner) {
+    if (error) {
+      //TODO: Imprimir os erros
+      console.error(error);
+      res.redirect('/');
+    }
+    else if (isOwner) {
+      // Owner
+      const signsFolder = 'public/images/signs/small/';
+      fs.readdir(signsFolder, function (err, files) {
+          if (err) {
+            console.error(err);
+          }
+          var scenery = {
+            lat: 41.177209,
+            lon: -8.596665,
+            heading: 0,
+            pitch: 0,
+            zoom: 0,
+          }
+          res.render('scene', {
+            title: 'Road Behaviour Simulator',
+            layout: 'layout',
+            signs: files,
+            quizID: req.params.quizID,
+            sceneID: req.params.sceneID,
+            isOwner: true,
+            scenery: scenery
+          });
+        }
+      )
+    }
+  });
+});
 
 router.get('/:quizID/scenes/:sceneID', function (req, res, next) {
 

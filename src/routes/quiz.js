@@ -8,12 +8,13 @@ var auth = require('./../utils/auth');
 var errors = require('./../utils/errors');
 var ErrorMessage = errors.ErrorMessage;
 var BreadcrumbItem = require('./../utils/breadcrumb').BreadcrumbItem;
-
+var renderer = require('./../utils/renderer');
 
 /*  /quiz/[ID]         */
 router.get('/:id', function (req, res, next) {
-  var authenticated = auth.ensureAuthenticated(req, res, next);
-  if (!authenticated) {
+  if (!req.isAuthenticated()) {
+    errors.addError(new ErrorMessage("Authentication", "You must be authenticated to access the requested page."));
+    res.redirect('/');
     return;
   }
 
@@ -22,27 +23,19 @@ router.get('/:id', function (req, res, next) {
     return;
   }
   dbQuiz.quizExists(req.params.id, function (err, exists) {
-    if (err) {
-      console.log(err);
-      res.status(400);
-      return;
-    }
-
-    if(!exists)
-    {
+    if (err || !exists) {
+      errors.addError(new ErrorMessage("Unknown error", err ? err : ""));
       res.status(404);
-      res.render('not-found', {
-        title: config.app_title,
-        layout: 'layout',
-        id: req.params.id,
-      });
+      renderer.render(res, 'not-found', { id: req.params.id });
       return;
     }
 
     dbQuiz.isQuizOwner(req.params.id, req.user.id, function (error, isOwner) {
       if (error) {
         console.log(error);
-        res.status(400);
+        errors.addError(new ErrorMessage("Unknown error", error));
+        res.status(404);
+        renderer.render(res, 'not-found', { id: req.params.id });
         return;
       }
       if (isOwner) {
@@ -50,13 +43,17 @@ router.get('/:id', function (req, res, next) {
         dbQuiz.getScenesFromQuiz(req.params.id, req.user.id, function (error, questionsResults) {
           if (error) {
             console.log(error);
+            errors.addError(new ErrorMessage("Unknown error", error));
             res.status(400);
+            renderer.render(res, 'not-found', { id: req.params.id });
             return;
           }
           dbQuiz.getQuizState(req.params.id, function (error, stateResults) {
             if (error) {
               console.log(error);
+              errors.addError(new ErrorMessage("Unknown error", error));
               res.status(400);
+              renderer.render(res, 'not-found', { id: req.params.id });
               return;
             }
             var quizState = stateResults[0].state;
@@ -73,37 +70,26 @@ router.get('/:id', function (req, res, next) {
             ];
 
             console.log(stateResults);
-            res.render('quiz', {
-              title: config.app_title,
-              errors: errors.getErrors(),
-              breadcrumb: page_breadcrumb,
+            renderer.render(res, 'quiz', {
               user_id: typeof req.user == 'undefined' ? null : req.user.id,
-              layout: 'layout',
               id: req.params.id,
               scenes: (scenes.length > 0 ? scenes : false),
               quiz: { state: quizState }
-            });
+            }, page_breadcrumb)
           });
         })
       }
-      else
-      {
-        dbQuiz.getUnansweredQuestion(req.params.id, req.user.id, function(err, results)
-        {
+      else {
+        dbQuiz.getUnansweredQuestion(req.params.id, req.user.id, function (err, results) {
           if (error) {
             console.log(error);
             res.status(400);
           }
-          else if(results.length  == 0)
-          {
-            res.render('quiz-answered', {
-              title: 'Road Behaviour Simulator',
-              layout: 'layout',
-              quizID: req.params.quizID,
+          else if (results.length == 0) {
+            renderer.render(res, 'quiz-answered', {
+              quizID: req.params.quizID
             });
-          }
-          else
-          {
+          } else {
             results = results[0];
             res.redirect('/quiz/' + req.params.id + '/scenes/' + results.idScene);
           }
@@ -112,7 +98,8 @@ router.get('/:id', function (req, res, next) {
     });
 
 
-})});
+  })
+});
 
 
 router.get('/:quizID/scenes/', function (req, res, next) {
@@ -137,27 +124,27 @@ router.get('/:quizID/scenes/', function (req, res, next) {
       // Owner
       const signsFolder = 'public/images/signs/small/';
       fs.readdir(signsFolder, function (err, files) {
-          if (err) {
-            console.error(err);
-          }
-          var scenery = {
-            lat: 41.177209,
-            lon: -8.596665,
-            heading: 0,
-            pitch: 0,
-            zoom: 0,
-          }
-          res.render('scene', {
-            title: 'Road Behaviour Simulator',
-            layout: 'layout',
-            signs: files,
-            quizID: req.params.quizID,
-            sceneID: req.params.sceneID,
-            isOwner: true,
-            scenery: scenery,
-            breadcrumb: page_breadcrumb,
-          });
+        if (err) {
+          console.error(err);
         }
+        var scenery = {
+          lat: 41.177209,
+          lon: -8.596665,
+          heading: 0,
+          pitch: 0,
+          zoom: 0,
+        }
+        res.render('scene', {
+          title: 'Road Behaviour Simulator',
+          layout: 'layout',
+          signs: files,
+          quizID: req.params.quizID,
+          sceneID: req.params.sceneID,
+          isOwner: true,
+          scenery: scenery,
+          breadcrumb: page_breadcrumb,
+        });
+      }
       )
     }
   });
@@ -195,15 +182,15 @@ router.get('/:quizID/scenes/:sceneID', function (req, res, next) {
           zoom: 0,
         }
         res.render('scene', {
-            title: 'Road Behaviour Simulator',
-            layout: 'layout',
-            signs: files,
-            quizID: req.params.quizID,
-            sceneID: req.params.sceneID,
-            isOwner: true,
-            scenery: scenery,
-            breadcrumb: page_breadcrumb,
-          });
+          title: 'Road Behaviour Simulator',
+          layout: 'layout',
+          signs: files,
+          quizID: req.params.quizID,
+          sceneID: req.params.sceneID,
+          isOwner: true,
+          scenery: scenery,
+          breadcrumb: page_breadcrumb,
+        });
       }
       )
     } else {

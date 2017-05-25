@@ -74,8 +74,8 @@ CREATE TABLE UsersDemographics (
   hasDriversLicense BOOLEAN NOT NULL,
   drivingExperienceYears INTEGER,
   gender INTEGER NOT NULL,
-  educationLevel INTEGER NOT NULL REFERENCES EducationLevels(idLevel),
-  country INTEGER NOT NULL REFERENCES Countries(idCountry)
+  country INTEGER NOT NULL REFERENCES Countries(idCountry),
+  educationLevel INTEGER NOT NULL REFERENCES EducationLevels(idLevel)
 );
 
 -- 

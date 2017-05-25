@@ -39,11 +39,12 @@ router.get('/', function (req, res, next) {
     }
 
     users.getUserDemographicsByID(req.user.id, function (error, results) {
-      if (results.length == 0) {
-        res.status(200);
-        res.redirect('/demographics');
-        return;
-      } else {
+      // if (results.length == 0) {
+      //   res.status(200);
+      //   res.redirect('/demographics');
+      //   return;
+      // } else
+      //   {
         res.render('dashboard', {
           layout: 'layout',
           title: config.app_title,
@@ -55,7 +56,7 @@ router.get('/', function (req, res, next) {
           customStyles: ["dashboard"],
           quizes: quizes
         });
-      }
+      // }
     });
   });
 });

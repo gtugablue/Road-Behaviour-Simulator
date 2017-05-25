@@ -4,10 +4,10 @@
 {{> navbar }}
 <div class="first-after-navbar">
     <div class="container">
+        {{> breadcrumb }}
         {{#unless isOwner}}
             <h1 class="jumbotron">{{questionStatement}}</h1>
         {{/unless}}
-        {{> breadcrumb }}
         <form id="form" action="/api/scene/create" method="POST" class="col-sm-8 col-sm-offset-2">
             <input type="hidden" name="id" id="id" value={{quizID}}>
             <input type="hidden" name="lat" id="lat" value="{{scenery.lat}}">
@@ -17,13 +17,8 @@
             <input type="hidden" name="zoom" id="zoom" value="{{scenery.zoom}}">
             {{#if isOwner}}
                 <div class="form-group">
-                    <label>Nome</label>
+                    <label>Name</label>
                     <input name="name" type="text" class="form-control">
-                </div>
-
-                <div class="form-group">
-                    <label>Decision Time</label>
-                    <input name="decisionTime" type="number" class="form-control" min="1" max="5" value="1">
                 </div>
                 <div class="form-group">
                     <label>Correct Decision</label>
@@ -78,7 +73,7 @@
             <input type="hidden" name="signs" value="{{scenery.signs}}" />
             {{#if isOwner}}
                 <hr>
-                <input type="submit" value="Submit">
+                <input type="submit" class="btn btn-info" value="Submit">
             {{/if}}
         </form>
 

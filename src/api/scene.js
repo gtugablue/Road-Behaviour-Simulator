@@ -22,8 +22,7 @@ router.route('/create')
     const pitch = req.body.pitch;
     const zoom = (req.body.zoom == ''?0:req.body.zoom);
     const questions = [].concat(req.body.question);
-    const decisionTime = parseInt(req.body.decisionTime);
-    const decision = (req.body.decision === 'stop');
+    const decision = (req.body.decision === 'yes');
     const signs = req.body.signs;
 
     if(id <= 0) {
@@ -42,22 +41,26 @@ router.route('/create')
       || decision == ''
       || decisionTime <= 0
       || !isJson(signs)) {
+
+      console.log('All params must be set.')
       res.status(400);
       res.redirect('/quiz/' + id + '/scenes');
       return;
     }
-
     scene.createScene(id, name, latitude, longitude,heading, pitch, zoom, decisionTime, decision, signs, questions, function (error, results) {
       if(error)
       {
+        console.log(error)
         res.status(400);
         res.redirect('/quiz/' + id + '/scenes');
         return;
       }
       if(results)
+      {
+        res.status(200);
         res.redirect('/quiz/' + id);
+      }
     });
-
   });
 
 router.route('/:sceneID/answer').post(function (req, res) {

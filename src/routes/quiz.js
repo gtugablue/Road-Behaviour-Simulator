@@ -3,7 +3,6 @@ var router = express.Router();
 var config = require('./../configuration/config');
 var dbQuiz = require('../database/quiz');
 var dbScene = require('../database/scene');
-
 const fs = require('fs');
 var auth = require('./../utils/auth');
 var errors = require('./../utils/errors');
@@ -122,6 +121,12 @@ router.get('/:quizID/scenes/', function (req, res, next) {
   if (!authenticated) {
     return;
   }
+  var page_breadcrumb = [
+    new BreadcrumbItem("Home", "/"),
+    new BreadcrumbItem("Dashboard", "/dashboard"),
+    new BreadcrumbItem("Quiz", "/quiz/" + req.params.quizID),
+    new BreadcrumbItem("New scene"),
+  ];
   dbQuiz.isQuizOwner(req.params.quizID, req.user.id, function (error, isOwner) {
     if (error) {
       //TODO: Imprimir os erros
@@ -149,7 +154,8 @@ router.get('/:quizID/scenes/', function (req, res, next) {
             quizID: req.params.quizID,
             sceneID: req.params.sceneID,
             isOwner: true,
-            scenery: scenery
+            scenery: scenery,
+            breadcrumb: page_breadcrumb,
           });
         }
       )
@@ -158,11 +164,16 @@ router.get('/:quizID/scenes/', function (req, res, next) {
 });
 
 router.get('/:quizID/scenes/:sceneID', function (req, res, next) {
-
   var authenticated = auth.ensureAuthenticated(req, res, next);
   if (!authenticated) {
     return;
   }
+  var page_breadcrumb = [
+    new BreadcrumbItem("Home", "/"),
+    new BreadcrumbItem("Dashboard", "/dashboard"),
+    new BreadcrumbItem("Quiz", "/quiz/" + req.params.quizID),
+    new BreadcrumbItem("Scene", "/scene/" + req.params.sceneID),
+  ];
   dbQuiz.isQuizOwner(req.params.quizID, req.user.id, function (error, isOwner) {
     if (error) {
       //TODO: Imprimir os erros
@@ -190,7 +201,8 @@ router.get('/:quizID/scenes/:sceneID', function (req, res, next) {
             quizID: req.params.quizID,
             sceneID: req.params.sceneID,
             isOwner: true,
-            scenery: scenery
+            scenery: scenery,
+            breadcrumb: page_breadcrumb,
           });
       }
       )
@@ -226,6 +238,7 @@ router.get('/:quizID/scenes/:sceneID', function (req, res, next) {
             isOwner: false,
             scenery: scenery,
             questions: results,
+            breadcrumb: page_breadcrumb,
           });
         });
       });

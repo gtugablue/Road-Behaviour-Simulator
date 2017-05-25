@@ -22,8 +22,7 @@ router.route('/create')
     const pitch = req.body.pitch;
     const zoom = (req.body.zoom == ''?0:req.body.zoom);
     const questions = [].concat(req.body.question);
-    const decisionTime = parseInt(req.body.decisionTime);
-    const decision = (req.body.decision === 'stop');
+    const decision = (req.body.decision === 'yes');
     const signs = req.body.signs;
 
     if(id <= 0) {

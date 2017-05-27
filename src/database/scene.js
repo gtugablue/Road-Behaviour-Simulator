@@ -1,7 +1,7 @@
 var express = require('express');
 var db = require('./db');
 
-var createScene = function (idQuiz, questionStatement, lat, lon, heading, pitch, zoom, decisionTime, correctDecision, signs, questions, callback) {
+var createScene = function (idQuiz, questionStatement, lat, lon, heading, pitch, zoom, correctDecision, signs, questions, callback) {
   db.getConnection(function(err, connection) {
 
     connection.beginTransaction(function (err) {
@@ -19,7 +19,6 @@ var createScene = function (idQuiz, questionStatement, lat, lon, heading, pitch,
         heading: heading,
         pitch: pitch,
         zoom: zoom,
-        decisionTime: decisionTime,
         correctDecision: correctDecision,
         signs: signs,
       }, function (error, sceneResults, fields) {

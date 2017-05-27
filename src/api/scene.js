@@ -22,7 +22,7 @@ router.route('/create')
     const pitch = req.body.pitch;
     const zoom = (req.body.zoom == ''?0:req.body.zoom);
     const questions = [].concat(req.body.question);
-    const decision = (req.body.decision === 'yes');
+    const decision = (req.body.decision === 'stop');
     const signs = req.body.signs;
 
     if(id <= 0) {
@@ -30,6 +30,7 @@ router.route('/create')
       res.redirect('/dashboard');
       return;
     }
+
 
     if (
       name == ''
@@ -39,7 +40,6 @@ router.route('/create')
       || pitch == ''
       || zoom < 0
       || decision == ''
-      || decisionTime <= 0
       || !isJson(signs)) {
 
       console.log('All params must be set.')
@@ -47,7 +47,7 @@ router.route('/create')
       res.redirect('/quiz/' + id + '/scenes');
       return;
     }
-    scene.createScene(id, name, latitude, longitude,heading, pitch, zoom, decisionTime, decision, signs, questions, function (error, results) {
+    scene.createScene(id, name, latitude, longitude,heading, pitch, zoom, decision, signs, questions, function (error, results) {
       if(error)
       {
         console.log(error)

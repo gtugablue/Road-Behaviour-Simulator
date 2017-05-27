@@ -74,24 +74,28 @@ router.route('/:sceneID/answer').post(function (req, res) {
   if (!Array.isArray(questionIDs))
     questionIDs = [];
   var answers = [];
-  for (var i = 0; i < questionIDs; i++) {
+  for (var i = 0; i < questionIDs.length; i++) {
     questionIDs[i] = questionIDs[i];
     answers[i] = (req.body['answers' + questionIDs[i] + ''] === 'on');
   }
   scene.answer(req.params.sceneID, req.user.id, req.body.decision, req.body.decisionTime, questionIDs, answers);
 
-  quiz.nextScene(req.params.sceneID, function (error, results) {
-    if (error) {
-      console.error(error);
-      res.redirect('back');
-      return;
-    } else if (results.length === 0) {
-      res.redirect('/quiz/' + result.quiz); // No more scenes
-      return;
-    }
-    var result = results[0];
 
-    res.redirect('/quiz/' + result.quiz + '/scenes/' + result.idScene);
+  quiz.getUnansweredQuestion(req.body.quizID, req.user.id, function (err, results) {
+
+    console.log(results);
+    if (err) {
+      console.log(err);
+      res.status(400);
+    }
+    else if (results.length == 0) {
+      res.status(200);
+      res.redirect('/quiz/' + req.body.quizID); // No more scenes
+    } else {
+      results = results[0];
+      res.status(200);
+      res.redirect('/quiz/' + req.body.quizID + '/scenes/' + results.idScene);
+    }
   });
 });
 

@@ -31,7 +31,7 @@ var getUserDemographicsByID = function (id, callback) {
   db.query("Select Users.idUser, Users.name, UsersDemographics.birthDate," +
     "UsersDemographics.hasDriversLicense, UsersDemographics.drivingExperienceYears, " +
     "UsersDemographics.gender, UsersDemographics.country from Users, UsersDemographics " +
-    "where Users.idUser = 1471574252873656 AND UsersDemographics.idUser = Users.idUser", [id], function (error, results, fields) {
+    "where Users.idUser = ? AND UsersDemographics.idUser = Users.idUser", [id], function (error, results, fields) {
       if (error) {
         console.log('e' + error);
         callback(error, null);

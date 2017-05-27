@@ -47,20 +47,19 @@ router.get('/', function (req, res, next) {
     }
 
     users.getUserDemographicsByID(req.user.id, function (error, results) {
-      // if (results.length == 0) {
-      //   res.status(200);
-      //   res.redirect('/demographics');
-      //   return;
-      // } else
-      //   {
-      renderer.render(res, 'dashboard', {
-        user_id: req.user.id,
-        user_name: req.user.displayName,
-        user_firstname: req.user.displayName.split(" ")[0],
-        customStyles: ["dashboard"],
-        quizes: quizes
-      }, page_breadcrumb);
-      // }
+      if (results.length == 0) {
+        res.status(200);
+        res.redirect('/demographics');
+        return;
+      } else {
+        renderer.render(res, 'dashboard', {
+          user_id: req.user.id,
+          user_name: req.user.displayName,
+          user_firstname: req.user.displayName.split(" ")[0],
+          customStyles: ["dashboard"],
+          quizes: quizes
+        }, page_breadcrumb);
+      }
     });
   });
 });

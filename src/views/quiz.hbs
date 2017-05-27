@@ -5,13 +5,12 @@
 
         {{#equal quiz.state 0}}
         <p>This quiz was not started yet.</p>
-        <div class="row">
-            <div class="quiz-btns-row col-md-6">
-                <a href="quiz/{{id}}/scenes"><button type="button" class="btn btn-primary">Add Scene</button></a>
-            </div>
-            <div class="quiz-btns-row col-md-6">
-                <button type="button" class="btn btn-success pull-right">Start Quiz</button>
-            </div>
+        <div class="clearfix">
+            <a href="quiz/{{id}}/scenes"><button type="button" class="btn btn-primary">Add Scene</button></a>
+            <form action="/api/quiz/state" method="post" class="pull-right" style="display: inline-block;">
+                <input name="quizID" type="hidden" class="form-control" value={{id}}>
+                <input type="submit" class="btn btn-success" value="Start Quiz">
+            </form>
         </div>
         {{/equal}}
         {{#equal quiz.state 1}}

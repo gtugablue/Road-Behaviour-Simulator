@@ -168,31 +168,7 @@ router.get('/:quizID/scenes/:sceneID', function (req, res, next) {
       res.redirect('/');
     }
     else if (isOwner) {
-      // Owner
-      const signsFolder = 'public/images/signs/small/';
-      fs.readdir(signsFolder, function (err, files) {
-        if (err) {
-          console.error(err);
-        }
-        var scenery = {
-          lat: 41.177209,
-          lon: -8.596665,
-          heading: 0,
-          pitch: 0,
-          zoom: 0,
-        }
-        res.render('scene', {
-          title: 'Road Behaviour Simulator',
-          layout: 'layout',
-          signs: files,
-          quizID: req.params.quizID,
-          sceneID: req.params.sceneID,
-          isOwner: true,
-          scenery: scenery,
-          breadcrumb: page_breadcrumb,
-        });
-      }
-      )
+      // TODO: Mostrar como fica cada scene
     } else {
       // Participant
       dbScene.getScene(req.params.sceneID, function (error, results) {

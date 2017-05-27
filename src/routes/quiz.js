@@ -35,7 +35,7 @@ router.get('/:id', function (req, res, next) {
         console.log(error);
         errors.addError(new ErrorMessage("Unknown error", error));
         res.status(404);
-        renderer.render(res, 'not-found', { id: req.params.id });
+        renderer.render(res, 'not-found', {id: req.params.id});
         return;
       }
       if (isOwner) {
@@ -45,7 +45,7 @@ router.get('/:id', function (req, res, next) {
             console.log(error);
             errors.addError(new ErrorMessage("Unknown error", error));
             res.status(400);
-            renderer.render(res, 'not-found', { id: req.params.id });
+            renderer.render(res, 'not-found', {id: req.params.id});
             return;
           }
           dbQuiz.getQuizState(req.params.id, function (error, stateResults) {
@@ -53,14 +53,14 @@ router.get('/:id', function (req, res, next) {
               console.log(error);
               errors.addError(new ErrorMessage("Unknown error", error));
               res.status(400);
-              renderer.render(res, 'not-found', { id: req.params.id });
+              renderer.render(res, 'not-found', {id: req.params.id});
               return;
             }
             var quizState = stateResults[0].state;
 
             var scenes = [];
             for (let scene of questionsResults) {
-              scenes.push({ id: scene.idScene, statement: scene.questionStatement });
+              scenes.push({id: scene.idScene, statement: scene.questionStatement});
             }
 
             var page_breadcrumb = [
@@ -74,30 +74,42 @@ router.get('/:id', function (req, res, next) {
               user_id: typeof req.user == 'undefined' ? null : req.user.id,
               id: req.params.id,
               scenes: (scenes.length > 0 ? scenes : false),
-              quiz: { state: quizState }
+              quiz: {state: quizState}
             }, page_breadcrumb)
           });
         })
       }
       else {
-        dbQuiz.getUnansweredQuestion(req.params.id, req.user.id, function (err, results) {
+
+        dbQuiz.isQuizAvailable(req.params.id, function (error, isAvailable) {
+
           if (error) {
-            console.log(error);
-            res.status(400);
+            //TODO: Imprimir os erros
+            console.error(error);
+            res.redirect('/');
           }
-          else if (results.length == 0) {
-            renderer.render(res, 'quiz-answered', {
+          if (isAvailable)
+            dbQuiz.getUnansweredQuestion(req.params.id, req.user.id, function (err, results) {
+              if (error) {
+                console.log(error);
+                res.status(400);
+              }
+              else if (results.length == 0)
+                renderer.render(res, 'quiz-answered', {
+                  quizID: req.params.quizID
+                });
+              else {
+                results = results[0];
+                res.redirect('/quiz/' + req.params.id + '/scenes/' + results.idScene);
+              }
+            });
+          else
+            renderer.render(res, 'quiz-finished', {
               quizID: req.params.quizID
             });
-          } else {
-            results = results[0];
-            res.redirect('/quiz/' + req.params.id + '/scenes/' + results.idScene);
-          }
         });
       }
     });
-
-
   })
 });
 
@@ -124,27 +136,27 @@ router.get('/:quizID/scenes/', function (req, res, next) {
       // Owner
       const signsFolder = 'public/images/signs/small/';
       fs.readdir(signsFolder, function (err, files) {
-        if (err) {
-          console.error(err);
+          if (err) {
+            console.error(err);
+          }
+          var scenery = {
+            lat: 41.177209,
+            lon: -8.596665,
+            heading: 0,
+            pitch: 0,
+            zoom: 0,
+          }
+          res.render('scene', {
+            title: 'Road Behaviour Simulator',
+            layout: 'layout',
+            signs: files,
+            quizID: req.params.quizID,
+            sceneID: req.params.sceneID,
+            isOwner: true,
+            scenery: scenery,
+            breadcrumb: page_breadcrumb,
+          });
         }
-        var scenery = {
-          lat: 41.177209,
-          lon: -8.596665,
-          heading: 0,
-          pitch: 0,
-          zoom: 0,
-        }
-        res.render('scene', {
-          title: 'Road Behaviour Simulator',
-          layout: 'layout',
-          signs: files,
-          quizID: req.params.quizID,
-          sceneID: req.params.sceneID,
-          isOwner: true,
-          scenery: scenery,
-          breadcrumb: page_breadcrumb,
-        });
-      }
       )
     }
   });
@@ -170,40 +182,69 @@ router.get('/:quizID/scenes/:sceneID', function (req, res, next) {
     else if (isOwner) {
       // TODO: Mostrar como fica cada scene
     } else {
-      // Participant
-      dbScene.getScene(req.params.sceneID, function (error, results) {
-        if (error || results.length == 0) {
-          // TODO imprimir erro
+      dbQuiz.isQuizAvailable(req.params.quizID, function (error, isAvailable) {
+
+        if (error) {
+          //TODO: Imprimir os erros
+          console.error(error);
           res.redirect('/');
-          return;
         }
-        var result = results[0];
-        var scenery = {
-          lat: result.lat,
-          lon: result.lon,
-          heading: result.heading,
-          pitch: result.pitch,
-          zoom: result.zoom,
-          signs: result.signs,
-        };
-        dbScene.getQuestions(req.params.sceneID, function (error, results) {
-          if (error) {
-            // TODO imprimir erro
-            res.redirect('/');
-            return;
-          }
-          res.render('scene', {
-            title: 'Road Behaviour Simulator',
-            layout: 'layout',
-            quizID: req.params.quizID,
-            sceneID: req.params.sceneID,
-            questionStatement: result.questionStatement,
-            isOwner: false,
-            scenery: scenery,
-            questions: results,
-            breadcrumb: page_breadcrumb,
+        else if(isAvailable)
+        {
+          dbQuiz.getUnansweredQuestion(req.params.quizID, req.user.id, function (err, results) {
+            if (error) {
+              console.log(error);
+              res.status(400);
+            }
+            else if (results.length == 0) {
+              renderer.render(res, 'quiz-answered', {
+                quizID: req.params.quizID
+              });
+            } else {
+              results = results[0];
+
+              // Participant
+              dbScene.getScene(results.idScene, function (error, results) {
+                if (error || results.length == 0) {
+                  // TODO imprimir erro
+                  res.redirect('/');
+                  return;
+                }
+                var result = results[0];
+                var scenery = {
+                  lat: result.lat,
+                  lon: result.lon,
+                  heading: result.heading,
+                  pitch: result.pitch,
+                  zoom: result.zoom,
+                  signs: result.signs,
+                };
+                dbScene.getQuestions(results.idScene, function (error, results) {
+                  if (error) {
+                    // TODO imprimir erro
+                    res.redirect('/');
+                    return;
+                  }
+                  res.render('scene', {
+                    title: 'Road Behaviour Simulator',
+                    layout: 'layout',
+                    quizID: req.params.id,
+                    sceneID: results.idScene,
+                    questionStatement: result.questionStatement,
+                    isOwner: false,
+                    scenery: scenery,
+                    questions: results,
+                    breadcrumb: page_breadcrumb,
+                  });
+                });
+              });
+            }
           });
-        });
+        }
+        else
+          renderer.render(res, 'quiz-finished', {
+            quizID: req.params.quizID
+          });
       });
     }
   })

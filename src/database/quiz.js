@@ -138,6 +138,21 @@ var quizExists = function (quizID, callback) {
       callback(null, true);
     else callback(null, false);
   })
+};
+
+var isQuizAvailable = function (quizID, callback) {
+    db.query("SELECT state FROM Quiz WHERE idQuiz = ?", [quizID], function (err, results) {
+      if(err)
+      {
+        console.log(err);
+        callback(err, null);
+        return;
+      }
+
+      if(results[0].state == 2)
+        callback(null, false);
+      else callback(null, true);
+    })
 }
 
 
@@ -152,3 +167,4 @@ module.exports.nextScene = nextScene;
 module.exports.getUnansweredQuestion = getUnansweredQuestion;
 module.exports.quizExists = quizExists;
 module.exports.changeQuizState = changeQuizState;
+module.exports.isQuizAvailable = isQuizAvailable;

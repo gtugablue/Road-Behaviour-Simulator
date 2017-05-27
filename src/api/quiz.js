@@ -35,6 +35,50 @@ router.route('/create')
     })
   });
 
+router.route('/state/:state')
+  .post((req, res) => {
+    var authenticated = auth.ensureAuthenticated(req, res);
+    if (!authenticated) {
+      res.redirect('/');
+      return;
+    }
+
+    const quizID = parseInt(req.body.quizID);
+
+    const state = parseInt(req.params.state)
+    if(state < 0 || state > 2 || quizID < 0)
+    {
+      res.redirect('/');
+      return;
+    }
+
+    quiz.isQuizOwner(quizID, req.user.id, function (error, isOwner) {
+      if(error)
+      {
+        if(error){
+          console.log(error);
+          res.status(400);
+          res.redirect('/dashboard');
+        }
+      }
+      else if(isOwner)
+      {
+        quiz.changeQuizState(quizID, state, function (error, results) {
+          if(error){
+            console.log(error);
+            res.status(400);
+            res.redirect('/dashboard');
+          }
+          else if(results.constructor.name === 'OkPacket')
+          {
+            res.status(200);
+            res.redirect('/quiz/' + quizID);
+          }
+        })
+      }
+
+    })
+  })
 router.route('/export')
   .post((req, res) => {
 

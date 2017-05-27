@@ -9,7 +9,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var hbs = require('hbs');
-
+var url = require('url');
 var errors = require('./utils/errors');
 var renderer = require('./utils/renderer');
 
@@ -77,7 +77,12 @@ app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: config.bad_login_redirect }),
   function (req, res) {
     // Successful authentication, redirect home.
-    res.redirect(req.session.returnTo || config.good_login_redirect);
+    const parsedURL = url.parse(req.session.returnTo+'').pathname;
+
+    if(parsedURL.indexOf('/api') > -1)
+      res.redirect(config.good_login_redirect);
+    else
+      res.redirect(req.session.returnTo || config.good_login_redirect);
     delete req.session.returnTo;
   });
 app.get('/logout', function (req, res) {

@@ -43,6 +43,10 @@ var isQuizOwner = function (idQuiz, idUser, callback) {
   })
 };
 
+var changeQuizState = function (idQuiz, state, callback) {
+  db.query("UPDATE Quiz SET state = ? WHERE idQuiz = ?", [state, idQuiz], callback);
+}
+
 var getScenesFromQuiz = function (idQuiz, idUser, callback) {
 
   db.query("SELECT Scene.idScene, Scene.questionStatement FROM Quiz " +
@@ -147,4 +151,4 @@ module.exports.getQuizAnswers = getQuizAnswers;
 module.exports.nextScene = nextScene;
 module.exports.getUnansweredQuestion = getUnansweredQuestion;
 module.exports.quizExists = quizExists;
-
+module.exports.changeQuizState = changeQuizState;

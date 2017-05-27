@@ -5,9 +5,9 @@
 
         {{#equal quiz.state 0}}
         <p>This quiz was not started yet.</p>
-        <div class="clearfix">
+        <div class="clearfix" style="margin-bottom: 10px">
             <a href="quiz/{{id}}/scenes"><button type="button" class="btn btn-primary">Add Scene</button></a>
-            <form action="/api/quiz/state" method="post" class="pull-right" style="display: inline-block;">
+            <form action="/api/quiz/state/1" method="post" class="pull-right" style="display: inline-block;">
                 <input name="quizID" type="hidden" class="form-control" value={{id}}>
                 <input type="submit" class="btn btn-success" value="Start Quiz">
             </form>
@@ -20,13 +20,19 @@
                     <input name="quizID" type="hidden" class="form-control" value={{id}}>
                     <input type="submit" class="btn btn-primary" value="Export Results">
                 </form>
-                <button type="button" class="btn btn-danger pull-right">End Quiz</button>
+                <form action="/api/quiz/state/2" method="post" class="pull-right" style="display: inline-block;">
+                    <input name="quizID" type="hidden" class="form-control" value={{id}}>
+                    <input type="submit" class="btn btn-danger" value="End Quiz">
+                </form>
             </div>
         {{/equal}}
         {{#equal quiz.state 2}}
         <p>This quiz has ended.</p>
-        <div class="quiz-btns-row">
-            <button type="button" class="btn btn-success">Export Results</button>
+        <div class="quiz-btns-row" style="margin-bottom: 10px">
+            <form action="/api/quiz/export" method="post" style="display: inline-block;">
+                <input name="quizID" type="hidden" class="form-control" value={{id}}>
+                <input type="submit" class="btn btn-success" value="Export Results">
+            </form>
         </div>
         {{/equal}}
 

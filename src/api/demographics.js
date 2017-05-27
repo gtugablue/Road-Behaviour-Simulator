@@ -32,7 +32,7 @@ router.post('/', function (req, res, next) {
     var driver_license = false;
 
     var driver_experience;
-    if (typeof req.body.driver_license !== undefined) {
+    if (typeof req.body.driver_license != 'undefined') {
         driver_license = true;
         driver_experience = req.body.driver_experience;
     }

@@ -11,6 +11,7 @@ var bodyParser = require('body-parser');
 var hbs = require('hbs');
 
 var errors = require('./utils/errors');
+var renderer = require('./utils/renderer');
 
 var index = require('./routes/index');
 var quiz = require('./routes/quiz');
@@ -23,19 +24,19 @@ var app = express();
 
 ////////// Passport setup ///////////
 // Passport session setup.
-passport.serializeUser(function(user, done) {
+passport.serializeUser(function (user, done) {
   done(null, user);
 });
-passport.deserializeUser(function(obj, done) {
+passport.deserializeUser(function (obj, done) {
   done(null, obj);
 });
 // Use the FacebookStrategy within Passport.
 passport.use(new FacebookStrategy({
-    clientID: config.facebook_api_key,
-    clientSecret:config.facebook_api_secret ,
-    callbackURL: config.callback_url
-  },
-  function(accessToken, refreshToken, profile, done) {
+  clientID: config.facebook_api_key,
+  clientSecret: config.facebook_api_secret,
+  callbackURL: config.callback_url
+},
+  function (accessToken, refreshToken, profile, done) {
     process.nextTick(function () {
       return done(null, profile);
     });
@@ -74,51 +75,48 @@ app.get('/auth/facebook',
   passport.authenticate('facebook'));
 app.get('/auth/facebook/callback',
   passport.authenticate('facebook', { failureRedirect: config.bad_login_redirect }),
-  function(req, res) {
+  function (req, res) {
     // Successful authentication, redirect home.
     res.redirect(req.session.returnTo || config.good_login_redirect);
     delete req.session.returnTo;
   });
-app.get('/logout', function(req, res){
+app.get('/logout', function (req, res) {
   req.logout();
   res.redirect(config.bad_login_redirect);
 });
 ////////////////////////////////////
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  res.render('not-found', {
-    title: config.app_title,
-    user_id: typeof req.user == 'undefined' ? null : req.user.id,
-    layout: 'layout'
+app.use(function (req, res, next) {
+  renderer.render(res, 'not-found', {
+    user_id: typeof req.user == 'undefined' ? null : req.user.id
   });
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error', {
-    title: config.app_title,
-    user_id: typeof req.user == 'undefined' ? null : req.user.id,
+  renderer.render(res, 'error', {
+    user_id: typeof req.user == 'undefined' ? null : req.user.id
   });
 });
 
 errors.clearErrors();
 
 ///// HANDLEBARS HELPERS /////
-hbs.registerHelper('equal', function(lvalue, rvalue, options) {
-    if (arguments.length < 3)
-        throw new Error("Handlebars Helper equal needs 2 parameters");
-    if( lvalue!=rvalue ) {
-        return options.inverse(this);
-    } else {
-        return options.fn(this);
-    }
+hbs.registerHelper('equal', function (lvalue, rvalue, options) {
+  if (arguments.length < 3)
+    throw new Error("Handlebars Helper equal needs 2 parameters");
+  if (lvalue != rvalue) {
+    return options.inverse(this);
+  } else {
+    return options.fn(this);
+  }
 });
 
 module.exports = app;

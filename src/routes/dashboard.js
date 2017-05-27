@@ -8,11 +8,13 @@ var users = require('./../database/users');
 var quiz = require('./../database/quiz');
 var errors = require('./../utils/errors');
 var ErrorMessage = errors.ErrorMessage;
+var renderer = require('./../utils/renderer');
 
 /* GET dashboard page. */
 router.get('/', function (req, res, next) {
-  var authenticated = auth.ensureAuthenticated(req, res, next);
-  if (!authenticated) {
+  if (!req.isAuthenticated()) {
+    errors.addError(new ErrorMessage("Authentication", "You must be authenticated to access the requested page."));
+    res.redirect('/');
     return;
   }
 
@@ -27,14 +29,20 @@ router.get('/', function (req, res, next) {
   });
 
   users.getUserByID(req.user.id, function (error, results) {
-    if (error)
+    if (error) {
+      errors.addError(new ErrorMessage("Error", "An unknown error occurred."));
+      res.redirect('/');
       return;
+    }
 
     if (results.length == 0) // Inserir novo utilizador
     {
       users.createUser(req.user.id, req.user.displayName, function (error, results) {
-        if (error)
+        if (error) {
+          errors.addError(new ErrorMessage("Error", "An unknown error occurred."));
+          res.redirect('/');
           return;
+        }
       })
     }
 
@@ -45,17 +53,13 @@ router.get('/', function (req, res, next) {
       //   return;
       // } else
       //   {
-        res.render('dashboard', {
-          layout: 'layout',
-          title: config.app_title,
-          errors: errors.getErrors(),
-          breadcrumb: page_breadcrumb,
-          user_id: req.user.id,
-          user_name: req.user.displayName,
-          user_firstname: req.user.displayName.split(" ")[0],
-          customStyles: ["dashboard"],
-          quizes: quizes
-        });
+      renderer.render(res, 'dashboard', {
+        user_id: req.user.id,
+        user_name: req.user.displayName,
+        user_firstname: req.user.displayName.split(" ")[0],
+        customStyles: ["dashboard"],
+        quizes: quizes
+      }, page_breadcrumb);
       // }
     });
   });

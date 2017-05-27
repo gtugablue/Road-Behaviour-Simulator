@@ -51,8 +51,8 @@ var createDemographics = function (userID, birthday, gender, country, education,
         driver_exp = driver_experience;
     }
 
-    db.query("INSERT INTO UsersDemographics VALUES (?, ?, ?, ?, ?, ?, ?)", [userID, birthday, driver_license,
-        driver_exp, gender, education, country],
+    db.query("INSERT INTO UsersDemographics VALUES (?, ?, ?, ?, ?, ?, ?)", [userID, birthday, driver_license ? 1 : 0,
+        driver_exp, gender, country, education],
         function (error, results, fields) {
             if (error) {
                 console.log(error);

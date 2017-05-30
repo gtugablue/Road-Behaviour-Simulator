@@ -63,41 +63,46 @@ router.route('/create')
     });
   });
 
-router.route('/:sceneID/answer').post(function (req, res) {
-  var authenticated = auth.ensureAuthenticated(req, res);
-  if (!authenticated) {
-    res.redirect('/');
-    return;
-  }
-
-  var questionIDs = req.body.questionIDs;
-  if (!Array.isArray(questionIDs))
-    questionIDs = [];
-  var answers = [];
-  for (var i = 0; i < questionIDs.length; i++) {
-    questionIDs[i] = questionIDs[i];
-    answers[i] = (req.body['answers' + questionIDs[i] + ''] === 'on');
-  }
-  scene.answer(req.params.sceneID, req.user.id, req.body.decision, req.body.decisionTime, questionIDs, answers);
-
-
-  quiz.getUnansweredQuestion(req.body.quizID, req.user.id, function (err, results) {
-
-    console.log(results);
-    if (err) {
-      console.log(err);
-      res.status(400);
+router.route('/:sceneID/answer')
+  .post(function (req, res) {
+    var authenticated = auth.ensureAuthenticated(req, res);
+    if (!authenticated) {
+      res.redirect('/');
+      return;
     }
-    else if (results.length == 0) {
-      res.status(200);
-      res.redirect('/quiz/' + req.body.quizID); // No more scenes
-    } else {
-      results = results[0];
-      res.status(200);
-      res.redirect('/quiz/' + req.body.quizID + '/scenes/' + results.idScene);
+
+    var questionIDs = req.body.questionIDs;
+    if (!Array.isArray(questionIDs))
+      questionIDs = [];
+    var answers = [];
+    for (var i = 0; i < questionIDs.length; i++) {
+      questionIDs[i] = questionIDs[i];
+      answers[i] = (req.body['answers' + questionIDs[i] + ''] === 'on');
     }
+    scene.answer(req.params.sceneID, req.user.id, req.body.decision, req.body.decisionTime, questionIDs, answers,
+      function (err, results) {
+        if (err) {
+          console.log(err);
+          res.status(400);
+        }
+        quiz.getUnansweredQuestion(req.body.quizID, req.user.id, function (err, nextScene) {
+          if (err) {
+            console.log(err);
+            res.status(400);
+            return;
+          }
+          else if (nextScene.length == 0) {
+            console.log('no more scenes');
+            res.status(200);
+            res.redirect('/quiz/' + req.body.quizID); // No more scenes
+            return;
+          }
+          nextScene = nextScene[0];
+          res.status(200);
+          res.redirect('/quiz/' + req.body.quizID + '/scenes/' + nextScene.idScene);
+        });
+      });
   });
-});
 
 module.exports = router;
 

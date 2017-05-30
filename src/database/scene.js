@@ -70,19 +70,25 @@ var getQuestions = function (idScene, callback) {
   });
 };
 
-var answer = function (idScene, idUser, decision, decisionTime, questionIDs, answers) {
-  console.log(idScene, idUser, decision, decisionTime, questionIDs, answers);
-  db.query('INSERT INTO Decision (idUser, idScene, decision, decisionTime) VALUES (?, ?, ?, ?)',
-  [idUser, idScene, decision, decisionTime],
-  function (error, results) {
-  });
+var answer = function (idScene, idUser, decision, decisionTime, questionIDs, answers, callback) {
 
-  for (var i = 0; i < questionIDs.length; i++) {
-    db.query('INSERT INTO Answer (idUser, idQuestion, answer) VALUES (?, ?, ?)',
-      [idUser, questionIDs[i], answers[i]],
-      function (error, results) {
-      });
-  }
+  db.query('INSERT INTO Decision (idUser, idScene, decision, decisionTime) VALUES (?, ?, ?, ?)',
+    [idUser, idScene, decision, decisionTime],
+    function (error, results) {
+      if(error)
+        callback(error, null);
+      for (var i = 0; i < questionIDs.length; i++) {
+        db.query('INSERT INTO Answer (idUser, idQuestion, answer) VALUES (?, ?, ?)',
+          [idUser, questionIDs[i], answers[i]],
+          function (error, results) {
+            if(error)
+              callback(error, null);
+          });
+      }
+      callback(null, results)
+    });
+
+
 }
 
 module.exports = {

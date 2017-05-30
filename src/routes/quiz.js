@@ -219,7 +219,7 @@ router.get('/:quizID/scenes/:sceneID', function (req, res, next) {
                   zoom: result.zoom,
                   signs: result.signs,
                 };
-                dbScene.getQuestions(results.idScene, function (error, results) {
+                dbScene.getQuestions(result.idScene, function (error, questionResults) {
                   if (error) {
                     // TODO imprimir erro
                     res.redirect('/');
@@ -229,11 +229,11 @@ router.get('/:quizID/scenes/:sceneID', function (req, res, next) {
                     title: 'Road Behaviour Simulator',
                     layout: 'layout',
                     quizID: req.params.id,
-                    sceneID: results.idScene,
+                    sceneID: questionResults.idScene,
                     questionStatement: result.questionStatement,
                     isOwner: false,
                     scenery: scenery,
-                    questions: results,
+                    questions: questionResults,
                     breadcrumb: page_breadcrumb,
                   });
                 });

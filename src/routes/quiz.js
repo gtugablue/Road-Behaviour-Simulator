@@ -229,7 +229,7 @@ router.get('/:quizID/scenes/:sceneID', function (req, res, next) {
                     title: 'Road Behaviour Simulator',
                     layout: 'layout',
                     quizID: req.params.id,
-                    sceneID: questionResults.idScene,
+                    sceneID: questionResults[0].scene,
                     questionStatement: result.questionStatement,
                     isOwner: false,
                     scenery: scenery,

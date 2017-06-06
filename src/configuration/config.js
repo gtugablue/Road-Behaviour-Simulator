@@ -1,8 +1,8 @@
 var callback_url = (process.env.NODE_ENV === 'production') ? 'https://mssi-tps.herokuapp.com/auth/facebook/callback' : 'http://localhost:3000/auth/facebook/callback';
 
 module.exports={
-    "facebook_api_key" 		: 			"1948822772018054",
-	"facebook_api_secret"	:			"aaffe0e8ef144242273a0a6988b99af0",
+    "facebook_api_key" 		: 			(process.env.FACEBOOK_APP_ID || "1948822772018054"),
+	"facebook_api_secret"	:			(process.env.FACEBOOK_SECRET || "aaffe0e8ef144242273a0a6988b99af0"),
 	"callback_url"			:			callback_url,
 	"bad_login_redirect"	:			"/",
 	"good_login_redirect"	:			"/dashboard",

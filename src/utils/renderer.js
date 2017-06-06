@@ -8,7 +8,7 @@ function render(res, page, options, breadcrumb) {
         layout: 'layout',
         breadcrumb: breadcrumb ? breadcrumb : [],
         errors: errors.getErrors(),
-        baseURL: (process.env.NODE_ENV === 'production') ? 'https://mssi-tps.herokuapp.com/' : 'http://localhost:3000/';
+        baseURL: (process.env.NODE_ENV === 'production') ? 'https://mssi-tps.herokuapp.com/' : 'http://localhost:3000/',
     }
 
     res.render(page, Object.assign(new_options, options));

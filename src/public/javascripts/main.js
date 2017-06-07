@@ -12,9 +12,9 @@ $( document ).ready(function() {
 	var zoom = $('#zoom').val();
 
 	if ($('#c').hasClass('static')) {
-	  canvas = new fabric.StaticCanvas('c');
+	  canvas = new fabric.StaticCanvas('c', { imageSmoothingEnabled: true });
   } else {
-    canvas = new fabric.Canvas('c');
+    canvas = new fabric.Canvas('c', { imageSmoothingEnabled: true });
   }
 	canvas.setWidth(canvasWidth);
 	canvas.setHeight(canvasHeight);

@@ -6,8 +6,7 @@ const question = require('../database/question');
 var auth = require('../utils/auth');
 
 router.route('/create')
-  .post((req, res) => {
-
+  .post(function (req, res) {
     var authenticated = auth.ensureAuthenticated(req, res);
     if (!authenticated) {
       res.redirect('/');
@@ -39,9 +38,7 @@ router.route('/create')
       || heading == ''
       || pitch == ''
       || zoom < 0
-      || decision == ''
-      || !isJson(signs)) {
-
+      || (signs != '' && !isJson(signs))) {
       console.log('All params must be set.')
       res.status(400);
       res.redirect('/quiz/' + id + '/scenes');

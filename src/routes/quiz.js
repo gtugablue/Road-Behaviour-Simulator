@@ -146,7 +146,7 @@ router.get('/:quizID/scenes/', function (req, res, next) {
             pitch: 0,
             zoom: 0,
           }
-          res.render('scene', {
+          renderer.render(res, 'scene', {
             title: 'Road Behaviour Simulator',
             layout: 'layout',
             signs: files,
@@ -225,7 +225,7 @@ router.get('/:quizID/scenes/:sceneID', function (req, res, next) {
                     res.redirect('/');
                     return;
                   }
-                  res.render('scene', {
+                  renderer.render(res, 'scene', {
                     title: 'Road Behaviour Simulator',
                     layout: 'layout',
                     quizID: req.params.quizID,

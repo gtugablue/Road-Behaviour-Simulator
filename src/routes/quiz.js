@@ -13,10 +13,12 @@ var renderer = require('./../utils/renderer');
 /*  /quiz/[ID]         */
 router.get('/:id', function (req, res, next) {
   if (!req.isAuthenticated()) {
-    errors.addError(new ErrorMessage("Authentication", "You must be authenticated to access the requested page."));
-    res.redirect('/');
+    req.session.redirectQuiz = req.originalUrl;
+
+    res.redirect('/auth/facebook');
     return;
   }
+
 
   if (req.params.id === undefined) {
     res.redirect('/dashboard');

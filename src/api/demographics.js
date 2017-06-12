@@ -17,14 +17,8 @@ router.post('/', function (req, res, next) {
 
     var birthday = req.body.birthday;
 
-    var gender = null;
-    if (typeof req.body.gender_male !== undefined) {
-        gender = 0;
-    } else if (typeof req.body.gender_female !== undefined) {
-        gender = 1;
-    } else if (typeof req.body.gender_other !== undefined) {
-        gender = 2;
-    }
+    var gender = parseInt(req.body.gender);
+
 
     var country_str = req.body.country;
     var education_str = req.body.education;

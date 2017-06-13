@@ -50,7 +50,7 @@ router.post('/', function (req, res, next) {
                         console.log(error);
                         return;
                     }
-                    res.redirect("/dashboard");
+                    res.redirect(req.session.redirectQuiz || "/dashboard");
                 });
         });
     });

@@ -14,7 +14,6 @@ var renderer = require('./../utils/renderer');
 router.get('/:id', function (req, res, next) {
   if (!req.isAuthenticated()) {
     req.session.redirectQuiz = req.originalUrl;
-
     res.redirect('/auth/facebook');
     return;
   }
@@ -24,6 +23,8 @@ router.get('/:id', function (req, res, next) {
     res.redirect('/dashboard');
     return;
   }
+  delete req.session.redirectQuiz;
+
   dbQuiz.quizExists(req.params.id, function (err, exists) {
     if (err || !exists) {
       errors.addError(new ErrorMessage("Unknown error", err ? err : ""));
@@ -232,6 +233,7 @@ router.get('/:quizID/scenes/:sceneID', function (req, res, next) {
                     layout: 'layout',
                     quizID: req.params.quizID,
                     sceneID: result.idScene,
+                    user_id: req.user.id,
                     questionStatement: result.questionStatement,
                     isOwner: false,
                     scenery: scenery,

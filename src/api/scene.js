@@ -21,7 +21,7 @@ router.route('/create')
     const pitch = req.body.pitch;
     const zoom = (req.body.zoom == ''?0:req.body.zoom);
     const questions = [].concat(req.body.question);
-    const decision = (req.body.decision === 'stop');
+    const decision = (req.body.decision === 'on');
     const signs = req.body.signs;
 
     if(id <= 0) {
@@ -68,6 +68,7 @@ router.route('/:sceneID/answer')
       return;
     }
 
+
     var questionIDs = req.body.questionIDs;
     if (!Array.isArray(questionIDs))
       questionIDs = [];
@@ -76,6 +77,7 @@ router.route('/:sceneID/answer')
       questionIDs[i] = questionIDs[i];
       answers[i] = (req.body['answers' + questionIDs[i] + ''] === 'on');
     }
+
     scene.answer(req.params.sceneID, req.user.id, req.body.decision, req.body.decisionTime, questionIDs, answers,
       function (err, results) {
         if (err) {

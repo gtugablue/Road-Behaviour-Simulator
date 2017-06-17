@@ -120,13 +120,13 @@ router.route('/export')
 
           const decisionsCSV = json2csv({ data: decisions,
             fields:
-              ['idQuiz', 'quizName', 'idScene', 'sceneName', 'idUser', 'name', 'decisionTime', 'decision'], del: ';'});
+              ['idQuiz', 'quizName', 'idScene', 'questionStatement', 'idUser', 'name', 'decisionTime', 'decision', 'correctDecision'], del: ';'});
 
           zip.append(decisionsCSV, {name: 'decisions.csv'});
 
           const answersCSV = json2csv({ data: answers,
             fields:
-              ['idQuiz', 'quizName', 'idScene', 'sceneName', 'idUser', 'name', 'idQuestion', 'statement', 'answer'], del: ';'});
+              ['idQuiz', 'quizName', 'idScene', 'questionStatement', 'idUser', 'name', 'idQuestion', 'statement', 'answer'], del: ';'});
 
           zip.append(answersCSV, {name: 'answers.csv'});
           zip.finalize();

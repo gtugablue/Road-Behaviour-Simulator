@@ -13,15 +13,18 @@ var renderer = require('./../utils/renderer');
 /*  /quiz/[ID]         */
 router.get('/:id', function (req, res, next) {
   if (!req.isAuthenticated()) {
-    errors.addError(new ErrorMessage("Authentication", "You must be authenticated to access the requested page."));
-    res.redirect('/');
+    req.session.redirectQuiz = req.originalUrl;
+    res.redirect('/auth/facebook');
     return;
   }
+
 
   if (req.params.id === undefined) {
     res.redirect('/dashboard');
     return;
   }
+  delete req.session.redirectQuiz;
+
   dbQuiz.quizExists(req.params.id, function (err, exists) {
     if (err || !exists) {
       errors.addError(new ErrorMessage("Unknown error", err ? err : ""));
@@ -230,6 +233,7 @@ router.get('/:quizID/scenes/:sceneID', function (req, res, next) {
                     layout: 'layout',
                     quizID: req.params.quizID,
                     sceneID: result.idScene,
+                    user_id: req.user.id,
                     questionStatement: result.questionStatement,
                     isOwner: false,
                     scenery: scenery,

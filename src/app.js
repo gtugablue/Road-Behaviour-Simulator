@@ -80,7 +80,14 @@ app.get('/auth/facebook/callback',
     const parsedURL = url.parse(req.session.returnTo+'').pathname;
 
     if(parsedURL.indexOf('/api') > -1)
-      res.redirect(config.good_login_redirect);
+    {
+      if(req.session.redirectQuiz)
+      {
+        res.redirect(req.session.redirectQuiz);
+        delete req.session.redirectQuiz;
+      }
+      else res.redirect(config.good_login_redirect);
+    }
     else
       res.redirect(req.session.returnTo || config.good_login_redirect);
     delete req.session.returnTo;

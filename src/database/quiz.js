@@ -99,7 +99,7 @@ var incQuizState = function (idQuiz, callback) {
 
 var getQuizDecision = function (quizID, callback) {
   db.query("SELECT idQuiz, Quiz.name quizName, Decision.idScene, Scene.questionStatement questionStatement," +
-    " Decision.idUser, Users.name, Decision.decisionTime, decision " +
+    " Decision.idUser, Users.name, Decision.decisionTime, decision, Scene.correctDecision " +
     "FROM Decision INNER JOIN Scene ON Decision.idScene = Scene.idScene INNER JOIN Quiz ON idQuiz = quiz " +
     "INNER JOIN Users ON Decision.idUser = Users.idUser " +
     "WHERE State = 1 AND Quiz.idQuiz = ?",
